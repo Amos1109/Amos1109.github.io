@@ -130,7 +130,7 @@
                   
                   &nbsp;<i class="far fa-chart-bar"></i>
                   <span class="post-count">
-                    691 字
+                    718 字
                   </span>&nbsp;
                 
 
@@ -224,8 +224,53 @@ function checkPwd() {
         }
     };
 }</code></pre><h3 id="Servlet-对请求作出响应"><a href="#Servlet-对请求作出响应" class="headerlink" title="Servlet 对请求作出响应"></a>Servlet 对请求作出响应</h3><p>当 username 为空时，按 tab 键使用户名输入框失去焦点，此时触发GET请求，url 后缀为：?username=， 即：username==””, password==null<br>当 username 不为空，按 tab 键使用户名输入框失去焦点，并触发GET请求，url 后缀为：?username=xxx， 即：username==”xxx”, password==null<br>若再按 tab 键使密码输入框又失去焦点，这时继续GET请求，url 后缀为： ?password=， 即：username==null, password==””</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@WebServlet</span>(<span class="string">"/LoginServlet"</span>)</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">LoginServlet</span> <span class="keyword">extends</span> <span class="title">HttpServlet</span> </span>&#123;</span><br><span class="line">    ......</span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">doGet</span><span class="params">(HttpServletRequest request, HttpServletResponse response)</span> <span class="keyword">throws</span> ServletException, IOException </span>&#123;</span><br><span class="line">        request.setCharacterEncoding(<span class="string">"utf-8"</span>);</span><br><span class="line">        response.setContentType(<span class="string">"text/html;charset=utf-8"</span>);</span><br><span class="line">        PrintWriter out = response.getWriter(); </span><br><span class="line">        <span class="comment">// username、password 可能为null, 可能不为null</span></span><br><span class="line">        <span class="keyword">if</span>(request.getParameter(<span class="string">"username"</span>) == <span class="string">""</span>) &#123;  </span><br><span class="line">            <span class="comment">//?username=</span></span><br><span class="line">            <span class="keyword">if</span>(request.getParameter(<span class="string">"password"</span>) == <span class="keyword">null</span>) &#123;</span><br><span class="line">                out.print(<span class="string">"用户名不能为空！"</span>);</span><br><span class="line">            &#125; </span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span>(request.getParameter(<span class="string">"username"</span>) == <span class="keyword">null</span>) &#123; </span><br><span class="line">            <span class="keyword">if</span>(request.getParameter(<span class="string">"password"</span>) == <span class="string">""</span>)&#123;</span><br><span class="line">                <span class="comment">//?password=</span></span><br><span class="line">                out.print(<span class="string">"密码不能为空！"</span>);   </span><br><span class="line">            &#125;   </span><br><span class="line">        &#125; <span class="keyword">else</span> &#123; </span><br><span class="line">            <span class="comment">//?username=xxx</span></span><br><span class="line">            String name = request.getParameter(<span class="string">"username"</span>);     </span><br><span class="line">            <span class="keyword">if</span>(!name.equals(<span class="string">"admin"</span>)) &#123;</span><br><span class="line">                <span class="keyword">if</span>(request.getParameter(<span class="string">"password"</span>) == <span class="keyword">null</span>) &#123;</span><br><span class="line">                    out.print(<span class="string">"用户名不存在！"</span>);   </span><br><span class="line">                &#125;           </span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">doPost</span><span class="params">(HttpServletRequest request, HttpServletResponse response)</span> <span class="keyword">throws</span> ServletException, IOException </span>&#123;</span><br><span class="line">		request.setCharacterEncoding(<span class="string">"utf-8"</span>);</span><br><span class="line">        response.setContentType(<span class="string">"text/html;charset=utf-8"</span>);</span><br><span class="line">        PrintWriter out = response.getWriter(); </span><br><span class="line">        String name = request.getParameter(<span class="string">"username"</span>);</span><br><span class="line">        String pwd = request.getParameter(<span class="string">"password"</span>);</span><br><span class="line"> </span><br><span class="line">        <span class="keyword">if</span>(name.equals(<span class="string">"admin"</span>) &amp;&amp; pwd.equals(<span class="string">"admin"</span>)) &#123;</span><br><span class="line">            User user = <span class="keyword">new</span> User(name,pwd);</span><br><span class="line">            HttpSession session = request.getSession();</span><br><span class="line">            session.setAttribute(<span class="string">"user"</span>, user);     </span><br><span class="line">            response.sendRedirect(request.getContextPath()+<span class="string">"/index.jsp"</span>);</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            request.setAttribute(<span class="string">"error"</span>, <span class="string">"用户名或密码错误，请重新登录！"</span>);</span><br><span class="line">            response.sendRedirect(request.getContextPath()+<span class="string">"/login.jsp"</span>);     </span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="效果演示："><a href="#效果演示：" class="headerlink" title="效果演示："></a>效果演示：</h3><p><img src="http://121.43.102.125:8080/myweb/img/e5_1.PNG" srcset="/img/loading.gif" alt=""></p>
+<pre><code>@WebServlet(&quot;/LoginServlet&quot;)
+public class LoginServlet extends HttpServlet {
+    ......
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        request.setCharacterEncoding(&quot;utf-8&quot;);
+        response.setContentType(&quot;text/html;charset=utf-8&quot;);
+        PrintWriter out = response.getWriter(); 
+        // username、password 可能为null, 可能不为null
+        if(request.getParameter(&quot;username&quot;) == &quot;&quot;) {  
+            //?username=
+            if(request.getParameter(&quot;password&quot;) == null) {
+                out.print(&quot;用户名不能为空！&quot;);
+            } 
+        } else if(request.getParameter(&quot;username&quot;) == null) { 
+            if(request.getParameter(&quot;password&quot;) == &quot;&quot;){
+                //?password=
+                out.print(&quot;密码不能为空！&quot;);   
+            }   
+        } else { 
+            //?username=xxx
+            String name = request.getParameter(&quot;username&quot;);     
+            if(!name.equals(&quot;admin&quot;)) {
+                if(request.getParameter(&quot;password&quot;) == null) {
+                    out.print(&quot;用户名不存在！&quot;);   
+                }           
+            }
+        }
+    }
+
+protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        request.setCharacterEncoding(&quot;utf-8&quot;);
+        response.setContentType(&quot;text/html;charset=utf-8&quot;);
+        PrintWriter out = response.getWriter(); 
+        String name = request.getParameter(&quot;username&quot;);
+        String pwd = request.getParameter(&quot;password&quot;);
+
+        if(name.equals(&quot;admin&quot;) &amp;&amp; pwd.equals(&quot;admin&quot;)) {
+            User user = new User(name,pwd);
+            HttpSession session = request.getSession();
+            session.setAttribute(&quot;user&quot;, user);     
+            response.sendRedirect(request.getContextPath()+&quot;/index.jsp&quot;);
+        } else {
+            request.setAttribute(&quot;error&quot;, &quot;用户名或密码错误，请重新登录！&quot;);
+            response.sendRedirect(request.getContextPath()+&quot;/login.jsp&quot;);     
+        }
+    }
+}</code></pre><h3 id="效果演示："><a href="#效果演示：" class="headerlink" title="效果演示："></a>效果演示：</h3><p><img src="http://121.43.102.125:8080/myweb/img/e5_1.PNG" srcset="/img/loading.gif" alt=""></p>
 
             <hr>
           </div>
@@ -245,11 +290,11 @@ function checkPwd() {
               <span>
                 <i class="iconfont icon-tag"></i>
                 
-                  <a class="hover-with-bg" href="/tags/Java/">Java</a>
-                
                   <a class="hover-with-bg" href="/tags/AJAX/">AJAX</a>
                 
                   <a class="hover-with-bg" href="/tags/Servlet/">Servlet</a>
+                
+                  <a class="hover-with-bg" href="/tags/Java/">Java</a>
                 
               </span>
             
