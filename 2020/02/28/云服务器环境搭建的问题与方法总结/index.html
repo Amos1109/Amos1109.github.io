@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  
+  
+  
+    <meta name="description" content="一名普通大学生的学习心得与体验">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <title>
+    云服务器环境搭建的问题与方法总结 |
+    
+    Amospace</title>
+  
+    <link rel="shortcut icon" href="/favicon.ico">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+  
+<script src="/js/pace.min.js"></script>
+
+<meta name="generator" content="Hexo 4.2.0"></head>
+
+<body>
+<main class="content">
+  <section class="outer">
+  <article id="post-云服务器环境搭建的问题与方法总结" class="article article-type-post" itemscope itemprop="blogPost" data-scroll-reveal>
+
+    <div class="article-inner">
+        
+            <header class="article-header">
+                
+  
+    <h1 class="article-title" itemprop="name">
+      云服务器环境搭建的问题与方法总结
+    </h1>
+  
+  
+
+
+
+
+            </header>
+            
+
+                
+                    <div class="article-meta">
+                        <a href="/2020/02/28/%E4%BA%91%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA%E7%9A%84%E9%97%AE%E9%A2%98%E4%B8%8E%E6%96%B9%E6%B3%95%E6%80%BB%E7%BB%93/" class="article-date">
+  <time datetime="2020-02-28T01:02:57.091Z" itemprop="datePublished">2020-02-28</time>
+</a>
+                            
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/JSP%E5%AD%A6%E4%B9%A0/">JSP学习</a>
+  </div>
+
+                    </div>
+                    
+
+                        
+                            
+    <div class="tocbot"></div>
+
+
+
+
+
+                                
+
+                                    <div class="article-entry" itemprop="articleBody">
+                                        
+
+
+                                            
+
+                                                
+                                                                    <h3 id="Step1-远程桌面连接云服务器"><a href="#Step1-远程桌面连接云服务器" class="headerlink" title="Step1.远程桌面连接云服务器"></a>Step1.远程桌面连接云服务器</h3><p>按要求在网上购买阿里云，腾讯云，百度云的服务器，启用并记住公网IP，桌面-&gt;开始菜单-&gt;windows附件-&gt;远程桌面链接-&gt;输入你的IP地址和实例密码，进行连接。<br>连接过程中，你可能会遇到以下情况：提示“您的凭据不工作 之前用于连接到某凭据无法工作。请输入新凭据。”<br>首先先确认自己的IP地址和密码是否正确。<br>若无误，请参考以下解决办法：<a href="https://blog.csdn.net/huyuyang6688/article/details/49077665" target="_blank" rel="noopener">https://blog.csdn.net/huyuyang6688/article/details/49077665</a></p>
+<a id="more"></a>
+<p>找不到gpedit.msc组策略参考解决办法：<br><a href="https://baijiahao.baidu.com/s?id=1608865325022611543&amp;wfr=spider&amp;for=pc" target="_blank" rel="noopener">https://baijiahao.baidu.com/s?id=1608865325022611543&amp;wfr=spider&amp;for=pc</a></p>
+<h3 id="Step2-搭建jdk和tomcat"><a href="#Step2-搭建jdk和tomcat" class="headerlink" title="Step2.搭建jdk和tomcat"></a>Step2.搭建jdk和tomcat</h3><p>①安装配置jdk,jre和tomcat<br>此处老师已经仔细讲过配置方法，不太熟悉的同学请仔细阅读老师的环境配置PPT文件。<br>②把tomcat服务器配置为windows服务的方法<br>参考方法链接：<a href="https://blog.csdn.net/warylee/article/details/82802174" target="_blank" rel="noopener">https://blog.csdn.net/warylee/article/details/82802174</a><br>以下是完成效果图：<br><img src="http://121.43.102.125:8080/myweb/images/step2.png" alt=""></p>
+<h3 id="Step3-添加ftp服务"><a href="#Step3-添加ftp服务" class="headerlink" title="Step3.添加ftp服务"></a>Step3.添加ftp服务</h3><p>这里给大家分享通过FileZilla在阿里云主机上搭建ftp服务器<br>参考方法链接：<a href="https://www.cnblogs.com/leowork/p/setup_ftp_server.html" target="_blank" rel="noopener">https://www.cnblogs.com/leowork/p/setup_ftp_server.html</a><br>注意：千万不要忘记在云服务器控制台开放21端口和passive mode端口。<br><img src="http://121.43.102.125:8080/myweb/images/step5.png" alt=""></p>
+<h3 id="Step4-搭建mysql数据库"><a href="#Step4-搭建mysql数据库" class="headerlink" title="Step4.搭建mysql数据库"></a>Step4.搭建mysql数据库</h3><p>①安装mysql数据库<br>MySQL安装教程：<a href="https://blog.csdn.net/bobo553443/article/details/81383194" target="_blank" rel="noopener">https://blog.csdn.net/bobo553443/article/details/81383194</a><br>在Mysql安装过程中，可能出现”no compatible servers were found”错误，这是因为缺少c++运行库造成的，我们需要去安装所需要的运行库，在安装界面它会告诉你缺少什么，一般是Visual C++ 2013 and Visual C Redistributable Package和Visual C++ 2015 and Visual C Redistributable Package（最新版本Mysql需要）<br>2013:<a href="https://www.microsoft.com/zh-cn/download/details.aspx?id=40784(这个貌似要装32位的)" target="_blank" rel="noopener">https://www.microsoft.com/zh-cn/download/details.aspx?id=40784(这个貌似要装32位的)</a><br>2015:<a href="https://www.microsoft.com/en-us/download/details.aspx?id=48145" target="_blank" rel="noopener">https://www.microsoft.com/en-us/download/details.aspx?id=48145</a><br>②用本地Navicat进行连接<br>注意：千万不要忘记在云服务器控制台开放3306端口。开放方法与上面类似。<br>连接出现的错误解决办法：<br>（1）error1130:<a href="https://blog.csdn.net/luoxiping1/article/details/80010976" target="_blank" rel="noopener">https://blog.csdn.net/luoxiping1/article/details/80010976</a><br>（2）error1251：<a href="https://blog.csdn.net/qq_40605167/article/details/81253976" target="_blank" rel="noopener">https://blog.csdn.net/qq_40605167/article/details/81253976</a><br>以下是完成效果图：<br><img src="http://121.43.102.125:8080/myweb/images/step4.png" alt=""></p>
+<blockquote>
+<h3 id="云服务相关配置搭建完成！"><a href="#云服务相关配置搭建完成！" class="headerlink" title="云服务相关配置搭建完成！"></a>云服务相关配置搭建完成！</h3></blockquote>
+<p>另外，这是我在阿里云控制台安全组的配置，供大家参考：<br><img src="http://121.43.102.125:8080/myweb/images/duankou.png" alt=""></p>
+
+                                                                        
+                                    </div>
+                                    <footer class="article-footer">
+                                        <a data-url="http://yoursite.com/2020/02/28/%E4%BA%91%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA%E7%9A%84%E9%97%AE%E9%A2%98%E4%B8%8E%E6%96%B9%E6%B3%95%E6%80%BB%E7%BB%93/" data-id="ck75hfgtz0007b0tr607ug1yq" class="article-share-link">
+                                            分享
+                                        </a>
+                                        
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ECS/" rel="tag">ECS</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/MySQL/" rel="tag">MySQL</a></li></ul>
+
+                                    </footer>
+
+    </div>
+
+    
+        
+  <nav class="article-nav">
+    
+    
+      <a href="/2020/02/28/Servlet%E5%AE%9E%E7%8E%B0%E9%AA%8C%E8%AF%81%E7%A0%81%E7%99%BB%E5%BD%95%E5%8A%9F%E8%83%BD/" class="article-nav-link">
+        <strong class="article-nav-caption">后一篇</strong>
+        <div class="article-nav-title">Servlet实现验证码登录功能</div>
+      </a>
+    
+  </nav>
+
+
+            
+
+                
+                    
+                        
+                            
+
+</article>
+</section>
+  <footer class="footer">
+  <div class="outer">
+    <div class="float-right">
+      <ul class="list-inline">
+  
+    <li><i class="fe fe-smile-alt"></i> <span id="busuanzi_value_site_uv"></span></li>
+  
+    <li><i class="fe fe-bookmark"></i> <span id="busuanzi_value_page_pv"></span></li>
+  
+</ul>
+    </div>
+    <ul class="list-inline">
+      <li>&copy; 2020 Amospace</li>
+      <li>Powered by <a href="http://hexo.io/" target="_blank">Hexo</a></li>
+      <li>Theme  <a href="https://github.com/zhwangart/hexo-theme-ocean" target="_blank" rel="noopener">Ocean</a></li>
+    </ul>
+  </div>
+</footer>
+
+</main>
+<aside class="sidebar">
+  <button class="navbar-toggle"></button>
+<nav class="navbar">
+  
+    <div class="logo">
+      <a href="/"><img src="/images/hexo.svg" alt="Amospace"></a>
+    </div>
+  
+  <ul class="nav nav-main">
+    
+      <li class="nav-item">
+        <a class="nav-item-link" href="/">主页</a>
+      </li>
+    
+      <li class="nav-item">
+        <a class="nav-item-link" href="/archives">文章</a>
+      </li>
+    
+      <li class="nav-item">
+        <a class="nav-item-link" href="/gallery">相册</a>
+      </li>
+    
+      <li class="nav-item">
+        <a class="nav-item-link" href="/about">关于</a>
+      </li>
+    
+      <li class="nav-item">
+        <a class="nav-item-link" href="/links">链接</a>
+      </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link nav-item-search" title="搜索">
+        <i class="fe fe-search"></i>
+        搜索
+      </a>
+    </li>
+  </ul>
+</nav>
+<nav class="navbar navbar-bottom">
+  <ul class="nav">
+    <li class="nav-item">
+      <div class="totop" id="totop">
+  <i class="fe fe-rocket"></i>
+</div>
+    </li>
+    <li class="nav-item">
+      
+        <a class="nav-item-link" target="_blank" href="/atom.xml" title="RSS Feed">
+          <i class="fe fe-feed"></i>
+        </a>
+      
+    </li>
+  </ul>
+</nav>
+<div class="search-form-wrap">
+  <div class="local-search local-search-plugin">
+  <input type="search" id="local-search-input" class="local-search-input" placeholder="Search...">
+  <div id="local-search-result" class="local-search-result"></div>
+</div>
+</div>
+</aside>
+
+<script src="/js/jquery-2.0.3.min.js"></script>
+
+
+<script src="/js/jquery.justifiedGallery.min.js"></script>
+
+
+<script src="/js/lazyload.min.js"></script>
+
+
+<script src="/js/busuanzi-2.3.pure.min.js"></script>
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+  
+<script src="/js/tocbot.min.js"></script>
+
+  <script>
+    // Tocbot_v4.7.0  http://tscanlin.github.io/tocbot/
+    tocbot.init({
+      tocSelector: '.tocbot',
+      contentSelector: '.article-entry',
+      headingSelector: 'h1, h2, h3, h4, h5, h6',
+      hasInnerContainers: true,
+      scrollSmooth: true,
+      positionFixedSelector: '.tocbot',
+      positionFixedClass: 'is-position-fixed',
+      fixedSidebarOffset: 'auto',
+    });
+  </script>
+
+
+
+<script src="/js/ocean.js"></script>
+
+
+</body>
+</html>
