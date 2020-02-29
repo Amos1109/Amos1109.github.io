@@ -4,6 +4,33 @@
   
   
   <entry>
+    <title>Hexo博客框架搭建教程（二）</title>
+    <link href="/2020/02/29/Hexo%E5%8D%9A%E5%AE%A2%E6%A1%86%E6%9E%B6%E6%90%AD%E5%BB%BA%E6%95%99%E7%A8%8B%EF%BC%88%E4%BA%8C%EF%BC%89/"/>
+    <url>/2020/02/29/Hexo%E5%8D%9A%E5%AE%A2%E6%A1%86%E6%9E%B6%E6%90%AD%E5%BB%BA%E6%95%99%E7%A8%8B%EF%BC%88%E4%BA%8C%EF%BC%89/</url>
+    
+    <content type="html"><![CDATA[<h3 id="hexo基本配置"><a href="#hexo基本配置" class="headerlink" title="hexo基本配置"></a>hexo基本配置</h3><p>在文件根目录下的_config.yml，就是整个hexo框架的配置文件了。可以在里面修改大部分的配置。详细可参考<a href="https://hexo.io/zh-cn/docs/configuration" target="_blank" rel="noopener" title="官方的配置描述">官方的配置描述</a>.</p><table><thead><tr><th>参数</th><th>描述</th></tr></thead><tbody><tr><td>title</td><td>网站标题</td></tr><tr><td>subtitle</td><td>网站副标题</td></tr><tr><td>description</td><td>网站描述</td></tr><tr><td>author</td><td>你的名字</td></tr><tr><td>language</td><td>网站语言</td></tr><tr><td>timezone</td><td>网站时区</td></tr></tbody></table><h3 id="发表文章"><a href="#发表文章" class="headerlink" title="发表文章"></a>发表文章</h3><p>cd到myblog文件夹下，执行如下命令新建文章：</p><p><code>$ hexo new [post] articleName</code></p><p>名为articleName.md的文件会建在目录/blog/source/_posts下，articleName是文件名，为方便链接不建议掺杂汉字。</p><p>打开目录，最好去下载一个MarkDown编辑器，打开这个.md文件进行编辑。大家需要去学习一下MarkDown编辑器的使用教程，很简单。</p><p>文章编辑完成后，终端cd到blog文件夹下，执行如下命令来发布：</p><pre><code>hexo generate //生成静态页面hexo deploy //将文章部署到Github</code></pre><p>过几分钟就可以在网站上看到你的文章了。</p><h3 id="更改主题"><a href="#更改主题" class="headerlink" title="更改主题"></a>更改主题</h3><p>你可以到Hexo官网主题页去搜寻自己喜欢的theme。这里以hexo-theme-next为例：NexT主题使用<br>cd到myblog目录下执行如下命令去下载主题文件：</p><p><code>git clone https://github.com/iissnan/hexo-theme-next themes/next</code></p><p>将myblog目录下_config.yml里theme的名称landscape修改为next<br>cd到blog目录下执行如下命令(每次部署文章的步骤)：</p><pre><code>hexo clean //清除缓存文件 (db.json) 和已生成的静态文件 (public)hexo g //生成缓存和静态文件hexo d //重新部署到服务器</code></pre><p>至于更改theme内容比如名称、描述、头像等去修改myblog/_config.yml文件和myblog/themes/next/_config.yml文件中对应的属性名称即可，而且在NexT 使用文档里有极详细的介绍。</p><p>注：Hexo各个风格的主题都有很多强大的功能，比如聊天室，评论，Follow等，希望同学们可以自行去发掘这些功能！</p>]]></content>
+    
+    
+    <categories>
+      
+      <category>搭建开发</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>Hexo</tag>
+      
+      <tag>Github</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>Hexo博客框架搭建教程（一）</title>
     <link href="/2020/02/29/Hexo%E5%8D%9A%E5%AE%A2%E6%A1%86%E6%9E%B6%E6%90%AD%E5%BB%BA%E6%95%99%E7%A8%8B%EF%BC%88%E4%B8%80%EF%BC%89/"/>
     <url>/2020/02/29/Hexo%E5%8D%9A%E5%AE%A2%E6%A1%86%E6%9E%B6%E6%90%AD%E5%BB%BA%E6%95%99%E7%A8%8B%EF%BC%88%E4%B8%80%EF%BC%89/</url>
