@@ -38,6 +38,24 @@
 <meta name="generator" content="Hexo 4.2.0"></head>
 
 
+<!-- 一言API -->
+<script src="https://cdn.jsdelivr.net/npm/bluebird@3/js/browser/bluebird.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/whatwg-fetch@2.0.3/fetch.min.js"></script>
+<!--End-->
+<script>
+  fetch('https://v1.hitokoto.cn')
+    .then(function (res){
+      return res.json();
+    })
+    .then(function (data) {
+      var hitokoto = document.getElementById('hitokoto');
+      hitokoto.innerText = data.hitokoto ;
+    })
+    .catch(function (err) {
+      console.error(err);
+    })
+</script>
+
 <body>
   <header style="height: 70vh;">
     <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
@@ -532,6 +550,6 @@ setTimeout(&quot;fresh()&quot;, 1000);//每隔一秒递归调用此函数，实�
 
 
 
-
+<p id="hitokoto" style="text-align:center">正在加载一言...</p>
 </body>
 </html>
