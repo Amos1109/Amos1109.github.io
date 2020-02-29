@@ -16,7 +16,7 @@
   <meta name="description" content="一名普通大学生的学习心得与体验">
   <meta name="author" content="Hong Yuting">
   <meta name="keywords" content="">
-  <title>AJAX实现登录时的用户名验证（Servlet 响应） ~ Amospace</title>
+  <title>Hexo博客框架搭建教程（一） ~ Amospace</title>
 
   <link rel="stylesheet" href="https://cdn.staticfile.org/font-awesome/5.12.1/css/all.min.css"  >
 <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/css/bootstrap.min.css"  >
@@ -121,7 +121,7 @@
               
                 <p class="mt-3">
                   <i class="fas fa-calendar-alt" aria-hidden="true"></i>&nbsp;
-                  星期四, 二月 27日 2020, 6:58 晚上
+                  星期六, 二月 29日 2020, 1:55 下午
                 </p>
               
 
@@ -130,7 +130,7 @@
                   
                   &nbsp;<i class="far fa-chart-bar"></i>
                   <span class="post-count">
-                    718 字
+                    1.1k 字
                   </span>&nbsp;
                 
 
@@ -138,7 +138,7 @@
                   
                   &nbsp;<i class="far fa-clock"></i>
                   <span class="post-count">
-                      3 分钟
+                      4 分钟
                   </span>&nbsp;
                 
 
@@ -171,106 +171,49 @@
       <div class="py-5 z-depth-3" id="board">
         <div class="post-content mx-auto" id="post">
           <div class="markdown-body">
-            <p>通过简单的AJAX进行登录的简单验证，登录提交表单使用 POST 请求进行验证及转发，<br>输入用户名（是否正确，是否为空）及密码（是否为空） 使用 GET 请求进行验证。</p>
-<a id="more"></a>
-<p>以下是我的案例代码：</p>
-<h3 id="JSP前端登录页面："><a href="#JSP前端登录页面：" class="headerlink" title="JSP前端登录页面："></a>JSP前端登录页面：</h3><pre><code>login.jsp
-&lt;form action=&quot;LoginServlet&quot; method=&quot;POST&quot;&gt;
-    &lt;div&gt;
-        &lt;input type=&quot;text&quot; name=&quot;username&quot; id=&quot;userId&quot; placeholder=&quot;用户名&quot;&gt;
-        &lt;span class=&quot;info&quot;&gt;&lt;/span&gt;
-    &lt;/div&gt;
-    &lt;div&gt;
-        &lt;input type=&quot;password&quot; name=&quot;password&quot; id=&quot;passwd&quot; placeholder=&quot;密码&quot;&gt;
-    &lt;/div&gt;
-    &lt;input type=&quot;submit&quot; value=&quot;登   录&quot; &gt;
-&lt;/form&gt;`</code></pre><h3 id="JSP前端登录成功页面："><a href="#JSP前端登录成功页面：" class="headerlink" title="JSP前端登录成功页面："></a>JSP前端登录成功页面：</h3><pre><code>success.jsp
-&lt;h3 style=&apos;color:#00f&apos;&gt;亲爱的，欢迎您！&lt;/h3&gt;
-&lt;p&gt;现在的时间是：&lt;% out.println(new java.util.Date()); %&gt;&lt;/p&gt;</code></pre><h3 id="JavaScript代码-AJAX"><a href="#JavaScript代码-AJAX" class="headerlink" title="JavaScript代码(AJAX)"></a>JavaScript代码(AJAX)</h3><pre><code>var xmlHttp;
-var userId = document.getElementById(&quot;userId&quot;);
-var passwd = document.getElementById(&quot;passwd&quot;);
-var info = document.getElementsByClassName(&quot;info&quot;);
-userId.onblur = checkUser;
-passwd.onblur = checkPwd;
-
-function createXMLHttpRequest() {
-    //检查是否支持 ActiveXObject 控件（IE浏览器）
-    if(window.ActiveXObject) {
-        xmlHttp = new ActiveXObject(&quot;Microsoft.XMLHTTP&quot;);
-    } else if(window.XMLHttpRequest) {
-        xmlHttp = new XMLHttpRequest(); 
-    }
-}
-
-function checkUser() {
-    createXMLHttpRequest();
-    var url = &quot;LoginServlet?username=&quot;+userId.value;
-    xmlHttp.open(&quot;GET&quot;, url, true);
-    xmlHttp.send(null);
-    xmlHttp.onreadystatechange = function() {
-        if(xmlHttp.readyState == 4 &amp;&amp; xmlHttp.status == 200) {
-            info[0].innerHTML = xmlHttp.responseText;
-        }
-    };
-}
-function checkPwd() {
-    createXMLHttpRequest();
-    var url = &quot;LoginServlet?password=&quot;+passwd.value;
-    xmlHttp.open(&quot;GET&quot;, url, true);
-    xmlHttp.send(null);
-    xmlHttp.onreadystatechange = function() {
-        if(xmlHttp.readyState == 4 &amp;&amp; xmlHttp.status == 200) {
-            info[1].innerHTML = xmlHttp.responseText;
-        }
-    };
-}</code></pre><h3 id="Servlet-对请求作出响应"><a href="#Servlet-对请求作出响应" class="headerlink" title="Servlet 对请求作出响应"></a>Servlet 对请求作出响应</h3><p>当 username 为空时，按 tab 键使用户名输入框失去焦点，此时触发GET请求，url 后缀为：?username=， 即：username==””, password==null<br>当 username 不为空，按 tab 键使用户名输入框失去焦点，并触发GET请求，url 后缀为：?username=xxx， 即：username==”xxx”, password==null<br>若再按 tab 键使密码输入框又失去焦点，这时继续GET请求，url 后缀为： ?password=， 即：username==null, password==””</p>
-<pre><code>@WebServlet(&quot;/LoginServlet&quot;)
-public class LoginServlet extends HttpServlet {
-    ......
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        request.setCharacterEncoding(&quot;utf-8&quot;);
-        response.setContentType(&quot;text/html;charset=utf-8&quot;);
-        PrintWriter out = response.getWriter(); 
-        // username、password 可能为null, 可能不为null
-        if(request.getParameter(&quot;username&quot;) == &quot;&quot;) {  
-            //?username=
-            if(request.getParameter(&quot;password&quot;) == null) {
-                out.print(&quot;用户名不能为空！&quot;);
-            } 
-        } else if(request.getParameter(&quot;username&quot;) == null) { 
-            if(request.getParameter(&quot;password&quot;) == &quot;&quot;){
-                //?password=
-                out.print(&quot;密码不能为空！&quot;);   
-            }   
-        } else { 
-            //?username=xxx
-            String name = request.getParameter(&quot;username&quot;);     
-            if(!name.equals(&quot;admin&quot;)) {
-                if(request.getParameter(&quot;password&quot;) == null) {
-                    out.print(&quot;用户名不存在！&quot;);   
-                }           
-            }
-        }
-    }
-
-protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        request.setCharacterEncoding(&quot;utf-8&quot;);
-        response.setContentType(&quot;text/html;charset=utf-8&quot;);
-        PrintWriter out = response.getWriter(); 
-        String name = request.getParameter(&quot;username&quot;);
-        String pwd = request.getParameter(&quot;password&quot;);
-
-        if(name.equals(&quot;admin&quot;) &amp;&amp; pwd.equals(&quot;admin&quot;)) {
-            User user = new User(name,pwd);
-            HttpSession session = request.getSession();
-            session.setAttribute(&quot;user&quot;, user);     
-            response.sendRedirect(request.getContextPath()+&quot;/index.jsp&quot;);
-        } else {
-            request.setAttribute(&quot;error&quot;, &quot;用户名或密码错误，请重新登录！&quot;);
-            response.sendRedirect(request.getContextPath()+&quot;/login.jsp&quot;);     
-        }
-    }
-}</code></pre><h3 id="效果演示："><a href="#效果演示：" class="headerlink" title="效果演示："></a>效果演示：</h3><p><img src="http://121.43.102.125:8080/myweb/img/e5_1.PNG" srcset="/img/loading.gif" alt=""></p>
+            <h3 id="前言："><a href="#前言：" class="headerlink" title="前言："></a>前言：</h3><p>前几天，李振腾同学分享了Hexo博客框架的搭建，我也去琢磨了一下，的确很好用，遇到一些问题，也及时查了百度和请教了李同学，现与大家分享搭建的教程。</p>
+<h3 id="什么是-Hexo？"><a href="#什么是-Hexo？" class="headerlink" title="什么是 Hexo？"></a>什么是 Hexo？</h3><p>Hexo 是一个快速、简洁且高效的博客框架。Hexo 使用 Markdown（或其他渲染引擎）解析文章，在几秒内，即可利用靓丽的主题生成静态网页。</p>
+<h3 id="安装-Hexo"><a href="#安装-Hexo" class="headerlink" title="安装 Hexo"></a>安装 Hexo</h3><p>安装 Hexo 相当简单，只需几分钟时间，只需要先安装下列应用程序即可：<br>Node.js:选择LTS版本（自带npm工具）和Git<br>在Git 和 Node.js 安装完后，打开命令行输入以下代码检查一下有没有安装成功</p>
+<pre><code>node -v
+npm -v</code></pre><p>先创建一个文件夹blog，然后cd到这个文件夹下（或者在这个文件夹下直接右键git bash打开），输入命令</p>
+<p><code>npm install -g hexo-cli</code></p>
+<p>依旧用hexo -v查看一下版本<br>至此就全部安装完了。</p>
+<p>接下来初始化一下hexo</p>
+<p><code>hexo init myblog</code></p>
+<p>这个myblog可以自己取什么名字都行，然后</p>
+<pre><code>cd myblog //进入这个myblog文件夹
+npm install</code></pre><p>新建完成后，指定文件夹目录下有：</p>
+<blockquote>
+<p>node_modules: 依赖包<br>public：存放生成的页面<br>scaffolds：生成文章的一些模板<br>source：用来存放你的文章<br>themes：主题<br> _config.yml: 博客的配置文件</p>
+</blockquote>
+<p>接着在命令行输入以下代码来打开hexo的服务：</p>
+<pre><code>hexo g
+hexo server</code></pre><p>在浏览器输入localhost:4000就可以看到你生成的博客了。使用ctrl+c可以把服务关掉。</p>
+<p><img src="/img/blog.jpg" srcset="/img/loading.gif" alt=""></p>
+<h3 id="GitHub创建个人仓库"><a href="#GitHub创建个人仓库" class="headerlink" title="GitHub创建个人仓库"></a>GitHub创建个人仓库</h3><p>首先，你先要有一个GitHub账户，去注册一个吧。<br>注册完登录后，在GitHub.com中看到一个New repository，新建仓库</p>
+<p>创建一个和你用户名相同的仓库，后面加.github.io，只有这样，将来要部署到GitHub page的时候，才会被识别，也就是xxxx.github.io，其中xxx就是你注册GitHub的用户名。</p>
+<p>回到你的git bash中，输入以下代码让本地与Github连接</p>
+<pre><code>git config --global user.name &quot;yourname&quot;
+git config --global user.email &quot;youremail&quot;</code></pre><p>然后创建SSH,一路回车</p>
+<p><code>ssh-keygen -t rsa -C &quot;youremail&quot;</code></p>
+<p>这个时候它会告诉你已经生成了.ssh的文件夹。在你的电脑中找到这个文件夹。</p>
+<blockquote>
+<p>ssh，简单来讲，就是一个秘钥，其中，id_rsa是你这台电脑的私人秘钥，不能给别人看的，id_rsa.pub是公共秘钥，可以随便给别人看。把这个公钥放在GitHub上，这样当你链接GitHub自己的账户时，它就会根据公钥匹配你的私钥，当能够相互匹配时，才能够顺利的通过git上传你的文件到GitHub上。</p>
+</blockquote>
+<p>而后在GitHub的setting中，找到SSH keys的设置选项，点击New SSH key<br>把你的id_rsa.pub里面的信息复制进去。<br>在gitbash中，输入下面代码查看是否成功</p>
+<p><code>ssh -T git@github.com</code></p>
+<p>接下来，我们就可以将hexo和GitHub关联起来，也就是将hexo生成的文章部署到GitHub上，打开站点配置文件 _config.yml，翻到最后，修改为</p>
+<pre><code>deploy:
+  type: git
+  repo: https://github.com/YourgithubName/YourgithubName.github.io.git
+  branch: master</code></pre><p>YourgithubName就是你的GitHub账户<br>这个时候需要安装deploy-git ，也就是部署的命令,这样你才能用命令部署到GitHub。</p>
+<p><code>npm install hexo-deployer-git --save</code></p>
+<p>最后继续输入：</p>
+<pre><code>hexo clean
+hexo generate
+hexo deploy</code></pre><p>其中 hexo clean清除了你之前生成的东西，也可以不加。<br>hexo generate 顾名思义，生成静态文章，可以用 hexo g缩写<br>hexo deploy 部署文章，可以用hexo d缩写<br>注意deploy时可能要你输入username和password。<br>操作完成后，过一会儿就可以在<a href="http://yourname.github.io" target="_blank" rel="noopener">http://yourname.github.io</a> 这个网站看到你的博客了！</p>
+<p> 注：由于github是外国网站，登录博客可能会有卡顿，大家也可以上传到coding或者gitee进行搭建，方法与上面基本同理，大家也可以自行百度，我就是同时将博客资源上传到github和coding，两边都进行实时更新，只是添加一个链接的事情。</p>
+<p>参考资料：<br><a href="https://zachary.asia/2020/02/27/shi-yong-hexo-chuang-jian-zi-ji-de-de-bo-ke/" target="_blank" rel="noopener">https://zachary.asia/2020/02/27/shi-yong-hexo-chuang-jian-zi-ji-de-de-bo-ke/</a><br><a href="https://blog.csdn.net/sinat_37781304/article/details/82729029" target="_blank" rel="noopener">https://blog.csdn.net/sinat_37781304/article/details/82729029</a></p>
 
             <hr>
           </div>
@@ -281,7 +224,7 @@ protected void doPost(HttpServletRequest request, HttpServletResponse response) 
               <span>
                 <i class="iconfont icon-inbox"></i>
                 
-                  <a class="hover-with-bg" href="/categories/JSP%E5%AD%A6%E4%B9%A0/">JSP学习</a>
+                  <a class="hover-with-bg" href="/categories/%E6%90%AD%E5%BB%BA%E5%BC%80%E5%8F%91/">搭建开发</a>
                   &nbsp;
                 
               </span>&nbsp;&nbsp;
@@ -290,11 +233,9 @@ protected void doPost(HttpServletRequest request, HttpServletResponse response) 
               <span>
                 <i class="iconfont icon-tag"></i>
                 
-                  <a class="hover-with-bg" href="/tags/AJAX/">AJAX</a>
+                  <a class="hover-with-bg" href="/tags/Hexo/">Hexo</a>
                 
-                  <a class="hover-with-bg" href="/tags/Servlet/">Servlet</a>
-                
-                  <a class="hover-with-bg" href="/tags/Java/">Java</a>
+                  <a class="hover-with-bg" href="/tags/Github/">Github</a>
                 
               </span>
             
@@ -473,7 +414,7 @@ protected void doPost(HttpServletRequest request, HttpServletResponse response) 
     var typed = new Typed('#subtitle', {
       strings: [
         '  ',
-        "AJAX实现登录时的用户名验证（Servlet 响应）&nbsp;",
+        "Hexo博客框架搭建教程（一）&nbsp;",
       ],
       cursorChar: "_",
       typeSpeed: 70,
