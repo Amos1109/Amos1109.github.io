@@ -1,13 +1,23 @@
 ---
 title: 关于我
 date: 2020-02-28 08:23:45
+layout: about
 ---
-# Amospace
+## 关于 [Amospace](http://amospace.fun "Amospace")
 
-#### 姓名：洪宇庭
+这是我自行建设的个人 Blog ，建于 2020 年 02 月 05 日，由 `Hexo` 驱动，托管在` GitHub`,`coding` 等。
 
-#### 学校：绍兴文理学院
+单纯一个想把自己感兴趣的东西分享给大家的博客。
 
-#### 班级：计算机科学与技术182班
+## 关于我
 
-> 每天都想学一点新东西。
+- 绍兴文理学院计算机科学与技术专业大二学生；
+- 《Rick and Morty》忠实读者；
+- 有遗憾的人，本来就会努力很多；
+- 沉迷于不用犹豫就能挥霍的态度；
+
+## 致谢
+
+- 感谢[github](http://github.com/ "github")和[coding](http://coding.net/ "coding")`提供的网站托管服务
+- 由Hexo[Hexo](http://hexo.io/ "Hexo")强力驱动
+- 主题来自[Fluid](https://fluid-dev.github.io/hexo-fluid-docs/ "Fluid")
