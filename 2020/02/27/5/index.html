@@ -16,7 +16,7 @@
   <meta name="description" content="一名普通大学生的学习心得与体验">
   <meta name="author" content="Hong Yuting">
   <meta name="keywords" content="">
-  <title>解决MySQL默认的8小时自动断开连接 ~ Amospace</title>
+  <title>AJAX实现登录时的用户名验证（Servlet 响应） ~ Amospace</title>
 
   <link rel="stylesheet" href="https://cdn.staticfile.org/font-awesome/5.12.1/css/all.min.css"  >
 <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/css/bootstrap.min.css"  >
@@ -142,7 +142,7 @@
               
                 <p class="mt-3">
                   <i class="fas fa-calendar-alt" aria-hidden="true"></i>&nbsp;
-                  星期四, 二月 27日 2020, 11:45 晚上
+                  星期四, 二月 27日 2020, 6:58 晚上
                 </p>
               
 
@@ -151,7 +151,7 @@
                   
                   &nbsp;<i class="far fa-chart-bar"></i>
                   <span class="post-count">
-                    468 字
+                    718 字
                   </span>&nbsp;
                 
 
@@ -159,7 +159,7 @@
                   
                   &nbsp;<i class="far fa-clock"></i>
                   <span class="post-count">
-                      1 分钟
+                      3 分钟
                   </span>&nbsp;
                 
 
@@ -192,11 +192,106 @@
       <div class="py-5 z-depth-3" id="board">
         <div class="post-content mx-auto" id="post">
           <div class="markdown-body">
-            <p>MySQL服务器默认的“wait_timeout”是28800秒即8小时，意味着如果一个连接的空闲时间超过8个小时，MySQL将自动断开该连接，而连接池却认为该连接还是有效的(因为并未校验连接的有效性)，当应用申请使用该连接时，就会导致上面的报错。</p>
+            <p>通过简单的AJAX进行登录的简单验证，登录提交表单使用 POST 请求进行验证及转发，<br>输入用户名（是否正确，是否为空）及密码（是否为空） 使用 GET 请求进行验证。</p>
 <a id="more"></a>
-<h3 id="方案一"><a href="#方案一" class="headerlink" title="方案一"></a>方案一</h3><p>按异常信息所说，在MYSQL的JDBC连接串上加上autoReconnect=true。但未能解决，据说这是针对MySQL版本是5.0以前的。</p>
-<h3 id="方案二"><a href="#方案二" class="headerlink" title="方案二"></a>方案二</h3><p>更改配置文件中wait_timeout和interactive_timeout的值。<br>我先将perfume的数据库文件通过navicat转储到我自己的云服务器上。<br>网上说修改MySQL安装目录中的配置文件my.ini中的interactive_timeout和wait_timeout，<br>但是我在配置文件my.ini中没有找到这两个值。可以尝试添加上去。<br>我就直接在MySQL客户端上改。在MySQL客户端输入命令：<br>show variables like ‘%timeout%’;<br>可以看到interactive_timeout = 28800和wait_timeout = 28800，即8小时。<br>再分别输入set global interactive_timeout=31536000;set global wait_timeout=31536000;<br>即自动断开时间为1年。但重启MySQL再查询发现，wait_timeout值又变回28800；<br>通过查阅资料发现，interactive_timeout和wait_timeout的默认值都是28800（8小时）<br>当这两个参数同时出现时，会以interactive_timeout的值为准。<br>也就是说不管wait_timeout的值是多少，<br>用show variables like ‘%timeout%’;查看时显示的两个值都是一样的，<br>并且都是interactive_timeout的值。而wait_timeout的最大值只允许2147483 （24天左右）。<br>所以我又重新设置<br><code>set global interactive_timeout=2147483;</code><br><code>set global wait_timeout=2147483;</code></p>
-<h4 id="方案三和方案四我并没有去尝试，有兴趣的同学可以参考下面的参考资料"><a href="#方案三和方案四我并没有去尝试，有兴趣的同学可以参考下面的参考资料" class="headerlink" title="方案三和方案四我并没有去尝试，有兴趣的同学可以参考下面的参考资料"></a>方案三和方案四我并没有去尝试，有兴趣的同学可以参考下面的参考资料</h4><h4 id="MySQL自动断开连接问题解决。"><a href="#MySQL自动断开连接问题解决。" class="headerlink" title="MySQL自动断开连接问题解决。"></a>MySQL自动断开连接问题解决。</h4><h3 id="参考资料："><a href="#参考资料：" class="headerlink" title="参考资料："></a>参考资料：</h3><p><a href="https://www.cnblogs.com/chihirotan/p/6253175.html" target="_blank" rel="noopener">https://www.cnblogs.com/chihirotan/p/6253175.html</a><br><a href="https://yq.aliyun.com/articles/647776/" target="_blank" rel="noopener">https://yq.aliyun.com/articles/647776/</a><br><a href="https://www.cnblogs.com/kuexun/archive/2018/10/19/9818468.html" target="_blank" rel="noopener">https://www.cnblogs.com/kuexun/archive/2018/10/19/9818468.html</a><br><a href="https://blog.csdn.net/weixin_34387284/article/details/92105606" target="_blank" rel="noopener">https://blog.csdn.net/weixin_34387284/article/details/92105606</a></p>
+<p>以下是我的案例代码：</p>
+<h3 id="JSP前端登录页面："><a href="#JSP前端登录页面：" class="headerlink" title="JSP前端登录页面："></a>JSP前端登录页面：</h3><pre><code>login.jsp
+&lt;form action=&quot;LoginServlet&quot; method=&quot;POST&quot;&gt;
+    &lt;div&gt;
+        &lt;input type=&quot;text&quot; name=&quot;username&quot; id=&quot;userId&quot; placeholder=&quot;用户名&quot;&gt;
+        &lt;span class=&quot;info&quot;&gt;&lt;/span&gt;
+    &lt;/div&gt;
+    &lt;div&gt;
+        &lt;input type=&quot;password&quot; name=&quot;password&quot; id=&quot;passwd&quot; placeholder=&quot;密码&quot;&gt;
+    &lt;/div&gt;
+    &lt;input type=&quot;submit&quot; value=&quot;登   录&quot; &gt;
+&lt;/form&gt;`</code></pre><h3 id="JSP前端登录成功页面："><a href="#JSP前端登录成功页面：" class="headerlink" title="JSP前端登录成功页面："></a>JSP前端登录成功页面：</h3><pre><code>success.jsp
+&lt;h3 style=&apos;color:#00f&apos;&gt;亲爱的，欢迎您！&lt;/h3&gt;
+&lt;p&gt;现在的时间是：&lt;% out.println(new java.util.Date()); %&gt;&lt;/p&gt;</code></pre><h3 id="JavaScript代码-AJAX"><a href="#JavaScript代码-AJAX" class="headerlink" title="JavaScript代码(AJAX)"></a>JavaScript代码(AJAX)</h3><pre><code>var xmlHttp;
+var userId = document.getElementById(&quot;userId&quot;);
+var passwd = document.getElementById(&quot;passwd&quot;);
+var info = document.getElementsByClassName(&quot;info&quot;);
+userId.onblur = checkUser;
+passwd.onblur = checkPwd;
+
+function createXMLHttpRequest() {
+    //检查是否支持 ActiveXObject 控件（IE浏览器）
+    if(window.ActiveXObject) {
+        xmlHttp = new ActiveXObject(&quot;Microsoft.XMLHTTP&quot;);
+    } else if(window.XMLHttpRequest) {
+        xmlHttp = new XMLHttpRequest(); 
+    }
+}
+
+function checkUser() {
+    createXMLHttpRequest();
+    var url = &quot;LoginServlet?username=&quot;+userId.value;
+    xmlHttp.open(&quot;GET&quot;, url, true);
+    xmlHttp.send(null);
+    xmlHttp.onreadystatechange = function() {
+        if(xmlHttp.readyState == 4 &amp;&amp; xmlHttp.status == 200) {
+            info[0].innerHTML = xmlHttp.responseText;
+        }
+    };
+}
+function checkPwd() {
+    createXMLHttpRequest();
+    var url = &quot;LoginServlet?password=&quot;+passwd.value;
+    xmlHttp.open(&quot;GET&quot;, url, true);
+    xmlHttp.send(null);
+    xmlHttp.onreadystatechange = function() {
+        if(xmlHttp.readyState == 4 &amp;&amp; xmlHttp.status == 200) {
+            info[1].innerHTML = xmlHttp.responseText;
+        }
+    };
+}</code></pre><h3 id="Servlet-对请求作出响应"><a href="#Servlet-对请求作出响应" class="headerlink" title="Servlet 对请求作出响应"></a>Servlet 对请求作出响应</h3><p>当 username 为空时，按 tab 键使用户名输入框失去焦点，此时触发GET请求，url 后缀为：?username=， 即：username==””, password==null<br>当 username 不为空，按 tab 键使用户名输入框失去焦点，并触发GET请求，url 后缀为：?username=xxx， 即：username==”xxx”, password==null<br>若再按 tab 键使密码输入框又失去焦点，这时继续GET请求，url 后缀为： ?password=， 即：username==null, password==””</p>
+<pre><code>@WebServlet(&quot;/LoginServlet&quot;)
+public class LoginServlet extends HttpServlet {
+    ......
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        request.setCharacterEncoding(&quot;utf-8&quot;);
+        response.setContentType(&quot;text/html;charset=utf-8&quot;);
+        PrintWriter out = response.getWriter(); 
+        // username、password 可能为null, 可能不为null
+        if(request.getParameter(&quot;username&quot;) == &quot;&quot;) {  
+            //?username=
+            if(request.getParameter(&quot;password&quot;) == null) {
+                out.print(&quot;用户名不能为空！&quot;);
+            } 
+        } else if(request.getParameter(&quot;username&quot;) == null) { 
+            if(request.getParameter(&quot;password&quot;) == &quot;&quot;){
+                //?password=
+                out.print(&quot;密码不能为空！&quot;);   
+            }   
+        } else { 
+            //?username=xxx
+            String name = request.getParameter(&quot;username&quot;);     
+            if(!name.equals(&quot;admin&quot;)) {
+                if(request.getParameter(&quot;password&quot;) == null) {
+                    out.print(&quot;用户名不存在！&quot;);   
+                }           
+            }
+        }
+    }
+
+protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        request.setCharacterEncoding(&quot;utf-8&quot;);
+        response.setContentType(&quot;text/html;charset=utf-8&quot;);
+        PrintWriter out = response.getWriter(); 
+        String name = request.getParameter(&quot;username&quot;);
+        String pwd = request.getParameter(&quot;password&quot;);
+
+        if(name.equals(&quot;admin&quot;) &amp;&amp; pwd.equals(&quot;admin&quot;)) {
+            User user = new User(name,pwd);
+            HttpSession session = request.getSession();
+            session.setAttribute(&quot;user&quot;, user);     
+            response.sendRedirect(request.getContextPath()+&quot;/index.jsp&quot;);
+        } else {
+            request.setAttribute(&quot;error&quot;, &quot;用户名或密码错误，请重新登录！&quot;);
+            response.sendRedirect(request.getContextPath()+&quot;/login.jsp&quot;);     
+        }
+    }
+}</code></pre><h3 id="效果演示："><a href="#效果演示：" class="headerlink" title="效果演示："></a>效果演示：</h3><p><img src="http://121.43.102.125:8080/myweb/img/e5_1.PNG" srcset="/img/loading.gif" alt=""></p>
 
             <hr>
           </div>
@@ -218,7 +313,9 @@
                 
                   <a class="hover-with-bg" href="/tags/Java/">Java</a>
                 
-                  <a class="hover-with-bg" href="/tags/MySQL/">MySQL</a>
+                  <a class="hover-with-bg" href="/tags/Servlet/">Servlet</a>
+                
+                  <a class="hover-with-bg" href="/tags/AJAX/">AJAX</a>
                 
               </span>
             
@@ -429,7 +526,7 @@
     var typed = new Typed('#subtitle', {
       strings: [
         '  ',
-        "解决MySQL默认的8小时自动断开连接&nbsp;",
+        "AJAX实现登录时的用户名验证（Servlet 响应）&nbsp;",
       ],
       cursorChar: "_",
       typeSpeed: 70,
