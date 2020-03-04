@@ -188,6 +188,7 @@
     <div class="col-lg-8 nopadding-md">
       <div class="py-5 z-depth-3" id="board">
         <div class="post-content mx-auto" id="post">
+	 
           <div class="markdown-body">
             <h3 id="Step1-远程桌面连接云服务器"><a href="#Step1-远程桌面连接云服务器" class="headerlink" title="Step1.远程桌面连接云服务器"></a>Step1.远程桌面连接云服务器</h3><p>按要求在网上购买阿里云，腾讯云，百度云的服务器，启用并记住公网IP，桌面-&gt;开始菜单-&gt;windows附件-&gt;远程桌面链接-&gt;输入你的IP地址和实例密码，进行连接。<br>连接过程中，你可能会遇到以下情况：提示“您的凭据不工作 之前用于连接到某凭据无法工作。请输入新凭据。”<br>首先先确认自己的IP地址和密码是否正确。<br>若无误，请参考以下解决办法：<a href="https://blog.csdn.net/huyuyang6688/article/details/49077665" target="_blank" rel="noopener">https://blog.csdn.net/huyuyang6688/article/details/49077665</a></p>
 <a id="more"></a>
@@ -317,6 +318,22 @@
 </div>
   
 
+  
+    <!-- APlayer 音乐播放器 -->
+    <div id="aplayer"></div>
+    <script src="https://cdn.staticfile.org/aplayer/1.10.1/APlayer.min.js" ></script>
+<link rel="stylesheet" href="https://cdn.staticfile.org/aplayer/1.10.1/APlayer.min.css"  >
+<script>
+  const ap = new APlayer({
+    container: document.getElementById('aplayer'),
+    fixed: true,
+    autoplay: false,
+    loop: 'all',
+    order: 'random',
+    preload: 'auto',
+    audio: [{"name":"年少有为","artist":"李荣浩","url":"/songs/nianshaoyouwei.mp3","cover":"/img/nianshao.jpg"}]
+  });
+</script>
   
 
   <footer class="mt-5">
@@ -496,5 +513,5 @@
 
 
 
-<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"model":{"jsonPath":"/live2dw/assets/wanko.model.json"},"display":{"position":"left","width":80,"height":160,"bottom":-120},"mobile":{"show":false},"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"model":{"jsonPath":"/live2dw/assets/wanko.model.json"},"display":{"position":"right","width":80,"height":160,"bottom":-120},"mobile":{"show":false},"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
 </html>

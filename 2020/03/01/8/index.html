@@ -188,6 +188,7 @@
     <div class="col-lg-8 nopadding-md">
       <div class="py-5 z-depth-3" id="board">
         <div class="post-content mx-auto" id="post">
+	 
           <div class="markdown-body">
             <p>我想这个寒假是最为印象深刻，最有意义的一个寒假了。印象深刻是因为由于疫情的缘故，我的放假时间变长，而我却只能待在家里；最有意义是因为学到一些有意思的，感兴趣的东西而变得充实有乐趣。我一向来喜欢实践性很强的东西，对一些目的明确的事情总是让我沉浸其中，往往等自己反应过来，已经是好几个小时以后的事情。</p>
 <p>不同于之前学的C++程序设计，可能由于学的比较浅，代码很精炼，结构很单一，往往一个结果几行代码就能够搞定，与其说是编程，不如说是在做小学计算题。也不同于上一学期的Java程序设计，学的很多都是理论性的知识，实践性也比较低，只是跨进了Java门槛的我确实得不到什么趣味。</p>
@@ -310,6 +311,22 @@
 </div>
   
 
+  
+    <!-- APlayer 音乐播放器 -->
+    <div id="aplayer"></div>
+    <script src="https://cdn.staticfile.org/aplayer/1.10.1/APlayer.min.js" ></script>
+<link rel="stylesheet" href="https://cdn.staticfile.org/aplayer/1.10.1/APlayer.min.css"  >
+<script>
+  const ap = new APlayer({
+    container: document.getElementById('aplayer'),
+    fixed: true,
+    autoplay: false,
+    loop: 'all',
+    order: 'random',
+    preload: 'auto',
+    audio: [{"name":"年少有为","artist":"李荣浩","url":"/songs/nianshaoyouwei.mp3","cover":"/img/nianshao.jpg"}]
+  });
+</script>
   
 
   <footer class="mt-5">
@@ -489,5 +506,5 @@
 
 
 
-<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"model":{"jsonPath":"/live2dw/assets/wanko.model.json"},"display":{"position":"left","width":80,"height":160,"bottom":-120},"mobile":{"show":false},"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"model":{"jsonPath":"/live2dw/assets/wanko.model.json"},"display":{"position":"right","width":80,"height":160,"bottom":-120},"mobile":{"show":false},"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
 </html>

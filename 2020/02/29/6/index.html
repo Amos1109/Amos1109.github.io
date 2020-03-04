@@ -188,6 +188,7 @@
     <div class="col-lg-8 nopadding-md">
       <div class="py-5 z-depth-3" id="board">
         <div class="post-content mx-auto" id="post">
+	 
           <div class="markdown-body">
             <h3 id="前言："><a href="#前言：" class="headerlink" title="前言："></a>前言：</h3><p>前几天，李振腾同学分享了Hexo博客框架的搭建，我也去琢磨了一下，的确很好用，遇到一些问题，也及时查了百度和请教了李同学，现与大家分享搭建的教程。</p>
 <h3 id="什么是-Hexo？"><a href="#什么是-Hexo？" class="headerlink" title="什么是 Hexo？"></a>什么是 Hexo？</h3><p>Hexo 是一个快速、简洁且高效的博客框架。Hexo 使用 Markdown（或其他渲染引擎）解析文章，在几秒内，即可利用靓丽的主题生成静态网页。</p>
@@ -351,6 +352,22 @@ hexo deploy</code></pre><p>其中 hexo clean清除了你之前生成的东西，
 </div>
   
 
+  
+    <!-- APlayer 音乐播放器 -->
+    <div id="aplayer"></div>
+    <script src="https://cdn.staticfile.org/aplayer/1.10.1/APlayer.min.js" ></script>
+<link rel="stylesheet" href="https://cdn.staticfile.org/aplayer/1.10.1/APlayer.min.css"  >
+<script>
+  const ap = new APlayer({
+    container: document.getElementById('aplayer'),
+    fixed: true,
+    autoplay: false,
+    loop: 'all',
+    order: 'random',
+    preload: 'auto',
+    audio: [{"name":"年少有为","artist":"李荣浩","url":"/songs/nianshaoyouwei.mp3","cover":"/img/nianshao.jpg"}]
+  });
+</script>
   
 
   <footer class="mt-5">
@@ -530,5 +547,5 @@ hexo deploy</code></pre><p>其中 hexo clean清除了你之前生成的东西，
 
 
 
-<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"model":{"jsonPath":"/live2dw/assets/wanko.model.json"},"display":{"position":"left","width":80,"height":160,"bottom":-120},"mobile":{"show":false},"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"model":{"jsonPath":"/live2dw/assets/wanko.model.json"},"display":{"position":"right","width":80,"height":160,"bottom":-120},"mobile":{"show":false},"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
 </html>

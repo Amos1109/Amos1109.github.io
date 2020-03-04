@@ -188,6 +188,7 @@
     <div class="col-lg-8 nopadding-md">
       <div class="py-5 z-depth-3" id="board">
         <div class="post-content mx-auto" id="post">
+	 
           <div class="markdown-body">
             <p>通过简单的AJAX进行登录的简单验证，登录提交表单使用 POST 请求进行验证及转发，<br>输入用户名（是否正确，是否为空）及密码（是否为空） 使用 GET 请求进行验证。</p>
 <a id="more"></a>
@@ -310,9 +311,9 @@ protected void doPost(HttpServletRequest request, HttpServletResponse response) 
                 
                   <a class="hover-with-bg" href="/tags/Java/">Java</a>
                 
-                  <a class="hover-with-bg" href="/tags/AJAX/">AJAX</a>
-                
                   <a class="hover-with-bg" href="/tags/Servlet/">Servlet</a>
+                
+                  <a class="hover-with-bg" href="/tags/AJAX/">AJAX</a>
                 
               </span>
             
@@ -410,6 +411,22 @@ protected void doPost(HttpServletRequest request, HttpServletResponse response) 
 </div>
   
 
+  
+    <!-- APlayer 音乐播放器 -->
+    <div id="aplayer"></div>
+    <script src="https://cdn.staticfile.org/aplayer/1.10.1/APlayer.min.js" ></script>
+<link rel="stylesheet" href="https://cdn.staticfile.org/aplayer/1.10.1/APlayer.min.css"  >
+<script>
+  const ap = new APlayer({
+    container: document.getElementById('aplayer'),
+    fixed: true,
+    autoplay: false,
+    loop: 'all',
+    order: 'random',
+    preload: 'auto',
+    audio: [{"name":"年少有为","artist":"李荣浩","url":"/songs/nianshaoyouwei.mp3","cover":"/img/nianshao.jpg"}]
+  });
+</script>
   
 
   <footer class="mt-5">
@@ -589,5 +606,5 @@ protected void doPost(HttpServletRequest request, HttpServletResponse response) 
 
 
 
-<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"model":{"jsonPath":"/live2dw/assets/wanko.model.json"},"display":{"position":"left","width":80,"height":160,"bottom":-120},"mobile":{"show":false},"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"model":{"jsonPath":"/live2dw/assets/wanko.model.json"},"display":{"position":"right","width":80,"height":160,"bottom":-120},"mobile":{"show":false},"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
 </html>
