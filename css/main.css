@@ -502,9 +502,18 @@ h6::before {
   width: 1px;
   visibility: hidden;
 }
+.post-meta {
+  margin: 0 0.25rem;
+}
+.post-meta i {
+  margin: 0 0.15rem;
+}
 #toc {
   padding: 3rem 0 0 0;
   height: 80%;
+}
+#toc p {
+  visibility: hidden;
 }
 #tocbot {
   max-height: 100%;
