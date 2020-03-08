@@ -251,7 +251,7 @@
 <li>传输数据的大小不同。特定的服务器对URL的长度有限制，因此GET请求携带的参数的长度会受到浏览器的限制，而POST请求不是通过URL传值，理论上数据长度不会受限制。</li>
 <li>安全性。POST的安全性要比GET的安全性高。</li>
 </ol>
-<h3 id="HTTP响应消息（HttpResponse）"><a href="#HTTP响应消息（HttpResponse）" class="headerlink" title="HTTP响应消息（HttpResponse）"></a>HTTP响应消息（HttpResponse）</h3><p>处理完客户端发送的请求之后，HTTP服务器返回响应消息给客户端，HTTP响应也是由三个部分组成：状态行、消息报头、响应正文。<br><img src="/img/response.jpg" srcset="/img/loading.gif" alt=""><br><img src="/img/response2.png" srcset="/img/loading.gif" alt=""></p>
+<h3 id="HTTP响应消息（HttpResponse）"><a href="#HTTP响应消息（HttpResponse）" class="headerlink" title="HTTP响应消息（HttpResponse）"></a>HTTP响应消息（HttpResponse）</h3><p>处理完客户端发送的请求之后，HTTP服务器返回响应消息给客户端，HTTP响应也是由三个部分组成：状态行、响应头部、响应正文。<br><img src="/img/response.jpg" srcset="/img/loading.gif" alt=""><br><img src="/img/response2.png" srcset="/img/loading.gif" alt=""></p>
 <h4 id="状态行"><a href="#状态行" class="headerlink" title="状态行"></a>状态行</h4><p>状态代码有三位数字组成，第一个数字定义了响应的类别，共分五种类别:</p>
 <ul>
 <li>1xx：指示信息–表示请求已接收，继续处理</li>
@@ -260,7 +260,7 @@
 <li>4xx：客户端错误–请求有语法错误或请求无法实现</li>
 <li>5xx：服务器端错误–服务器未能实现合法的请求</li>
 </ul>
-<h4 id="消息报头"><a href="#消息报头" class="headerlink" title="消息报头"></a>消息报头</h4><p>第二行到第四行为消息报头，Date:生成响应的日期和时间；Content-Length:122 指定了响应正文的长度；Content-Type:指定了MIME类型的HTML(text/html),编码类型是UTF-8。</p>
+<h4 id="响应头部"><a href="#响应头部" class="headerlink" title="响应头部"></a>响应头部</h4><p>第二行到第四行为响应头部，Date:生成响应的日期和时间；Content-Length:122 指定了响应正文的长度；Content-Type:指定了MIME类型的HTML(text/html),编码类型是UTF-8。</p>
 <h4 id="响应正文"><a href="#响应正文" class="headerlink" title="响应正文"></a>响应正文</h4><p>空行后面的html部分为响应正文。</p>
 <blockquote>
 <p>参考资料：<br><a href="https://www.cnblogs.com/an-wen/p/11180076.html" target="_blank" rel="noopener">https://www.cnblogs.com/an-wen/p/11180076.html</a><br><a href="https://blog.csdn.net/qq_21125183/article/details/90440055" target="_blank" rel="noopener">https://blog.csdn.net/qq_21125183/article/details/90440055</a><br><a href="https://how2j.cn/k/http/http-tutorials/568.html" target="_blank" rel="noopener">https://how2j.cn/k/http/http-tutorials/568.html</a></p>
