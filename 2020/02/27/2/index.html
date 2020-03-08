@@ -188,7 +188,7 @@
     <div class="col-lg-8 nopadding-md">
       <div class="py-5 z-depth-3" id="board">
         <div class="post-content mx-auto" id="post">
-	 
+          
           <div class="markdown-body">
             <p>MySQL服务器默认的“wait_timeout”是28800秒即8小时，意味着如果一个连接的空闲时间超过8个小时，MySQL将自动断开该连接，而连接池却认为该连接还是有效的(因为并未校验连接的有效性)，当应用申请使用该连接时，就会导致上面的报错。</p>
 <a id="more"></a>
@@ -196,41 +196,36 @@
 <h3 id="方案二"><a href="#方案二" class="headerlink" title="方案二"></a>方案二</h3><p>更改配置文件中wait_timeout和interactive_timeout的值。<br>我先将perfume的数据库文件通过navicat转储到我自己的云服务器上。<br>网上说修改MySQL安装目录中的配置文件my.ini中的interactive_timeout和wait_timeout，<br>但是我在配置文件my.ini中没有找到这两个值。可以尝试添加上去。<br>我就直接在MySQL客户端上改。在MySQL客户端输入命令：<br>show variables like ‘%timeout%’;<br>可以看到interactive_timeout = 28800和wait_timeout = 28800，即8小时。<br>再分别输入set global interactive_timeout=31536000;set global wait_timeout=31536000;<br>即自动断开时间为1年。但重启MySQL再查询发现，wait_timeout值又变回28800；<br>通过查阅资料发现，interactive_timeout和wait_timeout的默认值都是28800（8小时）<br>当这两个参数同时出现时，会以interactive_timeout的值为准。<br>也就是说不管wait_timeout的值是多少，<br>用show variables like ‘%timeout%’;查看时显示的两个值都是一样的，<br>并且都是interactive_timeout的值。而wait_timeout的最大值只允许2147483 （24天左右）。<br>所以我又重新设置<br><code>set global interactive_timeout=2147483;</code><br><code>set global wait_timeout=2147483;</code></p>
 <h4 id="方案三和方案四我并没有去尝试，有兴趣的同学可以参考下面的参考资料"><a href="#方案三和方案四我并没有去尝试，有兴趣的同学可以参考下面的参考资料" class="headerlink" title="方案三和方案四我并没有去尝试，有兴趣的同学可以参考下面的参考资料"></a>方案三和方案四我并没有去尝试，有兴趣的同学可以参考下面的参考资料</h4><h4 id="MySQL自动断开连接问题解决。"><a href="#MySQL自动断开连接问题解决。" class="headerlink" title="MySQL自动断开连接问题解决。"></a>MySQL自动断开连接问题解决。</h4><h3 id="参考资料："><a href="#参考资料：" class="headerlink" title="参考资料："></a>参考资料：</h3><p><a href="https://www.cnblogs.com/chihirotan/p/6253175.html" target="_blank" rel="noopener">https://www.cnblogs.com/chihirotan/p/6253175.html</a><br><a href="https://yq.aliyun.com/articles/647776/" target="_blank" rel="noopener">https://yq.aliyun.com/articles/647776/</a><br><a href="https://www.cnblogs.com/kuexun/archive/2018/10/19/9818468.html" target="_blank" rel="noopener">https://www.cnblogs.com/kuexun/archive/2018/10/19/9818468.html</a><br><a href="https://blog.csdn.net/weixin_34387284/article/details/92105606" target="_blank" rel="noopener">https://blog.csdn.net/weixin_34387284/article/details/92105606</a></p>
 
-            <hr>
           </div>
-          <br>
+          <hr>
           <div>
             <p>
-            
-              <span>
+              
+                <span>
                 <i class="iconfont icon-inbox"></i>
-                
-                  <a class="hover-with-bg" href="/categories/JSP%E5%AD%A6%E4%B9%A0/">JSP学习</a>
-                  &nbsp;
-                
-              </span>&nbsp;&nbsp;
-            
-            
-              <span>
+                  
+                    <a class="hover-with-bg" href="/categories/JSP%E5%AD%A6%E4%B9%A0/">JSP学习</a>
+                    &nbsp;
+                  
+                </span>&nbsp;&nbsp;
+              
+              
+                <span>
                 <i class="iconfont icon-tag"></i>
-                
-                  <a class="hover-with-bg" href="/tags/Java/">Java</a>
-                
-                  <a class="hover-with-bg" href="/tags/MySQL/">MySQL</a>
-                
-              </span>
-            
+                  
+                    <a class="hover-with-bg" href="/tags/MySQL/">MySQL</a>
+                  
+                    <a class="hover-with-bg" href="/tags/Java/">Java</a>
+                  
+                </span>
+              
             </p>
             
               <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a href="https://zh.wikipedia.org/wiki/Wikipedia:CC_BY-SA_3.0%E5%8D%8F%E8%AE%AE%E6%96%87%E6%9C%AC" target="_blank" rel="nofollow noopener noopener">CC BY-SA 3.0协议</a> 。转载请注明出处！</p>
             
           </div>
 
-<!-- Comments -->
-  <div class="container comments mx-auto" id="comments">
-    
-  </div>
-
+          
 
         </div>
       </div>
@@ -246,9 +241,7 @@
   </div>
 </div>
 
-<!-- custom -->
-
-
+<!-- Custom -->
 
     
   </main>
