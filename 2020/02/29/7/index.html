@@ -16,7 +16,7 @@
   <meta name="description" content="一名普通大学生的学习心得与体验">
   <meta name="author" content="Hong Yuting">
   <meta name="keywords" content="">
-  <title>把Perfume改为c3p0连接池（附DBUtils的使用） ~ Amospace</title>
+  <title>Hexo博客框架搭建教程（二） ~ Amospace</title>
 
   <link  rel="stylesheet" href="https://cdn.staticfile.org/font-awesome/5.12.1/css/all.min.css" />
 <link  rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/css/bootstrap.min.css" />
@@ -142,7 +142,7 @@
               
                 <p class="mt-3 post-meta">
                   <i class="fas fa-calendar-alt" aria-hidden="true"></i>
-                  星期一, 三月 9日 2020, 4:00 下午
+                  星期六, 二月 29日 2020, 3:20 下午
                 </p>
               
               <p class="mt-1">
@@ -150,14 +150,14 @@
                   
                   <span class="post-meta">
                     <i class="far fa-chart-bar"></i>
-                    754 字
+                    575 字
                   </span>
                 
                 
                   
                   <span class="post-meta">
                       <i class="far fa-clock"></i>
-                      3 分钟
+                      2 分钟
                   </span>
                 
                 
@@ -191,48 +191,57 @@
           <div class="post-content mx-auto" id="post">
             
               <p
-                class="note note-warning">本文最后更新于：星期三, 三月 11日 2020, 9:29 晚上</p>
+                class="note note-warning">本文最后更新于：星期六, 二月 29日 2020, 6:48 晚上</p>
             
             <div class="markdown-body">
-              <p>数据库连接池的基本思想就是为数据库建⽴⼀个缓冲池，预先向缓冲池中放⼊⼀定数量的连接对象，当<br>需要获取数据库连接的时候，只需要从缓冲池中取出⼀个对象，⽤完之后再放回到缓冲池中，供下⼀次<br>请求使⽤，做到了资源的重复利⽤，允许程序重复使⽤⼀个现有的数据库连接对象，⽽不需要重新创<br>建。</p>
-<p>在我看来，JDBC 开发流程大致可分为以下几个步骤，</p>
-<ol>
-<li>加载驱动（只需要加载⼀次）</li>
-<li>建⽴数据库连接（Connection）</li>
-<li>执⾏ SQL 语句（Statement）</li>
-<li>ResultSet 接收结果集（查询）</li>
-<li>断开连接，释放资源</li>
-</ol>
-<p>C3P0只是将第一步和第二步的代码实现更改了，但是得到的好处并不少。</p>
-<p>于是我着手将perfume香水商店的数据库连接更改为C3P0连接池。</p>
-<h3 id="1-增加c3p0-config-xml文件"><a href="#1-增加c3p0-config-xml文件" class="headerlink" title="1.增加c3p0-config.xml文件"></a>1.增加c3p0-config.xml文件</h3><pre><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
-&lt;c3p0-config&gt;
-&lt;named-config name=&quot;testc3p0&quot;&gt;
-&lt;!-- 指定连接数据源的基本属性 --&gt;
-&lt;property name=&quot;user&quot;&gt;root&lt;/property&gt;
-&lt;property name=&quot;password&quot;&gt;994498&lt;/property&gt;
-&lt;property name=&quot;driverClass&quot;&gt;com.mysql.jdbc.Driver&lt;/property&gt;
-&lt;property name=&quot;jdbcUrl&quot;&gt;jdbc:mysql://121.43.102.125:3306/perfume?useUnicode=true&amp;amp;characterEncoding=UTF8&lt;/property&gt;
-&lt;!-- 若数据库中连接数不足时, 一次向数据库服务器申请多少个连接 --&gt;
-&lt;property name=&quot;acquireIncrement&quot;&gt;5&lt;/property&gt;
-&lt;!-- 初始化数据库连接池时连接的数量 --&gt;
-&lt;property name=&quot;initialPoolSize&quot;&gt;20&lt;/property&gt;
-&lt;!-- 数据库连接池中的最⼩的数据库连接数 --&gt;
-&lt;property name=&quot;minPoolSize&quot;&gt;2&lt;/property&gt;
-&lt;!-- 数据库连接池中的最⼤的数据库连接数 --&gt;
-&lt;property name=&quot;maxPoolSize&quot;&gt;40&lt;/property&gt;
-&lt;/named-config&gt;
-&lt;/c3p0-config&gt;</code></pre><p>在这里填写一些数据库连接的基本信息，将之前的信息原封不动复制即可。</p>
-<h3 id="2-更改DBHelper里的代码"><a href="#2-更改DBHelper里的代码" class="headerlink" title="2.更改DBHelper里的代码"></a>2.更改DBHelper里的代码</h3><p>在这里最重要的一步是去网上下载c3p0所需要的jar包，<code>c3p0-0.9.2.1.jar</code><br>然后更改DBHelper文件里面的代码<br><img src="/img/c31.png" srcset="/img/loading.gif" alt=""></p>
-<h3 id="3-更改itemsDAO里的代码"><a href="#3-更改itemsDAO里的代码" class="headerlink" title="3.更改itemsDAO里的代码"></a>3.更改itemsDAO里的代码</h3><p>然后就是更改itemsDAO里的代码，里面的代码主要是进行查询作用的，这里我介绍一个很实用的小工具，叫DBUtils,它将一系列的查询，GET，SET操作进行了封装，这样代码量就大大减少了，就不用写循环代码，一个一个属性添加过去了。主要有以下4种方法：</p>
-<ul>
-<li><code>BeanHandler</code> 将结果集映射成 Java 对象 Item</li>
-<li><code>BeanListHandler</code> 将结果集映射成 List 集合 List</li>
-<li><code>MapHandler</code> 将结果集映射成 Map 对象</li>
-<li><code>MapListHandler</code> 将结果集映射成 MapList 结合</li>
-</ul>
-<p>使用方法很简单，只需要去网上下载DBUtils的jar包<code>commons-dbutils-1.7.jar</code>就可以了。<br><img src="/img/c32.png" srcset="/img/loading.gif" alt=""></p>
-<p>其他的任何代码都不需要再修改，就可以直接用了。是不是比之前的代码简练很多呢？</p>
+              <h3 id="hexo基本配置"><a href="#hexo基本配置" class="headerlink" title="hexo基本配置"></a>hexo基本配置</h3><p>在文件根目录下的_config.yml，就是整个hexo框架的配置文件了。可以在里面修改大部分的配置。详细可参考<a href="https://hexo.io/zh-cn/docs/configuration" target="_blank" rel="noopener" title="官方的配置描述">官方的配置描述</a>.</p>
+<table>
+<thead>
+<tr>
+<th>参数</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>title</td>
+<td>网站标题</td>
+</tr>
+<tr>
+<td>subtitle</td>
+<td>网站副标题</td>
+</tr>
+<tr>
+<td>description</td>
+<td>网站描述</td>
+</tr>
+<tr>
+<td>author</td>
+<td>你的名字</td>
+</tr>
+<tr>
+<td>language</td>
+<td>网站语言</td>
+</tr>
+<tr>
+<td>timezone</td>
+<td>网站时区</td>
+</tr>
+</tbody></table>
+<h3 id="发表文章"><a href="#发表文章" class="headerlink" title="发表文章"></a>发表文章</h3><p>cd到myblog文件夹下（文件夹内右键也可），执行如下命令新建文章：（[]内文章类型，省略默认为Post)：</p>
+<p><code>$ hexo new [post] articleName</code></p>
+<p>名为articleName.md的文件会建在目录/blog/source/_posts下，articleName是文件名，为方便链接不建议掺杂汉字。</p>
+<p>打开目录，最好去下载一个MarkDown编辑器，打开这个.md文件进行编辑。或者使用网络上的在线编辑器。大家需要去学习一下MarkDown编辑器的使用教程，很简单。</p>
+<p>文章编辑完成后，cd到myblog文件夹下，执行如下命令来发布：(命令间可以用&amp;&amp;来连接）</p>
+<pre><code>hexo clean //清除缓存文件 (db.json) 和已生成的静态文件 (public)
+hexo g //生成缓存和静态文件
+hexo d //重新部署到服务器</code></pre><p>过几分钟就可以在网站上看到你的文章了。</p>
+<h3 id="更改主题"><a href="#更改主题" class="headerlink" title="更改主题"></a>更改主题</h3><p>你可以到Hexo官网主题页去搜寻自己喜欢的theme。这里以hexo-theme-next为例：NexT主题使用<br>cd到myblog目录下执行如下命令去下载主题文件：</p>
+<p><code>git clone https://github.com/Sariay/hexo-theme-next.git</code></p>
+<p>将myblog目录下_config.yml里theme的名称landscape修改为next<br>cd到myblog目录下执行如下命令(每次部署文章的步骤,可以用&amp;&amp;连接步骤，也可以将步骤生成为一个自定义脚本)：</p>
+<pre><code>hexo clean //清除缓存文件 (db.json) 和已生成的静态文件 (public)
+hexo g //生成缓存和静态文件
+hexo d //重新部署到服务器</code></pre><p>至于更改theme内容比如名称、描述、头像等去修改myblog/_config.yml文件和myblog/themes/next/_config.yml文件中对应的属性名称即可，而且在NexT 使用文档里有极详细的介绍。</p>
+<p>注：Hexo各个风格的主题都有很多强大的功能，比如聊天室，评论，Follow等，希望同学们可以自行去发掘这些功能！</p>
 
             </div>
             <hr>
@@ -242,7 +251,7 @@
                   <span>
                 <i class="iconfont icon-inbox"></i>
                     
-                      <a class="hover-with-bg" href="/categories/JSP%E5%AD%A6%E4%B9%A0/">JSP学习</a>
+                      <a class="hover-with-bg" href="/categories/%E6%90%AD%E5%BB%BA%E5%BC%80%E5%8F%91/">搭建开发</a>
                       &nbsp;
                     
                   </span>&nbsp;&nbsp;
@@ -251,7 +260,9 @@
                   <span>
                 <i class="iconfont icon-tag"></i>
                     
-                      <a class="hover-with-bg" href="/tags/MySQL/">MySQL</a>
+                      <a class="hover-with-bg" href="/tags/Hexo/">Hexo</a>
+                    
+                      <a class="hover-with-bg" href="/tags/Github/">Github</a>
                     
                   </span>
                 
@@ -263,11 +274,16 @@
                 <div class="post-prevnext row">
                   <div class="post-prev col-12 col-md-6">
                     
+                      <a href="/2020/03/01/8/">
+                        <i class="fa fa-chevron-left"></i>
+                        <span>近两个月的学习过后的一些心得体会？</span>
+                      </a>
+                    
                   </div>
                   <div class="post-next col-12 col-md-6">
                     
-                      <a href="/2020/03/08/10/">
-                        <span>HTTP协议的总结归纳</span>
+                      <a href="/2020/02/29/6/">
+                        <span>Hexo博客框架搭建教程（一）</span>
                         <i class="fa fa-chevron-right"></i>
                       </a>
                     
@@ -496,7 +512,7 @@
     var typed = new Typed('#subtitle', {
       strings: [
         '  ',
-        "把Perfume改为c3p0连接池（附DBUtils的使用）&nbsp;",
+        "Hexo博客框架搭建教程（二）&nbsp;",
       ],
       cursorChar: "_",
       typeSpeed: 70,

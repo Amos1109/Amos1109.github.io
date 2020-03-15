@@ -16,7 +16,7 @@
   <meta name="description" content="一名普通大学生的学习心得与体验">
   <meta name="author" content="Hong Yuting">
   <meta name="keywords" content="">
-  <title>归档 ~ Amospace</title>
+  <title>JS实现页面指定区域局部刷新 ~ Amospace</title>
 
   <link  rel="stylesheet" href="https://cdn.staticfile.org/font-awesome/5.12.1/css/all.min.css" />
 <link  rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/css/bootstrap.min.css" />
@@ -57,7 +57,7 @@
 </script>
 
 <body>
-  <header style="height: 80vh;">
+  <header style="height: 70vh;">
     <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
   <div class="container">
     <a class="navbar-brand"
@@ -124,8 +124,8 @@
   </div>
 </nav>
 
-    <div class="view intro-2" id="background" parallax=true
-         style="background: url('/img/default.png') no-repeat center center;
+    <div class="view intro-2" id="background" false
+         style="background: url('/img/star.jpg') no-repeat center center;
            background-size: cover;">
       <div class="full-bg-img">
         <div class="mask rgba-black-light flex-center">
@@ -139,6 +139,37 @@
 	      <p id="hitokoto" class="h4">正在加载一言...</p>
 
             
+              
+                <p class="mt-3 post-meta">
+                  <i class="fas fa-calendar-alt" aria-hidden="true"></i>
+                  星期五, 二月 28日 2020, 8:35 早上
+                </p>
+              
+              <p class="mt-1">
+                
+                  
+                  <span class="post-meta">
+                    <i class="far fa-chart-bar"></i>
+                    564 字
+                  </span>
+                
+                
+                  
+                  <span class="post-meta">
+                      <i class="far fa-clock"></i>
+                      2 分钟
+                  </span>
+                
+                
+                  <!-- 不蒜子统计文章PV -->
+                  
+                  <span id="busuanzi_container_page_pv" class="post-meta" style="display: none">
+                    <i class="far fa-eye" aria-hidden="true"></i>
+                    <span id="busuanzi_value_page_pv"></span> 次
+                  </span>
+                
+              </p>
+            
           </div>
 
           
@@ -149,101 +180,196 @@
 
   <main>
     
-      <div class="container nopadding-md">
-        <div class="py-5 z-depth-3" id="board">
-          
-          <div class="container">
-            <div class="row">
-              <div class="col-12 col-md-10 m-auto">
-                
-
-<div class="list-group">
-  <p class="h4">共计 11 篇文章</p>
-  <hr>
-  
-    
       
-      <p class="h5">2020</p>
-    
-    <a href="/2020/03/09/11/" class="list-group-item list-group-item-action">
-      <span class="archive-post-title">把Perfume改为c3p0连接池（附DBUtils的使用）</span>
-      <span style="float: right;">03-09</span>
-    </a>
-  
-    
-    <a href="/2020/03/08/10/" class="list-group-item list-group-item-action">
-      <span class="archive-post-title">HTTP协议的总结归纳</span>
-      <span style="float: right;">03-08</span>
-    </a>
-  
-    
-    <a href="/2020/03/05/9/" class="list-group-item list-group-item-action">
-      <span class="archive-post-title">近两个月的学习过后的一些成果？</span>
-      <span style="float: right;">03-05</span>
-    </a>
-  
-    
-    <a href="/2020/03/01/8/" class="list-group-item list-group-item-action">
-      <span class="archive-post-title">近两个月的学习过后的一些心得体会？</span>
-      <span style="float: right;">03-01</span>
-    </a>
-  
-    
-    <a href="/2020/02/29/7/" class="list-group-item list-group-item-action">
-      <span class="archive-post-title">Hexo博客框架搭建教程（二）</span>
-      <span style="float: right;">02-29</span>
-    </a>
-  
-    
-    <a href="/2020/02/29/6/" class="list-group-item list-group-item-action">
-      <span class="archive-post-title">Hexo博客框架搭建教程（一）</span>
-      <span style="float: right;">02-29</span>
-    </a>
-  
-    
-    <a href="/2020/02/28/1/" class="list-group-item list-group-item-action">
-      <span class="archive-post-title">云服务器环境搭建的问题与方法总结</span>
-      <span style="float: right;">02-28</span>
-    </a>
-  
-    
-    <a href="/2020/02/28/4/" class="list-group-item list-group-item-action">
-      <span class="archive-post-title">Servlet实现验证码登录功能</span>
-      <span style="float: right;">02-28</span>
-    </a>
-  
-    
-    <a href="/2020/02/28/3/" class="list-group-item list-group-item-action">
-      <span class="archive-post-title">JS实现页面指定区域局部刷新</span>
-      <span style="float: right;">02-28</span>
-    </a>
-  
-    
-    <a href="/2020/02/27/2/" class="list-group-item list-group-item-action">
-      <span class="archive-post-title">解决MySQL默认的8小时自动断开连接</span>
-      <span style="float: right;">02-27</span>
-    </a>
-  
-</div>
 
-  <nav aria-label="index posts navigation">
-    <span class="pagination pg-blue justify-content-center mt-5" id="pagination">
-      <span class="page-number current">1</span><a class="page-number" href="/archives/2020/page/2/">2</a><a class="extend next" rel="next" href="/archives/2020/page/2/"><i class="fas fa-angle-double-right"></i></a>
-    </span>
-  </nav>
-  
-  <script>
-    for (ele of document.getElementById("pagination").getElementsByClassName("page-number")) {
-      ele.href += '#board';
-    }
-  </script>
+<div class="container-fluid">
+  <div class="row">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-md">
+      <div class="container nopadding-md" id="board-ctn">
+        <div class="py-5 z-depth-3" id="board">
+          <div class="post-content mx-auto" id="post">
+            
+              <p
+                class="note note-warning">本文最后更新于：星期五, 二月 28日 2020, 10:51 上午</p>
+            
+            <div class="markdown-body">
+              <p>在学习perfume香水商店的案例时，需要对加入购物车后的购物车选项后面数量的实时更新，需要通过对页面的一个局部刷新（全局刷新可以但不太适用），以下代码好用且简单。</p>
+<p>以下总结了一些常用的前端刷新页面的方法：</p>
+<a id="more"></a>
 
+<pre><code>&lt;a href=&quot;javascript:&quot; onclick=&quot;history.go(-2); &quot;&gt;返回前两页&lt;/a&gt;
 
-              </div>
+&lt;a href=&quot;javascript:&quot; onclick=&quot;self.location=document.referrer;&quot;&gt;返回上一页并刷新&lt;/a&gt;
+
+&lt;a href=&quot;javascript:&quot; onclick=&quot;history.back(); &quot;&gt;返回上一页&lt;/a&gt;
+
+&lt;a href=&quot;javascript:history.go(-1)&quot;&gt;返回上一页&lt;/a&gt;
+
+&lt;a href=&quot;javascript:location.reload()&quot;&gt;重载页面，本地刷新&lt;/a&gt;
+
+&lt;a href=&quot;javascript:history.go(-1);location.reload()&quot;&gt;返回上一页重载页面，本地刷新&lt;/a&gt;
+
+&lt;a href=&quot;javascript:window.stop()&quot;&gt;停止跳转&lt;/a&gt;
+
+停止跳转：IE浏览器用document.execCommand(&quot;Stop&quot;)，Chrome和Firefox用window.stop()
+
+返回上一页：window.history.go(-1);
+
+本地刷新： window.location.reload();
+
+局部刷新（“#table_table”是需要刷新的框架id）：$(&quot;#content_table&quot;).load(location.href+&quot; #content_table&quot;);</code></pre><p>jsp端(可通过AJAX)：</p>
+<pre><code>&lt;script&gt;
+
+$(document).ready(function() {//页面加载完成后执行此函数
+
+var tpid=&lt;%=pid%&gt;;
+
+fresh();
+
+});
+
+function fresh() {
+
+var tpid=&lt;%=pid%&gt;;
+
+//alert(tpid);
+
+$.ajax({
+
+type : &quot;POST&quot;,//
+
+url : &quot;genxin.do&quot;,//请求地址
+
+dataType : &apos;json&apos;,//传输类型
+
+data : &quot;pid=&quot; + tpid,//输出数据
+
+success : function(data) {//服务器返回的值，这里面是你要刷新的东西
+
+var table = $(&quot;.table&quot;);
+
+table.empty();
+
+table.append(&quot;&lt;tr&gt;&lt;td&gt;药品ID&lt;/td&gt;&lt;td&gt;药名&lt;/td&gt;&lt;td&gt;药品需重&lt;/td&gt;&lt;td&gt;已取重量&lt;/td&gt;&lt;td&gt;抓药进度&lt;/td&gt;&lt;/tr&gt;&quot;);
+
+$.each(data,function(index,val){//它可以遍历一维数组、多维数组、DOM, JSON 等等格式
+
+table.append(&quot;&lt;tr&gt;&lt;td&gt;&quot;+val.mid+&quot;&lt;/td&gt;&lt;td&gt;&quot;+val.mname+&quot;&lt;/td&gt;&lt;td&gt;&quot;+val.mweight+&quot;&lt;/td&gt;&lt;td&gt;&quot;+val.yiqu+&quot;&lt;/td&gt;&lt;td&gt;&quot;+val.jindu+&quot;&lt;/td&gt;&lt;/tr&gt;&quot;);
+
+});
+
+},error:function(){
+
+alert(&quot;error&quot;);
+
+}
+
+});
+
+setTimeout(&quot;fresh()&quot;, 1000);//每隔一秒递归调用此函数，实现刷新的功能。
+
+}
+
+&lt;/script&gt;</code></pre>
             </div>
+            <hr>
+            <div>
+              <p>
+                
+                  <span>
+                <i class="iconfont icon-inbox"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/JSP%E5%AD%A6%E4%B9%A0/">JSP学习</a>
+                      &nbsp;
+                    
+                  </span>&nbsp;&nbsp;
+                
+                
+                  <span>
+                <i class="iconfont icon-tag"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/Java/">Java</a>
+                    
+                      <a class="hover-with-bg" href="/tags/JS/">JS</a>
+                    
+                  </span>
+                
+              </p>
+              
+                <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a href="https://zh.wikipedia.org/wiki/Wikipedia:CC_BY-SA_3.0%E5%8D%8F%E8%AE%AE%E6%96%87%E6%9C%AC" target="_blank" rel="nofollow noopener noopener">CC BY-SA 3.0协议</a> 。转载请注明出处！</p>
+              
+              
+                <div class="post-prevnext row">
+                  <div class="post-prev col-12 col-md-6">
+                    
+                      <a href="/2020/02/28/4/">
+                        <i class="fa fa-chevron-left"></i>
+                        <span>Servlet实现验证码登录功能</span>
+                      </a>
+                    
+                  </div>
+                  <div class="post-next col-12 col-md-6">
+                    
+                      <a href="/2020/02/27/2/">
+                        <span>解决MySQL默认的8小时自动断开连接</span>
+                        <i class="fa fa-chevron-right"></i>
+                      </a>
+                    
+                  </div>
+                </div>
+              
+            </div>
+
+              
+                <!-- Comments -->
+                <div class="comments" id="comments">
+                  
+                  
+  <div id="vcomments"></div>
+  <script defer src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  <script defer src="//unpkg.com/valine/dist/Valine.min.js"></script>
+  <script>
+    var notify = 'false' === 'true';
+    var verify = 'false' === 'true';
+    var oldLoad = window.onload;
+    window.onload = function () {
+      new Valine({
+        el: '#vcomments',
+        notify: notify,
+        verify: verify,
+        app_id: "PF260Rzhs7koD9dcgNhfC4Ej-gzGzoHsz",
+        app_key: "BSmaJnProiOQNNHdJx2J6TPl",
+        placeholder: "说点什么",
+        avatar: "/retro",
+        meta: ['nick', 'mail', 'link'],
+        pageSize: "10",
+      });
+      oldLoad && oldLoad();
+    };
+  </script>
+  <noscript>Please enable JavaScript to view the <a href="https://valine.js.org" target="_blank" rel="nofollow noopener noopener">comments
+      powered by Valine.</a></noscript>
+
+                </div>
+            
           </div>
         </div>
       </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="h5"><i class="far fa-list-alt"></i>&nbsp;目录</p>
+  <div id="tocbot"></div>
+</div>
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
     
   </main>
 
@@ -339,6 +465,57 @@
 
 
 
+  
+  <script  src="https://cdn.staticfile.org/tocbot/4.10.0/tocbot.min.js" ></script>
+  <script>
+    $(document).ready(function () {
+      var navHeight = $('#navbar').height();
+      var toc = $('#toc');
+      var boardCtn = $('#board-ctn');
+      var boardTop = boardCtn.offset().top;
+      var tocLimMax = 2 * boardTop + boardCtn.height();
+      $(window).scroll(function () {
+        var tocLimMin = $('#toc-start').offset().top - navHeight;
+        var scroH = document.body.scrollTop + document.documentElement.scrollTop;
+        console.log(tocLimMax, scroH)
+        if (tocLimMin <= scroH && scroH <= tocLimMax) {
+          toc.css({
+            'display': 'block',
+            'position': 'fixed',
+            'top': navHeight,
+          });
+        } else if (scroH <= tocLimMin) {
+          toc.css({
+            'position': '',
+            'top': '',
+          });
+        } else if (scroH > tocLimMax) {
+          toc.css('display', 'none');
+        }
+      });
+      tocbot.init({
+        tocSelector: '#tocbot',
+        contentSelector: '.post-content',
+        headingSelector: 'h1,h2,h3,h4,h5,h6',
+        linkClass: 'tocbot-link',
+        activeLinkClass: 'tocbot-active-link',
+        listClass: 'tocbot-list',
+        isCollapsedClass: 'tocbot-is-collapsed',
+        collapsibleClass: 'tocbot-is-collapsible',
+        scrollSmooth: true,
+        headingsOffset: -boardTop
+      });
+      if ($('.toc-list-item').length > 0) {
+        $('#toc > p').css('visibility', 'visible');
+      }
+      var offset = boardCtn.css('margin-right')
+      $('#toc-ctn').css({
+        'right': offset
+      })
+    });
+  </script>
+
+
 
 
 
@@ -364,7 +541,7 @@
     var typed = new Typed('#subtitle', {
       strings: [
         '  ',
-        "归档&nbsp;",
+        "JS实现页面指定区域局部刷新&nbsp;",
       ],
       cursorChar: "_",
       typeSpeed: 70,

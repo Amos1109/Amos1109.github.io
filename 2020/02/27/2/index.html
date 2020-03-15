@@ -16,7 +16,7 @@
   <meta name="description" content="一名普通大学生的学习心得与体验">
   <meta name="author" content="Hong Yuting">
   <meta name="keywords" content="">
-  <title>把Perfume改为c3p0连接池（附DBUtils的使用） ~ Amospace</title>
+  <title>解决MySQL默认的8小时自动断开连接 ~ Amospace</title>
 
   <link  rel="stylesheet" href="https://cdn.staticfile.org/font-awesome/5.12.1/css/all.min.css" />
 <link  rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/css/bootstrap.min.css" />
@@ -142,7 +142,7 @@
               
                 <p class="mt-3 post-meta">
                   <i class="fas fa-calendar-alt" aria-hidden="true"></i>
-                  星期一, 三月 9日 2020, 4:00 下午
+                  星期四, 二月 27日 2020, 11:45 晚上
                 </p>
               
               <p class="mt-1">
@@ -150,14 +150,14 @@
                   
                   <span class="post-meta">
                     <i class="far fa-chart-bar"></i>
-                    754 字
+                    468 字
                   </span>
                 
                 
                   
                   <span class="post-meta">
                       <i class="far fa-clock"></i>
-                      3 分钟
+                      1 分钟
                   </span>
                 
                 
@@ -191,48 +191,14 @@
           <div class="post-content mx-auto" id="post">
             
               <p
-                class="note note-warning">本文最后更新于：星期三, 三月 11日 2020, 9:29 晚上</p>
+                class="note note-warning">本文最后更新于：星期五, 二月 28日 2020, 10:52 上午</p>
             
             <div class="markdown-body">
-              <p>数据库连接池的基本思想就是为数据库建⽴⼀个缓冲池，预先向缓冲池中放⼊⼀定数量的连接对象，当<br>需要获取数据库连接的时候，只需要从缓冲池中取出⼀个对象，⽤完之后再放回到缓冲池中，供下⼀次<br>请求使⽤，做到了资源的重复利⽤，允许程序重复使⽤⼀个现有的数据库连接对象，⽽不需要重新创<br>建。</p>
-<p>在我看来，JDBC 开发流程大致可分为以下几个步骤，</p>
-<ol>
-<li>加载驱动（只需要加载⼀次）</li>
-<li>建⽴数据库连接（Connection）</li>
-<li>执⾏ SQL 语句（Statement）</li>
-<li>ResultSet 接收结果集（查询）</li>
-<li>断开连接，释放资源</li>
-</ol>
-<p>C3P0只是将第一步和第二步的代码实现更改了，但是得到的好处并不少。</p>
-<p>于是我着手将perfume香水商店的数据库连接更改为C3P0连接池。</p>
-<h3 id="1-增加c3p0-config-xml文件"><a href="#1-增加c3p0-config-xml文件" class="headerlink" title="1.增加c3p0-config.xml文件"></a>1.增加c3p0-config.xml文件</h3><pre><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
-&lt;c3p0-config&gt;
-&lt;named-config name=&quot;testc3p0&quot;&gt;
-&lt;!-- 指定连接数据源的基本属性 --&gt;
-&lt;property name=&quot;user&quot;&gt;root&lt;/property&gt;
-&lt;property name=&quot;password&quot;&gt;994498&lt;/property&gt;
-&lt;property name=&quot;driverClass&quot;&gt;com.mysql.jdbc.Driver&lt;/property&gt;
-&lt;property name=&quot;jdbcUrl&quot;&gt;jdbc:mysql://121.43.102.125:3306/perfume?useUnicode=true&amp;amp;characterEncoding=UTF8&lt;/property&gt;
-&lt;!-- 若数据库中连接数不足时, 一次向数据库服务器申请多少个连接 --&gt;
-&lt;property name=&quot;acquireIncrement&quot;&gt;5&lt;/property&gt;
-&lt;!-- 初始化数据库连接池时连接的数量 --&gt;
-&lt;property name=&quot;initialPoolSize&quot;&gt;20&lt;/property&gt;
-&lt;!-- 数据库连接池中的最⼩的数据库连接数 --&gt;
-&lt;property name=&quot;minPoolSize&quot;&gt;2&lt;/property&gt;
-&lt;!-- 数据库连接池中的最⼤的数据库连接数 --&gt;
-&lt;property name=&quot;maxPoolSize&quot;&gt;40&lt;/property&gt;
-&lt;/named-config&gt;
-&lt;/c3p0-config&gt;</code></pre><p>在这里填写一些数据库连接的基本信息，将之前的信息原封不动复制即可。</p>
-<h3 id="2-更改DBHelper里的代码"><a href="#2-更改DBHelper里的代码" class="headerlink" title="2.更改DBHelper里的代码"></a>2.更改DBHelper里的代码</h3><p>在这里最重要的一步是去网上下载c3p0所需要的jar包，<code>c3p0-0.9.2.1.jar</code><br>然后更改DBHelper文件里面的代码<br><img src="/img/c31.png" srcset="/img/loading.gif" alt=""></p>
-<h3 id="3-更改itemsDAO里的代码"><a href="#3-更改itemsDAO里的代码" class="headerlink" title="3.更改itemsDAO里的代码"></a>3.更改itemsDAO里的代码</h3><p>然后就是更改itemsDAO里的代码，里面的代码主要是进行查询作用的，这里我介绍一个很实用的小工具，叫DBUtils,它将一系列的查询，GET，SET操作进行了封装，这样代码量就大大减少了，就不用写循环代码，一个一个属性添加过去了。主要有以下4种方法：</p>
-<ul>
-<li><code>BeanHandler</code> 将结果集映射成 Java 对象 Item</li>
-<li><code>BeanListHandler</code> 将结果集映射成 List 集合 List</li>
-<li><code>MapHandler</code> 将结果集映射成 Map 对象</li>
-<li><code>MapListHandler</code> 将结果集映射成 MapList 结合</li>
-</ul>
-<p>使用方法很简单，只需要去网上下载DBUtils的jar包<code>commons-dbutils-1.7.jar</code>就可以了。<br><img src="/img/c32.png" srcset="/img/loading.gif" alt=""></p>
-<p>其他的任何代码都不需要再修改，就可以直接用了。是不是比之前的代码简练很多呢？</p>
+              <p>MySQL服务器默认的“wait_timeout”是28800秒即8小时，意味着如果一个连接的空闲时间超过8个小时，MySQL将自动断开该连接，而连接池却认为该连接还是有效的(因为并未校验连接的有效性)，当应用申请使用该连接时，就会导致上面的报错。</p>
+<a id="more"></a>
+<h3 id="方案一"><a href="#方案一" class="headerlink" title="方案一"></a>方案一</h3><p>按异常信息所说，在MYSQL的JDBC连接串上加上autoReconnect=true。但未能解决，据说这是针对MySQL版本是5.0以前的。</p>
+<h3 id="方案二"><a href="#方案二" class="headerlink" title="方案二"></a>方案二</h3><p>更改配置文件中wait_timeout和interactive_timeout的值。<br>我先将perfume的数据库文件通过navicat转储到我自己的云服务器上。<br>网上说修改MySQL安装目录中的配置文件my.ini中的interactive_timeout和wait_timeout，<br>但是我在配置文件my.ini中没有找到这两个值。可以尝试添加上去。<br>我就直接在MySQL客户端上改。在MySQL客户端输入命令：<br>show variables like ‘%timeout%’;<br>可以看到interactive_timeout = 28800和wait_timeout = 28800，即8小时。<br>再分别输入set global interactive_timeout=31536000;set global wait_timeout=31536000;<br>即自动断开时间为1年。但重启MySQL再查询发现，wait_timeout值又变回28800；<br>通过查阅资料发现，interactive_timeout和wait_timeout的默认值都是28800（8小时）<br>当这两个参数同时出现时，会以interactive_timeout的值为准。<br>也就是说不管wait_timeout的值是多少，<br>用show variables like ‘%timeout%’;查看时显示的两个值都是一样的，<br>并且都是interactive_timeout的值。而wait_timeout的最大值只允许2147483 （24天左右）。<br>所以我又重新设置<br><code>set global interactive_timeout=2147483;</code><br><code>set global wait_timeout=2147483;</code></p>
+<h4 id="方案三和方案四我并没有去尝试，有兴趣的同学可以参考下面的参考资料"><a href="#方案三和方案四我并没有去尝试，有兴趣的同学可以参考下面的参考资料" class="headerlink" title="方案三和方案四我并没有去尝试，有兴趣的同学可以参考下面的参考资料"></a>方案三和方案四我并没有去尝试，有兴趣的同学可以参考下面的参考资料</h4><h4 id="MySQL自动断开连接问题解决。"><a href="#MySQL自动断开连接问题解决。" class="headerlink" title="MySQL自动断开连接问题解决。"></a>MySQL自动断开连接问题解决。</h4><h3 id="参考资料："><a href="#参考资料：" class="headerlink" title="参考资料："></a>参考资料：</h3><p><a href="https://www.cnblogs.com/chihirotan/p/6253175.html" target="_blank" rel="noopener">https://www.cnblogs.com/chihirotan/p/6253175.html</a><br><a href="https://yq.aliyun.com/articles/647776/" target="_blank" rel="noopener">https://yq.aliyun.com/articles/647776/</a><br><a href="https://www.cnblogs.com/kuexun/archive/2018/10/19/9818468.html" target="_blank" rel="noopener">https://www.cnblogs.com/kuexun/archive/2018/10/19/9818468.html</a><br><a href="https://blog.csdn.net/weixin_34387284/article/details/92105606" target="_blank" rel="noopener">https://blog.csdn.net/weixin_34387284/article/details/92105606</a></p>
 
             </div>
             <hr>
@@ -253,6 +219,8 @@
                     
                       <a class="hover-with-bg" href="/tags/MySQL/">MySQL</a>
                     
+                      <a class="hover-with-bg" href="/tags/Java/">Java</a>
+                    
                   </span>
                 
               </p>
@@ -263,11 +231,16 @@
                 <div class="post-prevnext row">
                   <div class="post-prev col-12 col-md-6">
                     
+                      <a href="/2020/02/28/3/">
+                        <i class="fa fa-chevron-left"></i>
+                        <span>JS实现页面指定区域局部刷新</span>
+                      </a>
+                    
                   </div>
                   <div class="post-next col-12 col-md-6">
                     
-                      <a href="/2020/03/08/10/">
-                        <span>HTTP协议的总结归纳</span>
+                      <a href="/2020/02/27/5/">
+                        <span>AJAX实现登录时的用户名验证（Servlet 响应）</span>
                         <i class="fa fa-chevron-right"></i>
                       </a>
                     
@@ -496,7 +469,7 @@
     var typed = new Typed('#subtitle', {
       strings: [
         '  ',
-        "把Perfume改为c3p0连接池（附DBUtils的使用）&nbsp;",
+        "解决MySQL默认的8小时自动断开连接&nbsp;",
       ],
       cursorChar: "_",
       typeSpeed: 70,

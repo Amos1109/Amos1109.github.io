@@ -16,7 +16,7 @@
   <meta name="description" content="一名普通大学生的学习心得与体验">
   <meta name="author" content="Hong Yuting">
   <meta name="keywords" content="">
-  <title>把Perfume改为c3p0连接池（附DBUtils的使用） ~ Amospace</title>
+  <title>Servlet实现验证码登录功能 ~ Amospace</title>
 
   <link  rel="stylesheet" href="https://cdn.staticfile.org/font-awesome/5.12.1/css/all.min.css" />
 <link  rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/css/bootstrap.min.css" />
@@ -142,7 +142,7 @@
               
                 <p class="mt-3 post-meta">
                   <i class="fas fa-calendar-alt" aria-hidden="true"></i>
-                  星期一, 三月 9日 2020, 4:00 下午
+                  星期五, 二月 28日 2020, 8:52 早上
                 </p>
               
               <p class="mt-1">
@@ -150,14 +150,14 @@
                   
                   <span class="post-meta">
                     <i class="far fa-chart-bar"></i>
-                    754 字
+                    1.7k 字
                   </span>
                 
                 
                   
                   <span class="post-meta">
                       <i class="far fa-clock"></i>
-                      3 分钟
+                      8 分钟
                   </span>
                 
                 
@@ -191,49 +191,220 @@
           <div class="post-content mx-auto" id="post">
             
               <p
-                class="note note-warning">本文最后更新于：星期三, 三月 11日 2020, 9:29 晚上</p>
+                class="note note-warning">本文最后更新于：星期五, 二月 28日 2020, 10:52 上午</p>
             
             <div class="markdown-body">
-              <p>数据库连接池的基本思想就是为数据库建⽴⼀个缓冲池，预先向缓冲池中放⼊⼀定数量的连接对象，当<br>需要获取数据库连接的时候，只需要从缓冲池中取出⼀个对象，⽤完之后再放回到缓冲池中，供下⼀次<br>请求使⽤，做到了资源的重复利⽤，允许程序重复使⽤⼀个现有的数据库连接对象，⽽不需要重新创<br>建。</p>
-<p>在我看来，JDBC 开发流程大致可分为以下几个步骤，</p>
-<ol>
-<li>加载驱动（只需要加载⼀次）</li>
-<li>建⽴数据库连接（Connection）</li>
-<li>执⾏ SQL 语句（Statement）</li>
-<li>ResultSet 接收结果集（查询）</li>
-<li>断开连接，释放资源</li>
-</ol>
-<p>C3P0只是将第一步和第二步的代码实现更改了，但是得到的好处并不少。</p>
-<p>于是我着手将perfume香水商店的数据库连接更改为C3P0连接池。</p>
-<h3 id="1-增加c3p0-config-xml文件"><a href="#1-增加c3p0-config-xml文件" class="headerlink" title="1.增加c3p0-config.xml文件"></a>1.增加c3p0-config.xml文件</h3><pre><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
-&lt;c3p0-config&gt;
-&lt;named-config name=&quot;testc3p0&quot;&gt;
-&lt;!-- 指定连接数据源的基本属性 --&gt;
-&lt;property name=&quot;user&quot;&gt;root&lt;/property&gt;
-&lt;property name=&quot;password&quot;&gt;994498&lt;/property&gt;
-&lt;property name=&quot;driverClass&quot;&gt;com.mysql.jdbc.Driver&lt;/property&gt;
-&lt;property name=&quot;jdbcUrl&quot;&gt;jdbc:mysql://121.43.102.125:3306/perfume?useUnicode=true&amp;amp;characterEncoding=UTF8&lt;/property&gt;
-&lt;!-- 若数据库中连接数不足时, 一次向数据库服务器申请多少个连接 --&gt;
-&lt;property name=&quot;acquireIncrement&quot;&gt;5&lt;/property&gt;
-&lt;!-- 初始化数据库连接池时连接的数量 --&gt;
-&lt;property name=&quot;initialPoolSize&quot;&gt;20&lt;/property&gt;
-&lt;!-- 数据库连接池中的最⼩的数据库连接数 --&gt;
-&lt;property name=&quot;minPoolSize&quot;&gt;2&lt;/property&gt;
-&lt;!-- 数据库连接池中的最⼤的数据库连接数 --&gt;
-&lt;property name=&quot;maxPoolSize&quot;&gt;40&lt;/property&gt;
-&lt;/named-config&gt;
-&lt;/c3p0-config&gt;</code></pre><p>在这里填写一些数据库连接的基本信息，将之前的信息原封不动复制即可。</p>
-<h3 id="2-更改DBHelper里的代码"><a href="#2-更改DBHelper里的代码" class="headerlink" title="2.更改DBHelper里的代码"></a>2.更改DBHelper里的代码</h3><p>在这里最重要的一步是去网上下载c3p0所需要的jar包，<code>c3p0-0.9.2.1.jar</code><br>然后更改DBHelper文件里面的代码<br><img src="/img/c31.png" srcset="/img/loading.gif" alt=""></p>
-<h3 id="3-更改itemsDAO里的代码"><a href="#3-更改itemsDAO里的代码" class="headerlink" title="3.更改itemsDAO里的代码"></a>3.更改itemsDAO里的代码</h3><p>然后就是更改itemsDAO里的代码，里面的代码主要是进行查询作用的，这里我介绍一个很实用的小工具，叫DBUtils,它将一系列的查询，GET，SET操作进行了封装，这样代码量就大大减少了，就不用写循环代码，一个一个属性添加过去了。主要有以下4种方法：</p>
-<ul>
-<li><code>BeanHandler</code> 将结果集映射成 Java 对象 Item</li>
-<li><code>BeanListHandler</code> 将结果集映射成 List 集合 List</li>
-<li><code>MapHandler</code> 将结果集映射成 Map 对象</li>
-<li><code>MapListHandler</code> 将结果集映射成 MapList 结合</li>
-</ul>
-<p>使用方法很简单，只需要去网上下载DBUtils的jar包<code>commons-dbutils-1.7.jar</code>就可以了。<br><img src="/img/c32.png" srcset="/img/loading.gif" alt=""></p>
-<p>其他的任何代码都不需要再修改，就可以直接用了。是不是比之前的代码简练很多呢？</p>
+              <p>Java Servlet 是运行在 Web 服务器或应用服务器上的程序，它是作为来自 Web 浏览器或其他 HTTP 客户端的请求和 HTTP 服务器上的数据库或应用程序之间的中间层。</p>
+<a id="more"></a>
+<p>我们将实现以下测试效果：<br><img src="http://121.43.102.125:8080/myweb/images/xiaoguo.png" srcset="/img/loading.gif" alt=""></p>
+<p>前端登录页面代码如下：</p>
+<pre><code>&lt;%@ page contentType=&quot;text/html;charset=UTF-8&quot; language=&quot;java&quot; %&gt;
+&lt;html&gt;
+&lt;head&gt;
+    &lt;title&gt;Title&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;form action=&quot;/login&quot; method=&quot;post&quot;&gt;
+      姓名：&lt;input name=&quot;name&quot; type=&quot;text&quot;&gt;&lt;br&gt;&lt;br&gt;
+      密码：&lt;input name=&quot;password&quot; type=&quot;password&quot;&gt;&lt;br&gt;&lt;br&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;
+      &lt;input name=&quot;vericode&quot; placeholder=&quot;验证码&quot; value=&quot;&quot; style=&quot;width: 60px&quot;&gt;&amp;nbsp;&amp;nbsp;
+      &lt;img id=&quot;vericodeImg&quot; src=&quot;imageCode&quot;&gt;&amp;nbsp;&amp;nbsp;
+      &lt;a id=&quot;kanbuq&quot; href=&quot;javascript:changeImg();&quot;&gt;看不清，换一张&lt;/a&gt;&lt;br&gt;&lt;br&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;
+      &lt;input type=&quot;submit&quot; value=&quot;提交&quot;&gt;
+  &lt;/form&gt;
+  &lt;%--需要将jquery下载到本地，再在页面中引用--%&gt;
+  &lt;script type=&quot;text/javascript&quot; src=&quot;lib/jquery/jquery-3.4.1.min.js&quot;&gt;&lt;/script&gt;
+  &lt;script type=&quot;text/javascript&quot;&gt;
+      function changeImg() {
+          //需要让每次请求的url都发生变化。否则服务器会认为访问的时一张图片，就不会刷新请求了
+          //每次url一样，服务器会认为访问的url是同一张图片，没变化啊
+          $(&quot;#vericodeImg&quot;).attr(&quot;src&quot;,&quot;imageCode?&quot;+Math.random())
+      }
+  &lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre><p>后端的LoginServlet登陆实现逻辑如下：</p>
+<pre><code>@WebServlet(&quot;/login&quot;)
+public class LoginServlet extends HttpServlet {
+    @Override
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        this.doPost(req,resp);
+    }
 
+    @Override
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        resp.setContentType(&quot;text/html;charset=utf8&quot;);
+        String name=req.getParameter(&quot;name&quot;);
+        String password=req.getParameter(&quot;password&quot;);
+        String vericode=req.getParameter(&quot;vericode&quot;);
+        String generatedCode= (String) req.getSession().getAttribute(&quot;verityCode&quot;);
+        if (name.equals(&quot;bob&quot;)&amp;&amp;password.equals(&quot;123&quot;)&amp;&amp;vericode.toLowerCase().equals(generatedCode.toLowerCase())){
+            resp.getWriter().write(&quot;登录成功&quot;);
+        }else {resp.getWriter().write(&quot;登录失败&quot;);}
+    }
+}</code></pre><p>下面是两个工具代码：一个是生成验证码字符串，一个是生成验证码图片（它是基于生成验证码字符串类的）。</p>
+<p>生成验证码字符串：</p>
+<pre><code>public class CreateVerificationCode {
+    /**
+     * 验证码难度级别
+     */
+    public enum SecurityCodeLevel {
+        Simple,
+        Medium,
+        Hard
+    }
+
+    public static String getSecurityCode() {
+        return (String) getSecurityCode(4, SecurityCodeLevel.Medium, false);
+    }
+
+    public static String getSecurityCode(int length, SecurityCodeLevel level, boolean isCanRepeat) {
+        int len = length;
+        //除去容易混淆的0和o，1和l
+        char[] codes = {
+                &apos;1&apos;, &apos;2&apos;, &apos;3&apos;, &apos;4&apos;, &apos;5&apos;, &apos;6&apos;, &apos;7&apos;, &apos;8&apos;, &apos;9&apos;,
+                &apos;a&apos;, &apos;b&apos;, &apos;c&apos;, &apos;d&apos;, &apos;e&apos;, &apos;f&apos;, &apos;g&apos;, &apos;h&apos;, &apos;i&apos;,
+                &apos;j&apos;, &apos;m&apos;, &apos;n&apos;, &apos;p&apos;, &apos;q&apos;, &apos;r&apos;, &apos;s&apos;, &apos;t&apos;,&apos;u&apos;,
+                &apos;v&apos;, &apos;w&apos;, &apos;x&apos;, &apos;y&apos;, &apos;z&apos;,&apos;A&apos;,&apos;B&apos;,&apos;C&apos;,&apos;D&apos;,&apos;E&apos;,
+                &apos;F&apos;,&apos;G&apos;,&apos;H&apos;,&apos;J&apos;,&apos;K&apos;,&apos;L&apos;,&apos;M&apos;,&apos;N&apos;,&apos;P&apos;,&apos;Q&apos;,&apos;R&apos;,&apos;S&apos;,
+                &apos;T&apos;,&apos;U&apos;,&apos;V&apos;,&apos;W&apos;,&apos;X&apos;,&apos;Y&apos;,&apos;Z&apos;};
+        if(level==SecurityCodeLevel.Simple){
+            codes= Arrays.copyOfRange(codes,0,9);
+        }else if (level==SecurityCodeLevel.Medium){
+            codes= Arrays.copyOfRange(codes,0,33);
+        }
+        int n=codes.length;
+        //抛出运行时异常
+        if (len&gt;n&amp;&amp;isCanRepeat==false){
+            throw new RuntimeException(
+                    String.format(&quot;调用securitycode.getSecurityCode(%1$s,len,level,isCanRepeat,n)&quot;));}
+                    char[] result=new char[len];
+        //判断能否出现重复的字符
+        if (isCanRepeat){
+            for(int i=0;i&lt;result.length;i++){
+                //索引0 and n-1
+                int r=(int)(Math.random()*n);
+                //将result中的第i个元素设为codes[r]存放的数值
+                result[i]=codes[r];
+            }
+        }else {
+            for (int i=0;i&lt;result.length;i++){
+                int r=(int)(Math.random()*n);
+                //将result中的第i个元素设为codes[r]存放的数值
+                result[i]=codes[r];
+                codes[r]=codes[n-1];
+                n--;
+            }
+        }
+        return String.valueOf(result);
+        }
+}</code></pre><p>生成验证码图片：</p>
+<pre><code>package com.bbs.utils.validCode;
+
+import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.util.Random;
+
+/**
+ * 可生成数字，大写，小写字母及三者混合类型的验证码，支持自定义干扰线，图文颜色
+ */
+public class CreateVerificationCodeImage {
+    private String securityCode;
+    public CreateVerificationCodeImage(String securityCode){
+        this.securityCode=securityCode;
+    }
+    //高度
+    private static final int CAPTCHA_HEIGHT = 35;
+    //宽度
+    private static final int CAPTCHA_WIDTH  = 100;
+    //数字的长度
+    //private static final int NUMBER_CNT     = 6;
+    private Random r = new Random();
+    //  字体
+    private String[] fontNames = { &quot;宋体&quot;, &quot;华文楷体&quot;, &quot;黑体&quot;, &quot;华文新魏&quot;, &quot;华文隶书&quot;, &quot;微软雅黑&quot;, &quot;楷体_GB2312&quot; };
+    //private String[] fontNames = { &quot;宋体&quot;,  &quot;黑体&quot;, &quot;微软雅黑&quot;};
+
+    /**
+     * 机能概要:生成随机的颜色
+     * @return
+     */
+    private Color randomColor() {
+        int red = r.nextInt(150);
+        int green = r.nextInt(150);
+        int blue = r.nextInt(150);
+        return new Color(red, green, blue);
+    }
+
+    /**
+     * 机能概要:生成随机的字体
+     * @return
+     */
+    private  Font randomFont() {
+        int index = r.nextInt(fontNames.length);
+        String fontName = fontNames[index];// 生成随机的字体名称
+        int style = r.nextInt(4);// 生成随机的样式, 0(无样式), 1(粗体), 2(斜体), 3(粗体+斜体)
+        int size = r.nextInt(5) + 24; // 生成随机字号, 24 ~ 28
+       // int size = r.nextInt(5) + 15; // 生成随机字号, 20 ~ 24
+        return new Font(fontName, style, size);
+    }
+
+    // 画干扰线
+    private  void drawLine(BufferedImage image) {
+        int num = 5;// 一共画5条
+        Graphics2D g2 = (Graphics2D) image.getGraphics();
+        for (int i = 0; i &lt; num; i++) {// 生成两个点的坐标，即4个值
+            int x1 = r.nextInt(CAPTCHA_WIDTH);
+            int y1 = r.nextInt(CAPTCHA_HEIGHT);
+            int x2 = r.nextInt(CAPTCHA_WIDTH);
+            int y2 = r.nextInt(CAPTCHA_HEIGHT);
+            g2.setStroke(new BasicStroke(1.5F));
+            g2.setColor(randomColor()); // 随机生成干扰线颜色
+            g2.drawLine(x1, y1, x2, y2);// 画线
+        }
+    }
+    // 创建BufferedImage，生成图片
+    public BufferedImage createImage() {
+        BufferedImage image = new BufferedImage(CAPTCHA_WIDTH, CAPTCHA_HEIGHT, BufferedImage.TYPE_INT_RGB);
+        Graphics2D g2 = (Graphics2D) image.getGraphics();
+        // 背景色,白色
+        g2.setColor(new Color(255, 255, 255));
+        g2.fillRect(0, 0, CAPTCHA_WIDTH, CAPTCHA_HEIGHT);
+
+        // 向图片中画4个字符  String securityCode
+        for (int i = 0; i &lt; securityCode.length(); i++) {// 循环四次，每次生成一个字符
+            String s = securityCode.charAt(i) + &quot;&quot;;// 随机生成一个字母
+           // float x = i * 1.0F * CAPTCHA_WIDTH / NUMBER_CNT; // 设置当前字符的x轴坐标
+            float x = i * 1.0F * CAPTCHA_WIDTH / 4+7F; // 设置当前字符的x轴坐标
+            g2.setFont(randomFont()); // 设置随机字体
+            g2.setColor(randomColor()); // 设置随机颜色
+            g2.drawString(s, x, CAPTCHA_HEIGHT-7); // 画图,依次将字符写入到图片的相应位置-------------------
+        }
+        drawLine(image); // 添加干扰线
+        return image;
+    }
+}</code></pre><p>调用工具类的生成验证码图片的方法，在通过response对象，将图片流返回给前端，有img标签的src属性负责解析</p>
+<pre><code>@WebServlet(&quot;/imageCode&quot;)
+public class ImageCodeServelt extends HttpServlet {
+    @Override
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        this.doPost(req,resp);
+    }
+
+    @Override
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+       String vericode= CreateVerificationCode.getSecurityCode();
+        HttpSession session=req.getSession();
+        session.setAttribute(&quot;verityCode&quot;,vericode);
+        //设置返回的内容
+        resp.setContentType(&quot;img/jpeg&quot;);
+        //浏览器不缓存响应内容--验证码图片，点一次就要刷新一次，所以不能有缓存出现
+        resp.setHeader(&quot;Pragma&quot;,&quot;No-cache&quot;);
+        resp.setHeader(&quot;Cache-Control&quot;,&quot;no-cache&quot;);
+        //设置验证码失效时间
+        resp.setDateHeader(&quot;Expires&quot;,0);
+        //以字节流发过去，交给img的src属性去解析即可
+        ImageIO.write(new CreateVerificationCodeImage(vericode).createImage(),&quot;JPEG&quot;,resp.getOutputStream());
+    }
+}</code></pre><h5 id="以上内容主要学习自https-blog-csdn-net-qq-41063141-article-details-93661226"><a href="#以上内容主要学习自https-blog-csdn-net-qq-41063141-article-details-93661226" class="headerlink" title="以上内容主要学习自https://blog.csdn.net/qq_41063141/article/details/93661226"></a>以上内容主要学习自<a href="https://blog.csdn.net/qq_41063141/article/details/93661226" target="_blank" rel="noopener">https://blog.csdn.net/qq_41063141/article/details/93661226</a></h5>
             </div>
             <hr>
             <div>
@@ -251,7 +422,9 @@
                   <span>
                 <i class="iconfont icon-tag"></i>
                     
-                      <a class="hover-with-bg" href="/tags/MySQL/">MySQL</a>
+                      <a class="hover-with-bg" href="/tags/Java/">Java</a>
+                    
+                      <a class="hover-with-bg" href="/tags/Servlet/">Servlet</a>
                     
                   </span>
                 
@@ -263,11 +436,16 @@
                 <div class="post-prevnext row">
                   <div class="post-prev col-12 col-md-6">
                     
+                      <a href="/2020/02/28/1/">
+                        <i class="fa fa-chevron-left"></i>
+                        <span>云服务器环境搭建的问题与方法总结</span>
+                      </a>
+                    
                   </div>
                   <div class="post-next col-12 col-md-6">
                     
-                      <a href="/2020/03/08/10/">
-                        <span>HTTP协议的总结归纳</span>
+                      <a href="/2020/02/28/3/">
+                        <span>JS实现页面指定区域局部刷新</span>
                         <i class="fa fa-chevron-right"></i>
                       </a>
                     
@@ -496,7 +674,7 @@
     var typed = new Typed('#subtitle', {
       strings: [
         '  ',
-        "把Perfume改为c3p0连接池（附DBUtils的使用）&nbsp;",
+        "Servlet实现验证码登录功能&nbsp;",
       ],
       cursorChar: "_",
       typeSpeed: 70,

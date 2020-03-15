@@ -16,7 +16,7 @@
   <meta name="description" content="一名普通大学生的学习心得与体验">
   <meta name="author" content="Hong Yuting">
   <meta name="keywords" content="">
-  <title>把Perfume改为c3p0连接池（附DBUtils的使用） ~ Amospace</title>
+  <title>云服务器环境搭建的问题与方法总结 ~ Amospace</title>
 
   <link  rel="stylesheet" href="https://cdn.staticfile.org/font-awesome/5.12.1/css/all.min.css" />
 <link  rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/css/bootstrap.min.css" />
@@ -142,7 +142,7 @@
               
                 <p class="mt-3 post-meta">
                   <i class="fas fa-calendar-alt" aria-hidden="true"></i>
-                  星期一, 三月 9日 2020, 4:00 下午
+                  星期五, 二月 28日 2020, 9:02 上午
                 </p>
               
               <p class="mt-1">
@@ -150,14 +150,14 @@
                   
                   <span class="post-meta">
                     <i class="far fa-chart-bar"></i>
-                    754 字
+                    586 字
                   </span>
                 
                 
                   
                   <span class="post-meta">
                       <i class="far fa-clock"></i>
-                      3 分钟
+                      2 分钟
                   </span>
                 
                 
@@ -191,48 +191,18 @@
           <div class="post-content mx-auto" id="post">
             
               <p
-                class="note note-warning">本文最后更新于：星期三, 三月 11日 2020, 9:29 晚上</p>
+                class="note note-warning">本文最后更新于：星期五, 二月 28日 2020, 10:53 上午</p>
             
             <div class="markdown-body">
-              <p>数据库连接池的基本思想就是为数据库建⽴⼀个缓冲池，预先向缓冲池中放⼊⼀定数量的连接对象，当<br>需要获取数据库连接的时候，只需要从缓冲池中取出⼀个对象，⽤完之后再放回到缓冲池中，供下⼀次<br>请求使⽤，做到了资源的重复利⽤，允许程序重复使⽤⼀个现有的数据库连接对象，⽽不需要重新创<br>建。</p>
-<p>在我看来，JDBC 开发流程大致可分为以下几个步骤，</p>
-<ol>
-<li>加载驱动（只需要加载⼀次）</li>
-<li>建⽴数据库连接（Connection）</li>
-<li>执⾏ SQL 语句（Statement）</li>
-<li>ResultSet 接收结果集（查询）</li>
-<li>断开连接，释放资源</li>
-</ol>
-<p>C3P0只是将第一步和第二步的代码实现更改了，但是得到的好处并不少。</p>
-<p>于是我着手将perfume香水商店的数据库连接更改为C3P0连接池。</p>
-<h3 id="1-增加c3p0-config-xml文件"><a href="#1-增加c3p0-config-xml文件" class="headerlink" title="1.增加c3p0-config.xml文件"></a>1.增加c3p0-config.xml文件</h3><pre><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
-&lt;c3p0-config&gt;
-&lt;named-config name=&quot;testc3p0&quot;&gt;
-&lt;!-- 指定连接数据源的基本属性 --&gt;
-&lt;property name=&quot;user&quot;&gt;root&lt;/property&gt;
-&lt;property name=&quot;password&quot;&gt;994498&lt;/property&gt;
-&lt;property name=&quot;driverClass&quot;&gt;com.mysql.jdbc.Driver&lt;/property&gt;
-&lt;property name=&quot;jdbcUrl&quot;&gt;jdbc:mysql://121.43.102.125:3306/perfume?useUnicode=true&amp;amp;characterEncoding=UTF8&lt;/property&gt;
-&lt;!-- 若数据库中连接数不足时, 一次向数据库服务器申请多少个连接 --&gt;
-&lt;property name=&quot;acquireIncrement&quot;&gt;5&lt;/property&gt;
-&lt;!-- 初始化数据库连接池时连接的数量 --&gt;
-&lt;property name=&quot;initialPoolSize&quot;&gt;20&lt;/property&gt;
-&lt;!-- 数据库连接池中的最⼩的数据库连接数 --&gt;
-&lt;property name=&quot;minPoolSize&quot;&gt;2&lt;/property&gt;
-&lt;!-- 数据库连接池中的最⼤的数据库连接数 --&gt;
-&lt;property name=&quot;maxPoolSize&quot;&gt;40&lt;/property&gt;
-&lt;/named-config&gt;
-&lt;/c3p0-config&gt;</code></pre><p>在这里填写一些数据库连接的基本信息，将之前的信息原封不动复制即可。</p>
-<h3 id="2-更改DBHelper里的代码"><a href="#2-更改DBHelper里的代码" class="headerlink" title="2.更改DBHelper里的代码"></a>2.更改DBHelper里的代码</h3><p>在这里最重要的一步是去网上下载c3p0所需要的jar包，<code>c3p0-0.9.2.1.jar</code><br>然后更改DBHelper文件里面的代码<br><img src="/img/c31.png" srcset="/img/loading.gif" alt=""></p>
-<h3 id="3-更改itemsDAO里的代码"><a href="#3-更改itemsDAO里的代码" class="headerlink" title="3.更改itemsDAO里的代码"></a>3.更改itemsDAO里的代码</h3><p>然后就是更改itemsDAO里的代码，里面的代码主要是进行查询作用的，这里我介绍一个很实用的小工具，叫DBUtils,它将一系列的查询，GET，SET操作进行了封装，这样代码量就大大减少了，就不用写循环代码，一个一个属性添加过去了。主要有以下4种方法：</p>
-<ul>
-<li><code>BeanHandler</code> 将结果集映射成 Java 对象 Item</li>
-<li><code>BeanListHandler</code> 将结果集映射成 List 集合 List</li>
-<li><code>MapHandler</code> 将结果集映射成 Map 对象</li>
-<li><code>MapListHandler</code> 将结果集映射成 MapList 结合</li>
-</ul>
-<p>使用方法很简单，只需要去网上下载DBUtils的jar包<code>commons-dbutils-1.7.jar</code>就可以了。<br><img src="/img/c32.png" srcset="/img/loading.gif" alt=""></p>
-<p>其他的任何代码都不需要再修改，就可以直接用了。是不是比之前的代码简练很多呢？</p>
+              <h3 id="Step1-远程桌面连接云服务器"><a href="#Step1-远程桌面连接云服务器" class="headerlink" title="Step1.远程桌面连接云服务器"></a>Step1.远程桌面连接云服务器</h3><p>按要求在网上购买阿里云，腾讯云，百度云的服务器，启用并记住公网IP，桌面-&gt;开始菜单-&gt;windows附件-&gt;远程桌面链接-&gt;输入你的IP地址和实例密码，进行连接。<br>连接过程中，你可能会遇到以下情况：提示“您的凭据不工作 之前用于连接到某凭据无法工作。请输入新凭据。”<br>首先先确认自己的IP地址和密码是否正确。<br>若无误，请参考以下解决办法：<a href="https://blog.csdn.net/huyuyang6688/article/details/49077665" target="_blank" rel="noopener">https://blog.csdn.net/huyuyang6688/article/details/49077665</a></p>
+<a id="more"></a>
+<p>找不到gpedit.msc组策略参考解决办法：<br><a href="https://baijiahao.baidu.com/s?id=1608865325022611543&amp;wfr=spider&amp;for=pc" target="_blank" rel="noopener">https://baijiahao.baidu.com/s?id=1608865325022611543&amp;wfr=spider&amp;for=pc</a></p>
+<h3 id="Step2-搭建jdk和tomcat"><a href="#Step2-搭建jdk和tomcat" class="headerlink" title="Step2.搭建jdk和tomcat"></a>Step2.搭建jdk和tomcat</h3><p>①安装配置jdk,jre和tomcat<br>此处老师已经仔细讲过配置方法，不太熟悉的同学请仔细阅读老师的环境配置PPT文件。<br>②把tomcat服务器配置为windows服务的方法<br>参考方法链接：<a href="https://blog.csdn.net/warylee/article/details/82802174" target="_blank" rel="noopener">https://blog.csdn.net/warylee/article/details/82802174</a><br>以下是完成效果图：<br><img src="http://121.43.102.125:8080/myweb/images/step2.png" srcset="/img/loading.gif" alt=""></p>
+<h3 id="Step3-添加ftp服务"><a href="#Step3-添加ftp服务" class="headerlink" title="Step3.添加ftp服务"></a>Step3.添加ftp服务</h3><p>这里给大家分享通过FileZilla在阿里云主机上搭建ftp服务器<br>参考方法链接：<a href="https://www.cnblogs.com/leowork/p/setup_ftp_server.html" target="_blank" rel="noopener">https://www.cnblogs.com/leowork/p/setup_ftp_server.html</a><br>注意：千万不要忘记在云服务器控制台开放21端口和passive mode端口。<br><img src="http://121.43.102.125:8080/myweb/images/step5.png" srcset="/img/loading.gif" alt=""></p>
+<h3 id="Step4-搭建mysql数据库"><a href="#Step4-搭建mysql数据库" class="headerlink" title="Step4.搭建mysql数据库"></a>Step4.搭建mysql数据库</h3><p>①安装mysql数据库<br>MySQL安装教程：<a href="https://blog.csdn.net/bobo553443/article/details/81383194" target="_blank" rel="noopener">https://blog.csdn.net/bobo553443/article/details/81383194</a><br>在Mysql安装过程中，可能出现”no compatible servers were found”错误，这是因为缺少c++运行库造成的，我们需要去安装所需要的运行库，在安装界面它会告诉你缺少什么，一般是Visual C++ 2013 and Visual C Redistributable Package和Visual C++ 2015 and Visual C Redistributable Package（最新版本Mysql需要）<br>2013:<a href="https://www.microsoft.com/zh-cn/download/details.aspx?id=40784(这个貌似要装32位的)" target="_blank" rel="noopener">https://www.microsoft.com/zh-cn/download/details.aspx?id=40784(这个貌似要装32位的)</a><br>2015:<a href="https://www.microsoft.com/en-us/download/details.aspx?id=48145" target="_blank" rel="noopener">https://www.microsoft.com/en-us/download/details.aspx?id=48145</a><br>②用本地Navicat进行连接<br>注意：千万不要忘记在云服务器控制台开放3306端口。开放方法与上面类似。<br>连接出现的错误解决办法：<br>（1）error1130:<a href="https://blog.csdn.net/luoxiping1/article/details/80010976" target="_blank" rel="noopener">https://blog.csdn.net/luoxiping1/article/details/80010976</a><br>（2）error1251：<a href="https://blog.csdn.net/qq_40605167/article/details/81253976" target="_blank" rel="noopener">https://blog.csdn.net/qq_40605167/article/details/81253976</a><br>以下是完成效果图：<br><img src="http://121.43.102.125:8080/myweb/images/step4.png" srcset="/img/loading.gif" alt=""></p>
+<blockquote>
+<h3 id="云服务相关配置搭建完成！"><a href="#云服务相关配置搭建完成！" class="headerlink" title="云服务相关配置搭建完成！"></a>云服务相关配置搭建完成！</h3></blockquote>
+<p>另外，这是我在阿里云控制台安全组的配置，供大家参考：<br><img src="http://121.43.102.125:8080/myweb/images/duankou.png" srcset="/img/loading.gif" alt=""></p>
 
             </div>
             <hr>
@@ -253,6 +223,8 @@
                     
                       <a class="hover-with-bg" href="/tags/MySQL/">MySQL</a>
                     
+                      <a class="hover-with-bg" href="/tags/ECS/">ECS</a>
+                    
                   </span>
                 
               </p>
@@ -263,11 +235,16 @@
                 <div class="post-prevnext row">
                   <div class="post-prev col-12 col-md-6">
                     
+                      <a href="/2020/02/29/6/">
+                        <i class="fa fa-chevron-left"></i>
+                        <span>Hexo博客框架搭建教程（一）</span>
+                      </a>
+                    
                   </div>
                   <div class="post-next col-12 col-md-6">
                     
-                      <a href="/2020/03/08/10/">
-                        <span>HTTP协议的总结归纳</span>
+                      <a href="/2020/02/28/4/">
+                        <span>Servlet实现验证码登录功能</span>
                         <i class="fa fa-chevron-right"></i>
                       </a>
                     
@@ -496,7 +473,7 @@
     var typed = new Typed('#subtitle', {
       strings: [
         '  ',
-        "把Perfume改为c3p0连接池（附DBUtils的使用）&nbsp;",
+        "云服务器环境搭建的问题与方法总结&nbsp;",
       ],
       cursorChar: "_",
       typeSpeed: 70,

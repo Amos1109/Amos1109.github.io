@@ -16,7 +16,7 @@
   <meta name="description" content="一名普通大学生的学习心得与体验">
   <meta name="author" content="Hong Yuting">
   <meta name="keywords" content="">
-  <title>把Perfume改为c3p0连接池（附DBUtils的使用） ~ Amospace</title>
+  <title>Hexo博客框架搭建教程（一） ~ Amospace</title>
 
   <link  rel="stylesheet" href="https://cdn.staticfile.org/font-awesome/5.12.1/css/all.min.css" />
 <link  rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/css/bootstrap.min.css" />
@@ -142,7 +142,7 @@
               
                 <p class="mt-3 post-meta">
                   <i class="fas fa-calendar-alt" aria-hidden="true"></i>
-                  星期一, 三月 9日 2020, 4:00 下午
+                  星期六, 二月 29日 2020, 1:55 下午
                 </p>
               
               <p class="mt-1">
@@ -150,14 +150,14 @@
                   
                   <span class="post-meta">
                     <i class="far fa-chart-bar"></i>
-                    754 字
+                    1.1k 字
                   </span>
                 
                 
                   
                   <span class="post-meta">
                       <i class="far fa-clock"></i>
-                      3 分钟
+                      4 分钟
                   </span>
                 
                 
@@ -191,48 +191,52 @@
           <div class="post-content mx-auto" id="post">
             
               <p
-                class="note note-warning">本文最后更新于：星期三, 三月 11日 2020, 9:29 晚上</p>
+                class="note note-warning">本文最后更新于：星期六, 二月 29日 2020, 2:08 下午</p>
             
             <div class="markdown-body">
-              <p>数据库连接池的基本思想就是为数据库建⽴⼀个缓冲池，预先向缓冲池中放⼊⼀定数量的连接对象，当<br>需要获取数据库连接的时候，只需要从缓冲池中取出⼀个对象，⽤完之后再放回到缓冲池中，供下⼀次<br>请求使⽤，做到了资源的重复利⽤，允许程序重复使⽤⼀个现有的数据库连接对象，⽽不需要重新创<br>建。</p>
-<p>在我看来，JDBC 开发流程大致可分为以下几个步骤，</p>
-<ol>
-<li>加载驱动（只需要加载⼀次）</li>
-<li>建⽴数据库连接（Connection）</li>
-<li>执⾏ SQL 语句（Statement）</li>
-<li>ResultSet 接收结果集（查询）</li>
-<li>断开连接，释放资源</li>
-</ol>
-<p>C3P0只是将第一步和第二步的代码实现更改了，但是得到的好处并不少。</p>
-<p>于是我着手将perfume香水商店的数据库连接更改为C3P0连接池。</p>
-<h3 id="1-增加c3p0-config-xml文件"><a href="#1-增加c3p0-config-xml文件" class="headerlink" title="1.增加c3p0-config.xml文件"></a>1.增加c3p0-config.xml文件</h3><pre><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
-&lt;c3p0-config&gt;
-&lt;named-config name=&quot;testc3p0&quot;&gt;
-&lt;!-- 指定连接数据源的基本属性 --&gt;
-&lt;property name=&quot;user&quot;&gt;root&lt;/property&gt;
-&lt;property name=&quot;password&quot;&gt;994498&lt;/property&gt;
-&lt;property name=&quot;driverClass&quot;&gt;com.mysql.jdbc.Driver&lt;/property&gt;
-&lt;property name=&quot;jdbcUrl&quot;&gt;jdbc:mysql://121.43.102.125:3306/perfume?useUnicode=true&amp;amp;characterEncoding=UTF8&lt;/property&gt;
-&lt;!-- 若数据库中连接数不足时, 一次向数据库服务器申请多少个连接 --&gt;
-&lt;property name=&quot;acquireIncrement&quot;&gt;5&lt;/property&gt;
-&lt;!-- 初始化数据库连接池时连接的数量 --&gt;
-&lt;property name=&quot;initialPoolSize&quot;&gt;20&lt;/property&gt;
-&lt;!-- 数据库连接池中的最⼩的数据库连接数 --&gt;
-&lt;property name=&quot;minPoolSize&quot;&gt;2&lt;/property&gt;
-&lt;!-- 数据库连接池中的最⼤的数据库连接数 --&gt;
-&lt;property name=&quot;maxPoolSize&quot;&gt;40&lt;/property&gt;
-&lt;/named-config&gt;
-&lt;/c3p0-config&gt;</code></pre><p>在这里填写一些数据库连接的基本信息，将之前的信息原封不动复制即可。</p>
-<h3 id="2-更改DBHelper里的代码"><a href="#2-更改DBHelper里的代码" class="headerlink" title="2.更改DBHelper里的代码"></a>2.更改DBHelper里的代码</h3><p>在这里最重要的一步是去网上下载c3p0所需要的jar包，<code>c3p0-0.9.2.1.jar</code><br>然后更改DBHelper文件里面的代码<br><img src="/img/c31.png" srcset="/img/loading.gif" alt=""></p>
-<h3 id="3-更改itemsDAO里的代码"><a href="#3-更改itemsDAO里的代码" class="headerlink" title="3.更改itemsDAO里的代码"></a>3.更改itemsDAO里的代码</h3><p>然后就是更改itemsDAO里的代码，里面的代码主要是进行查询作用的，这里我介绍一个很实用的小工具，叫DBUtils,它将一系列的查询，GET，SET操作进行了封装，这样代码量就大大减少了，就不用写循环代码，一个一个属性添加过去了。主要有以下4种方法：</p>
-<ul>
-<li><code>BeanHandler</code> 将结果集映射成 Java 对象 Item</li>
-<li><code>BeanListHandler</code> 将结果集映射成 List 集合 List</li>
-<li><code>MapHandler</code> 将结果集映射成 Map 对象</li>
-<li><code>MapListHandler</code> 将结果集映射成 MapList 结合</li>
-</ul>
-<p>使用方法很简单，只需要去网上下载DBUtils的jar包<code>commons-dbutils-1.7.jar</code>就可以了。<br><img src="/img/c32.png" srcset="/img/loading.gif" alt=""></p>
-<p>其他的任何代码都不需要再修改，就可以直接用了。是不是比之前的代码简练很多呢？</p>
+              <h3 id="前言："><a href="#前言：" class="headerlink" title="前言："></a>前言：</h3><p>前几天，李振腾同学分享了Hexo博客框架的搭建，我也去琢磨了一下，的确很好用，遇到一些问题，也及时查了百度和请教了李同学，现与大家分享搭建的教程。</p>
+<h3 id="什么是-Hexo？"><a href="#什么是-Hexo？" class="headerlink" title="什么是 Hexo？"></a>什么是 Hexo？</h3><p>Hexo 是一个快速、简洁且高效的博客框架。Hexo 使用 Markdown（或其他渲染引擎）解析文章，在几秒内，即可利用靓丽的主题生成静态网页。</p>
+<h3 id="安装-Hexo"><a href="#安装-Hexo" class="headerlink" title="安装 Hexo"></a>安装 Hexo</h3><p>安装 Hexo 相当简单，只需几分钟时间，只需要先安装下列应用程序即可：<br>Node.js:选择LTS版本（自带npm工具）和Git<br>在Git 和 Node.js 安装完后，打开命令行输入以下代码检查一下有没有安装成功</p>
+<pre><code>node -v
+npm -v</code></pre><p>先创建一个文件夹blog，然后cd到这个文件夹下（或者在这个文件夹下直接右键git bash打开），输入命令</p>
+<p><code>npm install -g hexo-cli</code></p>
+<p>依旧用hexo -v查看一下版本<br>至此就全部安装完了。</p>
+<p>接下来初始化一下hexo</p>
+<p><code>hexo init myblog</code></p>
+<p>这个myblog可以自己取什么名字都行，然后</p>
+<pre><code>cd myblog //进入这个myblog文件夹
+npm install</code></pre><p>新建完成后，指定文件夹目录下有：</p>
+<blockquote>
+<p>node_modules: 依赖包<br>public：存放生成的页面<br>scaffolds：生成文章的一些模板<br>source：用来存放你的文章<br>themes：主题<br> _config.yml: 博客的配置文件</p>
+</blockquote>
+<p>接着在命令行输入以下代码来打开hexo的服务：</p>
+<pre><code>hexo g
+hexo server</code></pre><p>在浏览器输入localhost:4000就可以看到你生成的博客了。使用ctrl+c可以把服务关掉。</p>
+<p><img src="/img/blog.jpg" srcset="/img/loading.gif" alt=""></p>
+<h3 id="GitHub创建个人仓库并连接"><a href="#GitHub创建个人仓库并连接" class="headerlink" title="GitHub创建个人仓库并连接"></a>GitHub创建个人仓库并连接</h3><p>首先，你先要有一个GitHub账户，去注册一个吧。<br>注册完登录后，在GitHub.com中看到一个New repository，新建仓库</p>
+<p>创建一个和你用户名相同的仓库，后面加.github.io，只有这样，将来要部署到GitHub page的时候，才会被识别，也就是xxxx.github.io，其中xxx就是你注册GitHub的用户名。</p>
+<p>回到你的git bash中，输入以下代码让本地与Github连接</p>
+<pre><code>git config --global user.name &quot;yourname&quot;
+git config --global user.email &quot;youremail&quot;</code></pre><p>然后创建SSH,一路回车</p>
+<p><code>ssh-keygen -t rsa -C &quot;youremail&quot;</code></p>
+<p>这个时候它会告诉你已经生成了.ssh的文件夹。在你的电脑中找到这个文件夹。</p>
+<blockquote>
+<p>ssh，简单来讲，就是一个秘钥，其中，id_rsa是你这台电脑的私人秘钥，不能给别人看的，id_rsa.pub是公共秘钥，可以随便给别人看。把这个公钥放在GitHub上，这样当你链接GitHub自己的账户时，它就会根据公钥匹配你的私钥，当能够相互匹配时，才能够顺利的通过git上传你的文件到GitHub上。</p>
+</blockquote>
+<p>而后在GitHub的setting中，找到SSH keys的设置选项，点击New SSH key<br>把你的id_rsa.pub里面的信息复制进去。<br>在gitbash中，输入下面代码查看是否成功</p>
+<p><code>ssh -T git@github.com</code></p>
+<p>接下来，我们就可以将hexo和GitHub关联起来，也就是将hexo生成的文章部署到GitHub上，打开站点配置文件 _config.yml，翻到最后，修改为</p>
+<pre><code>deploy:
+  type: git
+  repo: https://github.com/YourgithubName/YourgithubName.github.io.git
+  branch: master</code></pre><p>YourgithubName就是你的GitHub账户<br>这个时候需要安装deploy-git ，也就是部署的命令,这样你才能用命令部署到GitHub。</p>
+<p><code>npm install hexo-deployer-git --save</code></p>
+<p>最后继续输入：</p>
+<pre><code>hexo clean
+hexo generate
+hexo deploy</code></pre><p>其中 hexo clean清除了你之前生成的东西，也可以不加。<br>hexo generate 顾名思义，生成静态文章，可以用 hexo g缩写<br>hexo deploy 部署文章，可以用hexo d缩写<br>注意deploy时可能要你输入username和password。<br>操作完成后，过一会儿就可以在<a href="http://yourname.github.io" target="_blank" rel="noopener">http://yourname.github.io</a> 这个网站看到你的博客了！</p>
+<p> 注：由于github是外国网站，登录博客可能会有卡顿，大家也可以上传到coding或者gitee进行搭建，方法与上面基本同理，大家也可以自行百度，我就是同时将博客资源上传到github和coding，两边都进行实时更新，只是添加一个链接的事情。</p>
+<p>参考资料：<br><a href="https://zachary.asia/2020/02/27/shi-yong-hexo-chuang-jian-zi-ji-de-de-bo-ke/" target="_blank" rel="noopener">https://zachary.asia/2020/02/27/shi-yong-hexo-chuang-jian-zi-ji-de-de-bo-ke/</a><br><a href="https://blog.csdn.net/sinat_37781304/article/details/82729029" target="_blank" rel="noopener">https://blog.csdn.net/sinat_37781304/article/details/82729029</a></p>
 
             </div>
             <hr>
@@ -242,7 +246,7 @@
                   <span>
                 <i class="iconfont icon-inbox"></i>
                     
-                      <a class="hover-with-bg" href="/categories/JSP%E5%AD%A6%E4%B9%A0/">JSP学习</a>
+                      <a class="hover-with-bg" href="/categories/%E6%90%AD%E5%BB%BA%E5%BC%80%E5%8F%91/">搭建开发</a>
                       &nbsp;
                     
                   </span>&nbsp;&nbsp;
@@ -251,7 +255,9 @@
                   <span>
                 <i class="iconfont icon-tag"></i>
                     
-                      <a class="hover-with-bg" href="/tags/MySQL/">MySQL</a>
+                      <a class="hover-with-bg" href="/tags/Hexo/">Hexo</a>
+                    
+                      <a class="hover-with-bg" href="/tags/Github/">Github</a>
                     
                   </span>
                 
@@ -263,11 +269,16 @@
                 <div class="post-prevnext row">
                   <div class="post-prev col-12 col-md-6">
                     
+                      <a href="/2020/02/29/7/">
+                        <i class="fa fa-chevron-left"></i>
+                        <span>Hexo博客框架搭建教程（二）</span>
+                      </a>
+                    
                   </div>
                   <div class="post-next col-12 col-md-6">
                     
-                      <a href="/2020/03/08/10/">
-                        <span>HTTP协议的总结归纳</span>
+                      <a href="/2020/02/28/1/">
+                        <span>云服务器环境搭建的问题与方法总结</span>
                         <i class="fa fa-chevron-right"></i>
                       </a>
                     
@@ -496,7 +507,7 @@
     var typed = new Typed('#subtitle', {
       strings: [
         '  ',
-        "把Perfume改为c3p0连接池（附DBUtils的使用）&nbsp;",
+        "Hexo博客框架搭建教程（一）&nbsp;",
       ],
       cursorChar: "_",
       typeSpeed: 70,
