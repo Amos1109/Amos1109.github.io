@@ -4,6 +4,33 @@
   
   
   <entry>
+    <title>通过MyBatis实现简单的增删改查</title>
+    <link href="/2020/03/16/12/"/>
+    <url>/2020/03/16/12/</url>
+    
+    <content type="html"><![CDATA[<h3 id="MyBatis简介"><a href="#MyBatis简介" class="headerlink" title="MyBatis简介"></a>MyBatis简介</h3><p>MyBatis 是支持定制化 SQL、存储过程以及高级映射的优秀的持久层框架。MyBatis 避免了几乎所有的 JDBC 代码和手动设置参数以及获取结果集。MyBatis 可以对配置和原生Map使用简单的 XML 或注解，将接口和 Java 的 POJOs(Plain Old Java Objects,普通的 Java对象)映射成数据库中的记录。</p><h3 id="前期准备"><a href="#前期准备" class="headerlink" title="前期准备"></a>前期准备</h3><ul><li>登录<a href="https://mybatis.org/mybatis-3/" target="_blank" rel="noopener">https://mybatis.org/mybatis-3/</a> 阅读MyBatis官方文档，因为有中文版本，对我们很友好，上面把MyBatis的使用方法记载得很全面，上面的一些源码我们也可以直接利用。</li><li>登录<a href="https://github.com/mybatis/mybatis-3" target="_blank" rel="noopener">https://github.com/mybatis/mybatis-3</a> 将MyBatis的jar包下载下来，并引入到相应的Project中，搭建环境。</li></ul><h3 id="添加配置"><a href="#添加配置" class="headerlink" title="添加配置"></a>添加配置</h3><p>在src目录下，新建<code>sqlMapConfig.xml</code>文件（代码都可以在官方文档里找到）来配置你的数据库连接，例如</p><pre><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; ?&gt;&lt;!DOCTYPE configuration  PUBLIC &quot;-//mybatis.org//DTD Config 3.0//EN&quot;  &quot;http://mybatis.org/dtd/mybatis-3-config.dtd&quot;&gt;&lt;configuration&gt;  &lt;environments default=&quot;development&quot;&gt;    &lt;environment id=&quot;development&quot;&gt;      &lt;transactionManager type=&quot;JDBC&quot;/&gt;      &lt;dataSource type=&quot;POOLED&quot;&gt;        &lt;property name=&quot;driver&quot; value=&quot;com.mysql.jdbc.Driver&quot;/&gt;        &lt;property name=&quot;url&quot; value=&quot;jdbc:mysql://127.0.0.1:3306/hero?useSSL=false&quot;/&gt;        &lt;property name=&quot;username&quot; value=&quot;root&quot;/&gt;        &lt;property name=&quot;password&quot; value=&quot;994498&quot;/&gt;      &lt;/dataSource&gt;    &lt;/environment&gt;  &lt;/environments&gt;  &lt;mappers&gt;    &lt;mapper resource=&quot;mapper/UserMapper.xml&quot;/&gt;  &lt;/mappers&gt;&lt;/configuration&gt;</code></pre><p>在src目录下，新建一个mapper文件夹，并创建一个<code>Mapper.xml</code>文件，我们可以在官方文档上找到代码格式，直接复制即可。</p><pre><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; ?&gt;&lt;!DOCTYPE mapper  PUBLIC &quot;-//mybatis.org//DTD Mapper 3.0//EN&quot;  &quot;http://mybatis.org/dtd/mybatis-3-mapper.dtd&quot;&gt;&lt;mapper namespace=&quot;org.mybatis.example.BlogMapper&quot;&gt;  &lt;select id=&quot;selectBlog&quot; resultType=&quot;Blog&quot;&gt;    select * from Blog where id = #{id}  &lt;/select&gt;&lt;/mapper&gt;</code></pre><p>在这里我们可以配置一个<code>log4j.properties</code>，jar包在MyBatis中已经存在，不需要重复下载，主要作用就是记录项目运行时产生的动作。比如异常信息，或者关键动作的记录。都可以配置记录到一个文件当中方便查看。关于<code>log4j.properties</code>的一些配置信息可以参考：</p><p><a href="https://blog.csdn.net/qq_29166327/article/details/80467593" target="_blank" rel="noopener">https://blog.csdn.net/qq_29166327/article/details/80467593</a></p><h3 id="对数据库的增删改查"><a href="#对数据库的增删改查" class="headerlink" title="对数据库的增删改查"></a>对数据库的增删改查</h3><p>每一次对数据库的操作，都需要以下代码的实现：</p><pre><code>String resource=&quot;sqlMapConfig.xml&quot;;//读取配置文件InputStream in = Resources.getResourceAsStream(resource);//需要sqlSessionFactoryBuilderSqlSessionFactoryBuilder ssfb=new SqlSessionFactoryBuilder();    //创建sqlSessionFactorySqlSessionFactory ssf = ssfb.build(in);    //生产一个sqlSessionSqlSession session = ssf.openSession();</code></pre><p>接下来就需要操作数据库的代码实现，比如</p><p>增加信息：<code>session.insert(&quot;UserMapper.insertUser&quot;, user);</code></p><p>此处函数的第一个参数代表要操作的sql语句的路径，这个路径对应Mapper.xml文件里相应的sql语句，第二个参数代表参数，比如这里因为要加一条信息，这个参数就一定是个bean的对象，在加入前我们得先用set函数给这个对象添加全信息。</p><p>同时，在Mapper.xml文件添加以下信息：</p><pre><code>&lt;!-- 添加用户 --&gt;  &lt;insert id=&quot;insertUser&quot; parameterType=&quot;com.hyt.bean.user&quot;&gt;  insert into mistore values(null,#{name},#{price},#{imgPath},#{desc},#{bdesc},#{bimgPath})  &lt;/insert&gt;</code></pre><p>其中包括多个参数，比如<code>id</code>，要与路径的信息对应，<code>parameterType</code>指的是传入的参数类型，显然我们这里要传的是user类对象，此外，还有<code>resultType</code>，指输出的参数类型，在查找语句中比较常用，具体的参数请参考官方文档。里面包含的语句和sql语句如出一辙，每一个信息参数我们都用“#｛｝”，里面的名称可以自定义，只要你能看懂。</p><p>这是MyBatis的最常用操作，有问题欢迎留言。</p>]]></content>
+    
+    
+    <categories>
+      
+      <category>SSM框架</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>MySQL</tag>
+      
+      <tag>MyBatis</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>把Perfume改为c3p0连接池（附DBUtils的使用）</title>
     <link href="/2020/03/09/11/"/>
     <url>/2020/03/09/11/</url>

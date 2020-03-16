@@ -16,7 +16,7 @@
   <meta name="description" content="一名普通大学生的学习心得与体验">
   <meta name="author" content="Hong Yuting">
   <meta name="keywords" content="">
-  <title>把Perfume改为c3p0连接池（附DBUtils的使用） ~ Amospace</title>
+  <title>通过MyBatis实现简单的增删改查 ~ Amospace</title>
 
   <link rel="stylesheet" href="https://cdn.staticfile.org/font-awesome/5.12.1/css/all.min.css"  >
 <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/css/bootstrap.min.css"  >
@@ -142,7 +142,7 @@
               
                 <p class="mt-3 post-meta">
                   <i class="fas fa-calendar-alt" aria-hidden="true"></i>
-                  星期一, 三月 9日 2020, 4:00 下午
+                  星期一, 三月 16日 2020, 9:27 晚上
                 </p>
               
               <p class="mt-1">
@@ -150,14 +150,14 @@
                   
                   <span class="post-meta">
                     <i class="far fa-chart-bar"></i>
-                    754 字
+                    977 字
                   </span>
                 
                 
                   
                   <span class="post-meta">
                       <i class="far fa-clock"></i>
-                      3 分钟
+                      4 分钟
                   </span>
                 
                 
@@ -191,48 +191,63 @@
           <div class="post-content mx-auto" id="post">
             
               <p
-                class="note note-warning">本文最后更新于：星期三, 三月 11日 2020, 9:29 晚上</p>
+                class="note note-warning">本文最后更新于：星期一, 三月 16日 2020, 9:39 晚上</p>
             
             <div class="markdown-body">
-              <p>数据库连接池的基本思想就是为数据库建⽴⼀个缓冲池，预先向缓冲池中放⼊⼀定数量的连接对象，当<br>需要获取数据库连接的时候，只需要从缓冲池中取出⼀个对象，⽤完之后再放回到缓冲池中，供下⼀次<br>请求使⽤，做到了资源的重复利⽤，允许程序重复使⽤⼀个现有的数据库连接对象，⽽不需要重新创<br>建。</p>
-<p>在我看来，JDBC 开发流程大致可分为以下几个步骤，</p>
-<ol>
-<li>加载驱动（只需要加载⼀次）</li>
-<li>建⽴数据库连接（Connection）</li>
-<li>执⾏ SQL 语句（Statement）</li>
-<li>ResultSet 接收结果集（查询）</li>
-<li>断开连接，释放资源</li>
-</ol>
-<p>C3P0只是将第一步和第二步的代码实现更改了，但是得到的好处并不少。</p>
-<p>于是我着手将perfume香水商店的数据库连接更改为C3P0连接池。</p>
-<h3 id="1-增加c3p0-config-xml文件"><a href="#1-增加c3p0-config-xml文件" class="headerlink" title="1.增加c3p0-config.xml文件"></a>1.增加c3p0-config.xml文件</h3><pre><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
-&lt;c3p0-config&gt;
-&lt;named-config name=&quot;testc3p0&quot;&gt;
-&lt;!-- 指定连接数据源的基本属性 --&gt;
-&lt;property name=&quot;user&quot;&gt;root&lt;/property&gt;
-&lt;property name=&quot;password&quot;&gt;994498&lt;/property&gt;
-&lt;property name=&quot;driverClass&quot;&gt;com.mysql.jdbc.Driver&lt;/property&gt;
-&lt;property name=&quot;jdbcUrl&quot;&gt;jdbc:mysql://121.43.102.125:3306/perfume?useUnicode=true&amp;amp;characterEncoding=UTF8&lt;/property&gt;
-&lt;!-- 若数据库中连接数不足时, 一次向数据库服务器申请多少个连接 --&gt;
-&lt;property name=&quot;acquireIncrement&quot;&gt;5&lt;/property&gt;
-&lt;!-- 初始化数据库连接池时连接的数量 --&gt;
-&lt;property name=&quot;initialPoolSize&quot;&gt;20&lt;/property&gt;
-&lt;!-- 数据库连接池中的最⼩的数据库连接数 --&gt;
-&lt;property name=&quot;minPoolSize&quot;&gt;2&lt;/property&gt;
-&lt;!-- 数据库连接池中的最⼤的数据库连接数 --&gt;
-&lt;property name=&quot;maxPoolSize&quot;&gt;40&lt;/property&gt;
-&lt;/named-config&gt;
-&lt;/c3p0-config&gt;</code></pre><p>在这里填写一些数据库连接的基本信息，将之前的信息原封不动复制即可。</p>
-<h3 id="2-更改DBHelper里的代码"><a href="#2-更改DBHelper里的代码" class="headerlink" title="2.更改DBHelper里的代码"></a>2.更改DBHelper里的代码</h3><p>在这里最重要的一步是去网上下载c3p0所需要的jar包，<code>c3p0-0.9.2.1.jar</code><br>然后更改DBHelper文件里面的代码<br><img src="/img/c31.png" srcset="/img/loading.gif" alt=""></p>
-<h3 id="3-更改itemsDAO里的代码"><a href="#3-更改itemsDAO里的代码" class="headerlink" title="3.更改itemsDAO里的代码"></a>3.更改itemsDAO里的代码</h3><p>然后就是更改itemsDAO里的代码，里面的代码主要是进行查询作用的，这里我介绍一个很实用的小工具，叫DBUtils,它将一系列的查询，GET，SET操作进行了封装，这样代码量就大大减少了，就不用写循环代码，一个一个属性添加过去了。主要有以下4种方法：</p>
-<ul>
-<li><code>BeanHandler</code> 将结果集映射成 Java 对象 Item</li>
-<li><code>BeanListHandler</code> 将结果集映射成 List 集合 List</li>
-<li><code>MapHandler</code> 将结果集映射成 Map 对象</li>
-<li><code>MapListHandler</code> 将结果集映射成 MapList 结合</li>
+              <h3 id="MyBatis简介"><a href="#MyBatis简介" class="headerlink" title="MyBatis简介"></a>MyBatis简介</h3><p>MyBatis 是支持定制化 SQL、存储过程以及高级映射的优秀的持久层框架。MyBatis 避免了几乎所有的 JDBC 代码和手动设置参数以及获取结果集。MyBatis 可以对配置和原生Map使用简单的 XML 或注解，将接口和 Java 的 POJOs(Plain Old Java Objects,普通的 Java对象)映射成数据库中的记录。</p>
+<h3 id="前期准备"><a href="#前期准备" class="headerlink" title="前期准备"></a>前期准备</h3><ul>
+<li>登录<a href="https://mybatis.org/mybatis-3/" target="_blank" rel="noopener">https://mybatis.org/mybatis-3/</a> 阅读MyBatis官方文档，因为有中文版本，对我们很友好，上面把MyBatis的使用方法记载得很全面，上面的一些源码我们也可以直接利用。</li>
+<li>登录<a href="https://github.com/mybatis/mybatis-3" target="_blank" rel="noopener">https://github.com/mybatis/mybatis-3</a> 将MyBatis的jar包下载下来，并引入到相应的Project中，搭建环境。</li>
 </ul>
-<p>使用方法很简单，只需要去网上下载DBUtils的jar包<code>commons-dbutils-1.7.jar</code>就可以了。<br><img src="/img/c32.png" srcset="/img/loading.gif" alt=""></p>
-<p>其他的任何代码都不需要再修改，就可以直接用了。是不是比之前的代码简练很多呢？</p>
+<h3 id="添加配置"><a href="#添加配置" class="headerlink" title="添加配置"></a>添加配置</h3><p>在src目录下，新建<code>sqlMapConfig.xml</code>文件（代码都可以在官方文档里找到）来配置你的数据库连接，例如</p>
+<pre><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; ?&gt;
+&lt;!DOCTYPE configuration
+  PUBLIC &quot;-//mybatis.org//DTD Config 3.0//EN&quot;
+  &quot;http://mybatis.org/dtd/mybatis-3-config.dtd&quot;&gt;
+&lt;configuration&gt;
+  &lt;environments default=&quot;development&quot;&gt;
+    &lt;environment id=&quot;development&quot;&gt;
+      &lt;transactionManager type=&quot;JDBC&quot;/&gt;
+      &lt;dataSource type=&quot;POOLED&quot;&gt;
+        &lt;property name=&quot;driver&quot; value=&quot;com.mysql.jdbc.Driver&quot;/&gt;
+        &lt;property name=&quot;url&quot; value=&quot;jdbc:mysql://127.0.0.1:3306/hero?useSSL=false&quot;/&gt;
+        &lt;property name=&quot;username&quot; value=&quot;root&quot;/&gt;
+        &lt;property name=&quot;password&quot; value=&quot;994498&quot;/&gt;
+      &lt;/dataSource&gt;
+    &lt;/environment&gt;
+  &lt;/environments&gt;
+  &lt;mappers&gt;
+    &lt;mapper resource=&quot;mapper/UserMapper.xml&quot;/&gt;
+  &lt;/mappers&gt;
+&lt;/configuration&gt;</code></pre><p>在src目录下，新建一个mapper文件夹，并创建一个<code>Mapper.xml</code>文件，我们可以在官方文档上找到代码格式，直接复制即可。</p>
+<pre><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; ?&gt;
+&lt;!DOCTYPE mapper
+  PUBLIC &quot;-//mybatis.org//DTD Mapper 3.0//EN&quot;
+  &quot;http://mybatis.org/dtd/mybatis-3-mapper.dtd&quot;&gt;
+&lt;mapper namespace=&quot;org.mybatis.example.BlogMapper&quot;&gt;
+  &lt;select id=&quot;selectBlog&quot; resultType=&quot;Blog&quot;&gt;
+    select * from Blog where id = #{id}
+  &lt;/select&gt;
+&lt;/mapper&gt;</code></pre><p>在这里我们可以配置一个<code>log4j.properties</code>，jar包在MyBatis中已经存在，不需要重复下载，主要作用就是记录项目运行时产生的动作。比如异常信息，或者关键动作的记录。都可以配置记录到一个文件当中方便查看。关于<code>log4j.properties</code>的一些配置信息可以参考：</p>
+<p><a href="https://blog.csdn.net/qq_29166327/article/details/80467593" target="_blank" rel="noopener">https://blog.csdn.net/qq_29166327/article/details/80467593</a></p>
+<h3 id="对数据库的增删改查"><a href="#对数据库的增删改查" class="headerlink" title="对数据库的增删改查"></a>对数据库的增删改查</h3><p>每一次对数据库的操作，都需要以下代码的实现：</p>
+<pre><code>String resource=&quot;sqlMapConfig.xml&quot;;
+//读取配置文件
+InputStream in = Resources.getResourceAsStream(resource);
+//需要sqlSessionFactoryBuilder
+SqlSessionFactoryBuilder ssfb=new SqlSessionFactoryBuilder();    
+//创建sqlSessionFactory
+SqlSessionFactory ssf = ssfb.build(in);    
+//生产一个sqlSession
+SqlSession session = ssf.openSession();</code></pre><p>接下来就需要操作数据库的代码实现，比如</p>
+<p>增加信息：<code>session.insert(&quot;UserMapper.insertUser&quot;, user);</code></p>
+<p>此处函数的第一个参数代表要操作的sql语句的路径，这个路径对应Mapper.xml文件里相应的sql语句，第二个参数代表参数，比如这里因为要加一条信息，这个参数就一定是个bean的对象，在加入前我们得先用set函数给这个对象添加全信息。</p>
+<p>同时，在Mapper.xml文件添加以下信息：</p>
+<pre><code>&lt;!-- 添加用户 --&gt;
+  &lt;insert id=&quot;insertUser&quot; parameterType=&quot;com.hyt.bean.user&quot;&gt;
+  insert into mistore values(null,#{name},#{price},#{imgPath},#{desc},#{bdesc},#{bimgPath})
+  &lt;/insert&gt;</code></pre><p>其中包括多个参数，比如<code>id</code>，要与路径的信息对应，<code>parameterType</code>指的是传入的参数类型，显然我们这里要传的是user类对象，此外，还有<code>resultType</code>，指输出的参数类型，在查找语句中比较常用，具体的参数请参考官方文档。里面包含的语句和sql语句如出一辙，每一个信息参数我们都用“#｛｝”，里面的名称可以自定义，只要你能看懂。</p>
+<p>这是MyBatis的最常用操作，有问题欢迎留言。</p>
 
             </div>
             <hr>
@@ -242,7 +257,7 @@
                   <span>
                 <i class="iconfont icon-inbox"></i>
                     
-                      <a class="hover-with-bg" href="/categories/JSP%E5%AD%A6%E4%B9%A0/">JSP学习</a>
+                      <a class="hover-with-bg" href="/categories/SSM%E6%A1%86%E6%9E%B6/">SSM框架</a>
                       &nbsp;
                     
                   </span>&nbsp;&nbsp;
@@ -252,6 +267,8 @@
                 <i class="iconfont icon-tag"></i>
                     
                       <a class="hover-with-bg" href="/tags/MySQL/">MySQL</a>
+                    
+                      <a class="hover-with-bg" href="/tags/MyBatis/">MyBatis</a>
                     
                   </span>
                 
@@ -263,16 +280,11 @@
                 <div class="post-prevnext row">
                   <div class="post-prev col-12 col-md-6">
                     
-                      <a href="/2020/03/16/12/">
-                        <i class="fa fa-chevron-left"></i>
-                        <span>通过MyBatis实现简单的增删改查</span>
-                      </a>
-                    
                   </div>
                   <div class="post-next col-12 col-md-6">
                     
-                      <a href="/2020/03/08/10/">
-                        <span>HTTP协议的总结归纳</span>
+                      <a href="/2020/03/09/11/">
+                        <span>把Perfume改为c3p0连接池（附DBUtils的使用）</span>
                         <i class="fa fa-chevron-right"></i>
                       </a>
                     
@@ -501,7 +513,7 @@
     var typed = new Typed('#subtitle', {
       strings: [
         '  ',
-        "把Perfume改为c3p0连接池（附DBUtils的使用）&nbsp;",
+        "通过MyBatis实现简单的增删改查&nbsp;",
       ],
       cursorChar: "_",
       typeSpeed: 70,
