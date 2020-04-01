@@ -16,7 +16,7 @@
   <meta name="description" content="一名普通大学生的学习心得与体验">
   <meta name="author" content="Hong Yuting">
   <meta name="keywords" content="">
-  <title>Hashcode详解 ~ Amospace</title>
+  <title>HashMap初解 ~ Amospace</title>
 
   <link  rel="stylesheet" href="https://cdn.staticfile.org/font-awesome/5.12.1/css/all.min.css" />
 <link  rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/css/bootstrap.min.css" />
@@ -142,7 +142,7 @@
               
                 <p class="mt-3 post-meta">
                   <i class="fas fa-calendar-alt" aria-hidden="true"></i>
-                  星期二, 三月 31日 2020, 12:20 凌晨
+                  星期三, 四月 1日 2020, 6:03 晚上
                 </p>
               
               <p class="mt-1">
@@ -150,14 +150,14 @@
                   
                   <span class="post-meta">
                     <i class="far fa-chart-bar"></i>
-                    1.8k 字
+                    2k 字
                   </span>
                 
                 
                   
                   <span class="post-meta">
                       <i class="far fa-clock"></i>
-                      6 分钟
+                      7 分钟
                   </span>
                 
                 
@@ -191,33 +191,104 @@
           <div class="post-content mx-auto" id="post">
             
               <p
-                class="note note-warning">本文最后更新于：星期二, 三月 31日 2020, 10:36 上午</p>
+                class="note note-warning">本文最后更新于：星期三, 四月 1日 2020, 6:05 晚上</p>
             
             <div class="markdown-body">
-              <h3 id="前言："><a href="#前言：" class="headerlink" title="前言："></a>前言：</h3><p>​        写这篇文章是因为在做自己的商店项目的时候，遇到了两个奇怪的问题，一个是删除操作，我调试过了，函数都是正确执行的，但还是删不掉，一个是相同物品的添加购物车，不能叠加。这在之前做Perfume项目的时候都未曾遇到过的。调试过程中，发现购物车的商品存在判断containsKey()永远是null，也就是每一条商品信息都是新的。又因为购物车商品的集合是存放在HashMap里，在查阅网上资料发现，需要重写对象的equal()方法和Hashcode()方法。由于对Hashcode认识不深，我决定通过此次问题了解一下。</p>
-<h3 id="Hashcode是什么？"><a href="#Hashcode是什么？" class="headerlink" title="Hashcode是什么？"></a>Hashcode是什么？</h3><p>​         要了解Hashcode，我们得先知道Hash。百度百科上说：</p>
-<blockquote>
-<p>Hash，一般翻译做散列、杂凑，或音译为哈希，是把任意长度的<a href="https://baike.baidu.com/item/输入/5481954" target="_blank" rel="noopener">输入</a>（又叫做预映射pre-image）通过散列算法变换成固定长度的<a href="https://baike.baidu.com/item/输出/11056752" target="_blank" rel="noopener">输出</a>，该输出就是散列值。这种转换是一种<a href="https://baike.baidu.com/item/压缩映射/5114126" target="_blank" rel="noopener">压缩映射</a>，也就是，散列值的空间通常远小于输入的空间，不同的输入可能会散列成相同的输出，所以不可能从散列值来确定唯一的输入值。简单的说就是一种将任意长度的消息压缩到某一固定长度的<a href="https://baike.baidu.com/item/消息摘要/4547744" target="_blank" rel="noopener">消息摘要</a>的函数。</p>
-</blockquote>
-<p>　    Hash是一个函数，该函数中的实现就是一种算法，就是通过一系列的算法来得到一个Hash值，这个时候，我们就需要知道另一个东西，Hash表，通过Hash算法得到的Hash值就在这张Hash表中，也就是说，Hash表就是所有的Hash值组成的，有很多种Hash函数，也就代表着有很多种算法得到Hash值。</p>
-<p>​       Hashcode就是通过Hash函数得来的，通俗的说，就是通过某一种算法得到的，Hashcode就是在Hash表中有对应的位置。首先一个对象肯定有物理地址，对象的物理地址跟这个Hashcode地址不一样，Hashcode代表对象的地址说的是对象在Hash表中的位置，物理地址说的对象存放在内存中的地址，那么对象如何得到Hashcode呢？通过对象的物理地址转换成一个整数，然后该整数通过Hash函数的算法就得到了Hashcode，所以，Hashcode是什么呢？就是在Hash表中对应的位置。</p>
-<p>​      举个例子，Hash表中有 Hashcode为1、Hashcode为2、(…)3、4、5、6、7、8这样八个位置，有一个对象A，A的物理地址转换为一个整数17(这是假如)，就通过直接取余算法，17%8=1，那么A的Hashcode就为1，且A就在Hash表中1的位置。另外还有乘数取整法，平方取中法。</p>
-<h3 id="Hashcode有什么作用？"><a href="#Hashcode有什么作用？" class="headerlink" title="Hashcode有什么作用？"></a>Hashcode有什么作用？</h3><p>​         既然本来就有对象的物理地址，为什么Hashcode不直接写对象的物理地址呢，还要另外用一张Hash表来代表对象的地址？</p>
-<p>​         HashCode的存在主要是为了查找的快捷性，HashCode是用来在散列存储结构中确定对象的存储地址。为什么Hashcode就查找的更快，比如：我们有一个能存放1000个数这样大的内存中，在其中要存放1000个不一样的数字，用最笨的方法，就是存一个数字，就遍历一遍，看有没有相同得数，当存了900个数字，开始存901个数字的时候，就需要跟900个数字进行对比，这样就很麻烦，很是消耗时间，用Hashcode来记录对象的位置，来看一下。Hash表中有1、2、3、4、5、6、7、8个位置，存第一个数，Hashcode为1，该数就放在Hash表中1的位置，存到100个数字，Hash表中8个位置会有很多数字了，1中可能有20个数字，存101个数字时，他先查Hashcode值对应的位置，假设为1，那么就有20个数字和他的Hashcode相同，他只需要跟这20个数字相比较(equals)，如果没一个相同，那么就放在1这个位置，这样比较的次数就少了很多，实际上Hash表中有很多位置，这里只是举例只有8个，所以比较的次数会让你觉得也挺多的，实际上，如果Hash表很大，那么比较的次数就很少很少了。 通过对原始方法和使用Hashcode方法进行对比，我们就知道了Hashcode的作用，并且为什么要使用Hashcode了。</p>
-<h3 id="equals-方法和Hashcode-的关系"><a href="#equals-方法和Hashcode-的关系" class="headerlink" title="equals()方法和Hashcode()的关系"></a>equals()方法和Hashcode()的关系</h3><p>​        通过前面这个例子，大概可以知道，先通过Hashcode来比较，如果Hashcode相等，那么就用equals方法来比较两个对象是否相等，用个例子说明：上面说的Hash表中的8个位置，就好比8个桶，每个桶里能装很多的对象，对象A通过Hash函数算法得到将它放到1号桶中，当然肯定有别的对象也会放到1号桶中，如果对象B也通过算法分到了1号桶，那么它如何识别桶中其他对象是否和它一样呢，这时候就需要equals方法来进行筛选了。</p>
+              <h3 id="什么是哈希表"><a href="#什么是哈希表" class="headerlink" title="什么是哈希表"></a>什么是哈希表</h3><p>在讨论哈希表之前，我们先大概了解下其他数据结构在新增，查找等基础操作执行性能</p>
+<p><strong>数组</strong>：采用一段连续的存储单元来存储数据。对于指定下标的查找，时间复杂度为O(1)；通过给定值进行查找，需要遍历数组，逐一比对给定关键字和数组元素，时间复杂度为O(n)，当然，对于有序数组，则可采用二分查找，插值查找，斐波那契查找等方式，可将查找复杂度提高为O(logn)；对于一般的插入删除操作，涉及到数组元素的移动，其平均复杂度也为O(n)</p>
+<p><strong>线性链表</strong>：对于链表的新增，删除等操作（在找到指定操作位置后），仅需处理结点间的引用即可，时间复杂度为O(1)，而查找操作需要遍历链表逐一进行比对，复杂度为O(n)</p>
+<p><strong>二叉树</strong>：对一棵相对平衡的有序二叉树，对其进行插入，查找，删除等操作，平均复杂度均为O(logn)。</p>
+<p><strong>哈希表</strong>：相比上述几种数据结构，在哈希表中进行添加，删除，查找等操作，性能十分之高，不考虑哈希冲突的情况下（后面会探讨下哈希冲突的情况），仅需一次定位即可完成，时间复杂度为O(1)，接下来我们就来看看哈希表是如何实现达到惊艳的常数阶O(1)的。</p>
+<p>我们知道，数据结构的物理存储结构只有两种：<strong>顺序存储结构</strong>和<strong>链式存储结构</strong>（像栈，队列，树，图等是从逻辑结构去抽象的，映射到内存中，也这两种物理组织形式），而在上面我们提到过，在数组中根据下标查找某个元素，一次定位就可以达到，哈希表利用了这种特性，<strong>哈希表的主干就是数组</strong>。</p>
+<p><strong>比如我们要新增或查找某个元素，我们通过把当前元素的关键字 通过某个函数映射到数组中的某个位置，通过数组下标一次定位就可完成操作。</strong><br>　　<br>这个函数可以简单描述为：<strong>存储位置 = f(关键字)</strong> ，这个函数f一般称为哈希函数，这个函数的设计好坏会直接影响到哈希表的优劣。举个例子，比如我们要在哈希表中执行插入操作：<br>插入过程如下图所示</p>
+<p><img src="https://img-blog.csdnimg.cn/2018110221063296.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dvc2hpbWF4aWFvMQ==,size_16,color_FFFFFF,t_70" srcset="/img/loading.gif" alt=""></p>
+<p>查找操作同理，先通过哈希函数计算出实际存储地址，然后从数组中对应地址取出即可。</p>
+<p><strong>哈希冲突</strong></p>
+<p><strong>如果两个不同的元素，通过哈希函数得出的实际存储地址相同怎么办</strong>？也就是说，当我们对某个元素进行哈希运算，得到一个存储地址，然后要进行插入的时候，发现已经被其他元素占用了，其实这就是所谓的<strong>哈希冲突</strong>，也叫<strong>哈希碰撞</strong>。前面我们提到过，哈希函数的设计至关重要，好的哈希函数会尽可能地保证 计算简单和散列地址分布均匀,但是，我们需要清楚的是，数组是一块连续的固定长度的内存空间，再好的哈希函数也不能保证得到的存储地址绝对不发生冲突。那么哈希冲突如何解决呢？哈希冲突的解决方案有多种:开放定址法（发生冲突，继续寻找下一块未被占用的存储地址），再散列函数法，链地址法，而HashMap即是采用了<strong>链地址法</strong>，也就是<strong>数组+链表</strong>的方式。</p>
+<h3 id="HashMap的实现原理"><a href="#HashMap的实现原理" class="headerlink" title="HashMap的实现原理"></a>HashMap的实现原理</h3><p>HashMap的主干是一个Entry数组。Entry是HashMap的基本组成单元，每一个Entry包含一个key-value键值对。（其实所谓Map其实就是保存了两个对象之间的映射关系的一种集合）</p>
+<p>Entry是HashMap中的一个静态内部类。代码如下：</p>
+<pre><code>static class Entry&lt;K,V&gt; implements Map.Entry&lt;K,V&gt; {
+    final K key;
+    V value;
+    Entry&lt;K,V&gt; next;//存储指向下一个Entry的引用，单链表结构
+    int hash;//对key的hashcode值进行hash运算后得到的值，存储在Entry，避免重复计算
+
+    /**
+     * Creates new entry.
+     */
+    Entry(int h, K k, V v, Entry&lt;K,V&gt; n) {
+        value = v;
+        next = n;
+        key = k;
+        hash = h;
+    } </code></pre><p>所以，HashMap的总体结构如下：</p>
+<p><img src="https://img-blog.csdnimg.cn/20181102221702492.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dvc2hpbWF4aWFvMQ==,size_16,color_FFFFFF,t_70" srcset="/img/loading.gif" alt=""></p>
+<p>简单来说，<strong>HashMap由数组+链表组成的</strong>，数组是HashMap的主体，链表则是主要为了解决哈希冲突而存在的，如果定位到的数组位置不含链表（当前entry的next指向null）,那么查找，添加等操作很快，仅需一次寻址即可；如果定位到的数组包含链表，对于添加操作，其时间复杂度为O(n)，首先遍历链表，存在即覆盖，否则新增；对于查找操作来讲，仍需遍历链表，然后通过key对象的equals方法逐一比对查找。所以，性能考虑，<strong>HashMap中的链表出现越少，性能才会越好。</strong></p>
+<h3 id="HashMap-put-操作"><a href="#HashMap-put-操作" class="headerlink" title="HashMap put()操作"></a>HashMap put()操作</h3><pre><code>public V put(K key, V value) {
+        //如果table数组为空数组{}，进行数组填充（为table分配实际内存空间），入参为threshold，
+        //此时threshold为initialCapacity 默认是1&lt;&lt;4(24=16)
+        if (table == EMPTY_TABLE) {
+            inflateTable(threshold);
+        }
+       //如果key为null，存储位置为table[0]或table[0]的冲突链上
+        if (key == null)
+            return putForNullKey(value);
+        int hash = hash(key);//对key的hashcode进一步计算，确保散列均匀
+        int i = indexFor(hash, table.length);//获取在table中的实际位置
+        for (Entry&lt;K,V&gt; e = table[i]; e != null; e = e.next) {
+        //如果该对应数据已存在，执行覆盖操作。用新value替换旧value，并返回旧value
+            Object k;
+            if (e.hash == hash &amp;&amp; ((k = e.key) == key || key.equals(k))) {
+                V oldValue = e.value;
+                e.value = value;
+                e.recordAccess(this);
+                return oldValue;
+            }
+        }
+        modCount++;//保证并发访问时，若HashMap内部结构发生变化，快速响应失败
+        addEntry(hash, key, value, i);//新增一个entry
+        return null;
+    }</code></pre><p><strong>根据代码可以总结插入逻辑如下:</strong></p>
+<p>​        put方法是用来向HashMap中添加新的元素，从put方法的具体实现可知，会先调用HashCode方法得到该元素的HashCode值，然后查看table中是否存在该HashCode值，如果存在则调用equals方法重新确定是否存在该元素，如果存在，则更新value值，否则将新的元素添加到HashMap中。从这里可以看出，HashCode方法的存在是为了减少equals方法的调用次数，从而提高程序效率。</p>
+<p>​        最终存储位置的确定流程是这样的：</p>
+<p><img src="https://img-blog.csdnimg.cn/20181102214046362.png" srcset="/img/loading.gif" alt=""></p>
+<h3 id="HashMap-get-操作"><a href="#HashMap-get-操作" class="headerlink" title="HashMap get()操作"></a>HashMap get()操作</h3><pre><code>public V get(Object key) {
+    Node&lt;K,V&gt; e;
+    return (e = getNode(hash(key), key)) == null ? null : e.value;
+}
+
+final Node&lt;K,V&gt; getNode(int hash, Object key) {
+    Node&lt;K,V&gt;[] tab; Node&lt;K,V&gt; first, e; int n; K k;
+    //tab 指向哈希表，n 为哈希表的长度，first 为 (n - 1) &amp; hash 位置处的桶中的头一个节点
+    if ((tab = table) != null &amp;&amp; (n = tab.length) &gt; 0 &amp;&amp;
+        (first = tab[(n - 1) &amp; hash]) != null) {
+        //如果桶里第一个元素就相等，直接返回
+        if (first.hash == hash &amp;&amp; // always check first node
+            ((k = first.key) == key || (key != null &amp;&amp; key.equals(k))))
+            return first;
+        //否则就得慢慢遍历找
+        if ((e = first.next) != null) {
+            if (first instanceof TreeNode)
+                //如果是树形节点，就调用树形节点的 get 方法
+                return ((TreeNode&lt;K,V&gt;)first).getTreeNode(hash, key);
+            do {
+                //do-while 遍历链表的所有节点
+                if (e.hash == hash &amp;&amp;
+                    ((k = e.key) == key || (key != null &amp;&amp; key.equals(k))))
+                    return e;
+            } while ((e = e.next) != null);
+        }
+    }
+    return null;
+}</code></pre><p>查找方法比较简单:</p>
 <ol>
-<li>如果两个对象equals相等，那么这两个对象的HashCode一定也相同</li>
-<li>如果两个对象的HashCode相同，不代表两个对象就相同，只能说明这两个对象在散列存储结构中，存放于同一个位置</li>
+<li>先计算哈希值;</li>
+<li>然后再用 (n - 1) &amp; hash 计算出桶的位置;</li>
+<li>在桶里的链表进行遍历查找。</li>
 </ol>
-<h3 id="为什么要重写Hashcode-和equals-？"><a href="#为什么要重写Hashcode-和equals-？" class="headerlink" title="为什么要重写Hashcode()和equals()？"></a><strong>为什么要重写Hashcode()和equals()？</strong></h3><p>​        打个比方，一个名叫张三的人去住酒店，在前台登记完名字就去了99层100号房间，此时警察来前台找叫张三的这个人住在哪间房，经过查询，该酒店住宿的有50个叫张三的，需要遍历查询，查询起来很不方便。</p>
-<p>​        那么就换另外一种登记方式，前台登记时登记身份证号，警察来前台找身份证号时发现身份证号也存在重复，经过哈希算法进行计算后相同的Hashcode值被分到了一个房间然后产生链表，链表查询效率非常慢，然后警察找的时候也会遇到问题。</p>
-<p>​        那么只能换第三种登记方式了，前台登记时同时登记身份证号和名字，这样警察来找的时候同时按照两个条件去查，这样就能直接锁定要找的人在哪个房间。</p>
-<p>​        在程序中：登记的前台好比哈希算法，名字是对比好比 equals 方法，身份证号的对比好比 Hashcode 方法只有equals 和 Hashcode 都满足的时候才能确保是同一个对象。</p>
-<p>​        当我们重写一个类的 equals 方法时就应当连同重写 Hashcode 方法，并且两个方法应满足：</p>
-<ol>
-<li>一致性，即当两个对象 equals 比较为 true，那么 Hashcode 值应当相等，反之亦然，因为当两个对象Hashcode 值相等，但是 equals 比较为 false，那么在 HashMap 中会产生链表，影响查询性能。</li>
-<li>成对重写，即重写 equals() 就应当重写 Hashcode()。</li>
-</ol>
+<p>时间复杂度一般跟链表长度有关，因此哈希算法越好，元素分布越均匀，get() 方法就越快，不然遍历一条长链表，太慢了。</p>
+<p>不过在 JDK 1.8 以后 HashMap 新增了红黑树节点，优化这种极端情况下的性能问题。</p>
+<h3 id="HashMap-put方法逻辑图（JDK1-8）"><a href="#HashMap-put方法逻辑图（JDK1-8）" class="headerlink" title="HashMap put方法逻辑图（JDK1.8）"></a>HashMap put方法逻辑图（JDK1.8）</h3><p><img src="https://img-blog.csdnimg.cn/20181105181728652.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dvc2hpbWF4aWFvMQ==,size_16,color_FFFFFF,t_70" srcset="/img/loading.gif" alt=""></p>
 
             </div>
             <hr>
@@ -249,17 +320,12 @@
                   <div class="post-prev col-12 col-sm-6">
                     
                     
-                      <a href="/2020/04/01/15/">
-                        <i class="fa fa-chevron-left"></i>
-                        <span>HashMap初解</span>
-                      </a>
-                    
                   </div>
                   <div class="post-next col-12 col-sm-6">
                     
                     
-                      <a href="/2020/03/18/13/">
-                        <span>service层，dao层和service实现类的关系和区别</span>
+                      <a href="/2020/03/31/14/">
+                        <span>Hashcode详解</span>
                         <i class="fa fa-chevron-right"></i>
                       </a>
                     
@@ -488,7 +554,7 @@
     var typed = new Typed('#subtitle', {
       strings: [
         '  ',
-        "Hashcode详解&nbsp;",
+        "HashMap初解&nbsp;",
       ],
       cursorChar: "_",
       typeSpeed: 70,
