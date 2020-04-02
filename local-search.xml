@@ -4,6 +4,33 @@
   
   
   <entry>
+    <title>基于MyBatis框架的dao层开发的两种方式</title>
+    <link href="/2020/04/02/16/"/>
+    <url>/2020/04/02/16/</url>
+    
+    <content type="html"><![CDATA[<h3 id="一、原始dao的开发方式"><a href="#一、原始dao的开发方式" class="headerlink" title="一、原始dao的开发方式"></a>一、原始dao的开发方式</h3><p>即开发dao接口和dao接口实现类。首先添加dao接口：</p><pre><code>package com.hyt.dao;import com.hyt.bean.user;public interface UserDao {//根据id查询用户    public user getUserById(int id);}</code></pre><p>然后实现接口类：</p><pre><code>package com.hyt.dao;import org.apache.ibatis.session.SqlSession;import org.apache.ibatis.session.SqlSessionFactory;import com.hyt.bean.user;public class UserDaoImpl implements UserDao {    private SqlSessionFactory ssf;    public UserDaoImpl(SqlSessionFactory ssf) {        super();        this.ssf=ssf;    }    @Override    public user getUserById(int id) {            //生产一个sqlSession            SqlSession session = ssf.openSession();            //操作数据库            //1.要操作的sql语句 参数2.sql语句的参数            return session.selectOne(&quot;UserMapper.selectUserById&quot;, id);    }}</code></pre><p>接着通过测试类进行查询：</p><pre><code>package com.hyt.test;import java.io.IOException;import java.io.InputStream;import org.apache.ibatis.io.Resources;import org.apache.ibatis.session.SqlSessionFactory;import org.apache.ibatis.session.SqlSessionFactoryBuilder;import org.junit.jupiter.api.Test;import com.hyt.bean.user;import com.hyt.dao.UserDao;import com.hyt.dao.UserDaoImpl;public class UserDaoTest {    private static SqlSessionFactory ssf;static {    String resource=&quot;sqlMapConfig.xml&quot;;    InputStream in;    try {        in = Resources.getResourceAsStream(resource);        SqlSessionFactoryBuilder ssfb=new SqlSessionFactoryBuilder();            ssf = ssfb.build(in);        in.close();    } catch (IOException e) {        e.printStackTrace();    }}@Test    public void DaoTest() {    UserDao dao=new UserDaoImpl(ssf);    user user=dao.getUserById(1);    System.out.println(user);}}</code></pre><h3 id="二、Mapper代理的开发方式"><a href="#二、Mapper代理的开发方式" class="headerlink" title="二、Mapper代理的开发方式"></a>二、Mapper代理的开发方式</h3><p><strong>mapper动态代理开发四大原则</strong></p><blockquote><p>接口方法名需要与UserMapper.xml的要调用的sql语句的id一致<br>接口的形参类型需要与UserMapper.xml中的parameterType一致<br>接口的返回值需要与UserMapper.xml的resultType一致<br>UserMapper.xml中的namespace要与接口的全包名一致</p></blockquote><p>首先开发UserMapper接口：</p><pre><code>package com.hyt.Mapper;import java.util.List;import com.hyt.bean.user;public interface UserMapper {    //通过id查询一个用户    public user selectUserById(Integer id);    //通过用户名模糊查询    public List&lt;user&gt; selectUserByName(String name);}</code></pre><p>之后便可以在测试类进行测试：</p><pre><code>package com.hyt.test;import java.io.IOException;import java.io.InputStream;import java.util.List;import org.apache.ibatis.io.Resources;import org.apache.ibatis.session.SqlSession;import org.apache.ibatis.session.SqlSessionFactory;import org.apache.ibatis.session.SqlSessionFactoryBuilder;import org.junit.Test;import com.hyt.Mapper.UserMapper;import com.hyt.bean.user;public class MapperTest {    @Test    public void Test1() throws IOException {        //通过ID查询用户        String resource=&quot;sqlMapConfig.xml&quot;;    //读取配置文件    InputStream in = Resources.getResourceAsStream(resource);    //需要sqlSessionFactoryBuilder    //创建sqlSessionFactory    SqlSessionFactory ssf = new SqlSessionFactoryBuilder().build(in);        //生产一个sqlSession    SqlSession session = ssf.openSession();    UserMapper mapper=session.getMapper(UserMapper.class);    user user=mapper.selectUserById(1);    System.out.println(user);    }    @Test    public void Test2() throws IOException {        //通过ID查询用户        String resource=&quot;sqlMapConfig.xml&quot;;    //读取配置文件    InputStream in = Resources.getResourceAsStream(resource);    //需要sqlSessionFactoryBuilder    //创建sqlSessionFactory    SqlSessionFactory ssf = new SqlSessionFactoryBuilder().build(in);        //生产一个sqlSession    SqlSession session = ssf.openSession();    UserMapper mapper=session.getMapper(UserMapper.class);    List&lt;user&gt;list=mapper.selectUserByName(&quot;小&quot;);    for(user u:list) {        System.out.println(u);    }    }}</code></pre><h3 id="三、两种开发方式的区别"><a href="#三、两种开发方式的区别" class="headerlink" title="三、两种开发方式的区别"></a>三、两种开发方式的区别</h3><p><img src="/img/mybatisdao.png" srcset="/img/loading.gif" alt=""></p><p>我们可以看到，要实现相同的测试效果，Mapper动态代理开发在实现起来只需要一个接口和一个xml文件就行，不需要再创建接口的实现类，比原始开发方式更加精炼，代码量少，更易于维护。</p>]]></content>
+    
+    
+    <categories>
+      
+      <category>SSM框架</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>Java</tag>
+      
+      <tag>MyBatis</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>HashMap初解</title>
     <link href="/2020/04/01/15/"/>
     <url>/2020/04/01/15/</url>
