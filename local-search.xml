@@ -4,6 +4,33 @@
   
   
   <entry>
+    <title>对于AOP编程思想的一些理解</title>
+    <link href="/2020/04/12/17/"/>
+    <url>/2020/04/12/17/</url>
+    
+    <content type="html"><![CDATA[<h3 id="什么是AOP编程"><a href="#什么是AOP编程" class="headerlink" title="什么是AOP编程"></a>什么是AOP编程</h3><p>AOP: Aspect Oriented Programming 面向切面编程。</p><p>利用AOP可以对业务逻辑的各个部分进行隔离，从而使得业务逻辑各部分之间的耦合度降低，提高程序的可重用性，同时提高了开发的效率。 </p><p>主要的功能是：<strong>日志记录</strong>，<strong>性能统计</strong>，<strong>安全控制</strong>，<strong>事务处理</strong>，<strong>异常处理</strong>等。 　　</p><p>主要的意图是：将日志记录，性能统计，安全控制，事务处理，异常处理等代码从业务逻辑代码中划分出来，通过对这些行为的分离，我们希望可以将它们独立到非指导业务逻辑的方法中，进而改变这些行为的时候不影响业务逻辑的代码。AOP不是一种技术，实际上是编程思想。凡是符合AOP思想的技术，都可以看成是AOP的实现。</p><p><img src="/img/aopexm.png" srcset="/img/loading.gif" alt=""></p><p>我们正在学习的过滤器，实际上也应该可以算是一种aop思想的实现。</p><h3 id="关于AOP实现的一些名词解释"><a href="#关于AOP实现的一些名词解释" class="headerlink" title="关于AOP实现的一些名词解释"></a>关于AOP实现的一些名词解释</h3><p><img src="/img/aop.png" srcset="/img/loading.gif" alt=""></p><table><thead><tr><th>名词</th><th>中文</th><th>名词解释</th></tr></thead><tbody><tr><td>JoinPoint</td><td>连接点</td><td>目标对象中，哪些方法会被拦截；save，delete，update，find</td></tr><tr><td>PointCut</td><td>切入点</td><td>筛选连接点，你最终要增强的方法；save，update，delete</td></tr><tr><td>Advice</td><td>通知/增强</td><td>增强的代码</td></tr><tr><td>Introduction</td><td>介入/引入</td><td>在执行时期动态加入一些方法或行为</td></tr><tr><td>Aspect</td><td>切面</td><td>通知 + 切入点，通知应用到哪个切点</td></tr><tr><td>target</td><td>目标</td><td>被代理对象</td></tr><tr><td>weaving</td><td>织入</td><td>把切面的代码应用到目标对象来创建新的代理对象的过程</td></tr><tr><td>proxy</td><td>代理</td><td>把切面的代码应用到目标对象来创建新的代理对象</td></tr></tbody></table><p>打个比方，比如：</p><p><img src="/img/aopex.png" srcset="/img/loading.gif" alt=""></p><h3 id="通过一个静态代理demo去理解AOP"><a href="#通过一个静态代理demo去理解AOP" class="headerlink" title="通过一个静态代理demo去理解AOP"></a>通过一个静态代理demo去理解AOP</h3><p>AOP他的实现原理是动态代理，但我们可以通过静态代理大致去理解AOP。</p><p>首先，我们创建一个Person接口。这个接口就是学生（被代理类），和班长（代理类）的公共接口，他们都有交作业的行为。这样，学生交作业就可以让班长来代理执行。</p><pre><code>public interface Person {    //交作业    void giveTask();</code></pre><p>Student类实现Person接口，Student可以具体实施交作业这个行为。</p><pre><code>public class Student implements Person {    private String name;    public Student(String name) {        this.name = name;    }    public void giveTask() {        System.out.println(name + &quot;交语文作业&quot;);    }}</code></pre><p>StudentsProxy类，这个类也实现了Person接口，但是还另外持有一个学生类对象，那么他可以代理学生类对象执行交作业的行为。</p><pre><code>/** *  * 学生代理类，也实现了Person接口，保存一个学生实体，这样就可以代理学生产生行为 */public class StudentsProxy implements Person{    //被代理的学生    Student stu;    public StudentsProxy(Person stu) {        // 只代理学生对象        if(stu.getClass() == Student.class) {            this.stu = (Student)stu;        }    }    //代理交作业，调用被代理学生的交作业的行为    public void giveTask() {        stu.giveTask();    }}</code></pre><p>以下为test类</p><pre><code>public class StaticProxyTest {    public static void main(String[] args) {        //被代理的学生stu，他的作业上交有代理对象monitor完成        Person stu = new Student(&quot;stu&quot;);        //生成代理对象，并将林浅传给代理对象        Person monitor = new StudentsProxy(stu);        //班长代理交作业        monitor.giveTask();    }}</code></pre><p>代理模式就是在访问实际对象时引入一定程度的间接性，这里的间接性就是指不直接调用实际对象的方法，那么我们在代理过程中就可以加上一些其他用途。这个优点就可以运用在spring中的AOP，我们能在一个切点之前执行一些操作，在一个切点之后执行一些操作，这个切点就是一个个方法。这些方法所在类肯定就是被代理了，在代理过程中切入了一些其他操作。</p>]]></content>
+    
+    
+    <categories>
+      
+      <category>SSM框架</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>Java</tag>
+      
+      <tag>Spring</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>基于MyBatis框架的dao层开发的两种方式</title>
     <link href="/2020/04/02/16/"/>
     <url>/2020/04/02/16/</url>
@@ -20,9 +47,9 @@
     
     <tags>
       
-      <tag>Java</tag>
-      
       <tag>MyBatis</tag>
+      
+      <tag>Java</tag>
       
     </tags>
     

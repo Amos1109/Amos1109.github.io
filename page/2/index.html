@@ -166,6 +166,61 @@
     
     
       <div class="col-12 col-md-4 m-auto">
+        <a href="/2020/03/09/11/" target="_self">
+          <img src="/img/mysql.jpg" alt="把Perfume改为c3p0连接池（附DBUtils的使用）"
+               class="index-img img-fluid rounded index-thumbnails">
+        </a>
+      </div>
+    
+    <div class="col-12 col-md-8 mx-auto index-info">
+      <a href="/2020/03/09/11/">
+        <p class="h4 index-header">把Perfume改为c3p0连接池（附DBUtils的使用）</p>
+      </a>
+
+      <a href="/2020/03/09/11/">
+        
+        
+          
+        
+        <div class="index-excerpt" >
+          <div class="index-text mb-1">数据库连接池的基本思想就是为数据库建⽴⼀个缓冲池，预先向缓冲池中放⼊⼀定数量的连接对象，当需要获取数据库连接的时候，只需要从缓冲池中取出⼀个对象，⽤完之后再放回到缓冲池中，供下⼀次请求使⽤，做到了资源的重复利⽤，允许程序重复使⽤⼀个现有的数据库连接对象，⽽不需要重新创建。
+在我看来，JDBC 开发流程大致可分为以下几个步骤，
+
+加载驱动（只需要加载⼀次）
+建⽴数据库连接（Connection）
+执⾏ SQL 语句（Statement）
+ResultSet 接收结果集（查询）
+断开连接，释放资源
+
+C3P0只是将第一步和第二步的代码实现更改了，但是得到的好处并不少。
+于是我着手将perfume香</div>
+        </div>
+      </a>
+
+      <div class="index-btm">
+        
+          <i class="iconfont icon-riqi2"></i>&nbsp;2020-03-09&nbsp;&nbsp;
+        
+        
+          <i class="iconfont icon-inbox"></i>
+          
+            <a href="/categories/JSP%E5%AD%A6%E4%B9%A0/">JSP学习</a>&nbsp;
+          &nbsp;
+        
+        
+          <i class="iconfont icon-tag"></i>
+          
+            <a href="/tags/MySQL/">MySQL</a>&nbsp;
+          
+        
+      </div>
+    </div>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto">
         <a href="/2020/03/08/10/" target="_self">
           <img src="/img/http.jpg" alt="HTTP协议的总结归纳"
                class="index-img img-fluid rounded index-thumbnails">
@@ -384,62 +439,11 @@ $ hexo new [post] articleName
     </div>
   </div>
 
-  <div class="row mx-auto index-card">
-    
-    
-      <div class="col-12 col-md-4 m-auto">
-        <a href="/2020/02/29/6/" target="_self">
-          <img src="/img/hexo.jpg" alt="Hexo博客框架搭建教程（一）"
-               class="index-img img-fluid rounded index-thumbnails">
-        </a>
-      </div>
-    
-    <div class="col-12 col-md-8 mx-auto index-info">
-      <a href="/2020/02/29/6/">
-        <p class="h4 index-header">Hexo博客框架搭建教程（一）</p>
-      </a>
-
-      <a href="/2020/02/29/6/">
-        
-        
-          
-        
-        <div class="index-excerpt" >
-          <div class="index-text mb-1">前言：前几天，李振腾同学分享了Hexo博客框架的搭建，我也去琢磨了一下，的确很好用，遇到一些问题，也及时查了百度和请教了李同学，现与大家分享搭建的教程。
-什么是 Hexo？Hexo 是一个快速、简洁且高效的博客框架。Hexo 使用 Markdown（或其他渲染引擎）解析文章，在几秒内，即可利用靓丽的主题生成静态网页。
-安装 Hexo安装 Hexo 相当简单，只需几分钟时间，只需要先安装下列应用程序即可：Node.js:选择LTS版本（自带npm工具）和Git在Git 和 Node.js 安装完后，打开命令行输入以下代码检查一下有没有安装成功
-node -v
-npm -v先创建一个文件夹blog</div>
-        </div>
-      </a>
-
-      <div class="index-btm">
-        
-          <i class="iconfont icon-riqi2"></i>&nbsp;2020-02-29&nbsp;&nbsp;
-        
-        
-          <i class="iconfont icon-inbox"></i>
-          
-            <a href="/categories/%E6%90%AD%E5%BB%BA%E5%BC%80%E5%8F%91/">搭建开发</a>&nbsp;
-          &nbsp;
-        
-        
-          <i class="iconfont icon-tag"></i>
-          
-            <a href="/tags/Hexo/">Hexo</a>&nbsp;
-          
-            <a href="/tags/Github/">Github</a>&nbsp;
-          
-        
-      </div>
-    </div>
-  </div>
-
 
 
   <nav aria-label="index posts navigation">
     <span class="pagination pg-blue justify-content-center mt-5" id="pagination">
-      <a class="extend prev" rel="prev" href="/"><i class="fas fa-angle-double-left"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/3/"><i class="fas fa-angle-double-right"></i></a>
+      <a class="extend prev" rel="prev" href="/"><i class="fas fa-angle-double-left"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/3/"><i class="fas fa-angle-double-right"></i></a>
     </span>
   </nav>
   
