@@ -1,4 +1,4 @@
-(function (window) {
+!function (window, document) {
 	var images = Array.prototype.slice.call(document.querySelectorAll('img[srcset]'));
 
 	function elementInViewport(el) {
@@ -32,18 +32,23 @@
 				})(i);
 			}
 		}
+		if (images.length === 0) {
+			window.removeEventListener('scroll', imageLazyLoader)
+		}
 	}
 
 	function throttle(method, context) {
 		clearTimeout(method.tId);
 		method.tId = setTimeout(function () {
-				method.call(context);
+			method.call(context);
 		}, 100);
 	}
 
+	var imageLazyLoader = function () {
+		throttle(processImages, window);
+	};
+
 	processImages();
 
-	window.addEventListener('scroll', function () {
-		throttle(processImages, window);
-	});
-})(this);
+	window.addEventListener('scroll', imageLazyLoader);
+}(window, document);
