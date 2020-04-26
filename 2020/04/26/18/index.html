@@ -143,7 +143,7 @@
                   
                   <span class="post-meta mr-2">
                     <i class="iconfont icon-chart"></i>
-                    1.9k 字
+                    1.8k 字
                   </span>
                 
 
@@ -153,7 +153,7 @@
                       <i class="iconfont icon-clock-fill"></i>
                     
                     
-                    28
+                    27
                      分钟
                   </span>
                 
@@ -196,189 +196,203 @@
 <h3 id="三、Shiro实现原理理解"><a href="#三、Shiro实现原理理解" class="headerlink" title="三、Shiro实现原理理解"></a>三、Shiro实现原理理解</h3><p><img src="https://s1.ax1x.com/2020/04/26/J27E5Q.png" srcset="/img/loading.gif" alt=""></p>
 <p>也就是说对于我们而言，最简单的一个 Shiro 应用，通过 Subject 来进行认证和授权，而 Subject 又委托给 SecurityManager； 我们需要给 Shiro 的 SecurityManager 注入 Realm，从而SecurityManager 能得到合法的用户及其权限进行判断。</p>
 <h3 id="四、shiro的认证示例（Maven工程）"><a href="#四、shiro的认证示例（Maven工程）" class="headerlink" title="四、shiro的认证示例（Maven工程）"></a>四、shiro的认证示例（Maven工程）</h3><p>1.在pom.xml引入需要的jar包，可以去maven仓库官网复制</p>
-<pre><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
-&lt;project xmlns=&quot;http://maven.apache.org/POM/4.0.0&quot;
-xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;
-xsi:schemaLocation=&quot;http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd&quot;&gt;
-&lt;modelVersion&gt;4.0.0&lt;/modelVersion&gt;
-&lt;groupId&gt;com.hyt&lt;/groupId&gt;
-&lt;artifactId&gt;blog&lt;/artifactId&gt;
-&lt;version&gt;0.0.1-SNAPSHOT&lt;/version&gt;
-&lt;packaging&gt;war&lt;/packaging&gt;
-&lt;dependencies&gt;
-&lt;dependency&gt;
-&lt;groupId&gt;commons-logging&lt;/groupId&gt;
-&lt;artifactId&gt;commons-logging&lt;/artifactId&gt;&lt;version&gt;1.0.4&lt;/version&gt;
-&lt;/dependency&gt;
-&lt;dependency&gt;
-&lt;groupId&gt;org.apache.shiro&lt;/groupId&gt;
-&lt;artifactId&gt;shiro-core&lt;/artifactId&gt;
-&lt;version&gt;1.3.0&lt;/version&gt;
-&lt;/dependency&gt;
-  &lt;!-- 导入shiro和spring继承的jar包 --&gt;
-            &lt;dependency&gt;
-                &lt;groupId&gt;org.apache.shiro&lt;/groupId&gt;
-                &lt;artifactId&gt;shiro-spring&lt;/artifactId&gt;
-                &lt;version&gt;1.2.3&lt;/version&gt;
-            &lt;/dependency&gt;
-            &lt;!-- 导入shiro和web的jar包--&gt;
-            &lt;dependency&gt;
-                &lt;groupId&gt;org.apache.shiro&lt;/groupId&gt;
-                &lt;artifactId&gt;shiro-web&lt;/artifactId&gt;
-                &lt;version&gt;1.2.3&lt;/version&gt;
-            &lt;/dependency&gt;
-&lt;/dependencies&gt;
-&lt;/project&gt;</code></pre><p>2.在web.xml中声明shiro拦截权限的过滤器</p>
-<pre><code>&lt;filter&gt;
-&lt;filter-name&gt;shiroFilter&lt;/filter-name&gt;
-&lt;filter-class&gt;org.springframework.web.filter.DelegatingFilterProxy&lt;/filter-class&gt;
-&lt;init-param&gt;
-&lt;!--保证该过滤器的生命周期和spring 工厂中shiro过滤器对象的生命周期一致--&gt;
-&lt;param-name&gt;targetFilterLifecycle&lt;/param-name&gt;
-&lt;param-value&gt;true&lt;/param-value&gt;
-&lt;/init-param&gt;
-&lt;!--声明该过滤器代理工厂类中的id为什么的shiro过滤器对象--&gt;
-&lt;init-param&gt;
-&lt;param-name&gt;targetBeanName&lt;/param-name&gt;
-&lt;param-value&gt;shiroFilter&lt;/param-value&gt;
-&lt;/init-param&gt;
-&lt;/filter&gt;
-&lt;filter-mapping&gt;
-&lt;filter-name&gt;shiroFilter&lt;/filter-name&gt;
-&lt;url-pattern&gt;/*&lt;/url-pattern&gt;
-&lt;/filter-mapping&gt;</code></pre><p>3.在spring的主配置文件汇总声明shiro的配置信息</p>
-<pre><code>&lt;!--创建自定义域对象--&gt;
-&lt;bean id=&quot;MyRealm&quot; class=&quot;com.hyt.realm.MyRealm&quot;&gt;&lt;/bean&gt;
-&lt;!--创建shiro的安全管理器对象--&gt;
-&lt;bean id=&quot;securityManager&quot; class=&quot;org.apache.shiro.web.mgt.DefaultWebSecurityManager&quot;&gt;
-&lt;!--要声明域，在域中读取认证和授权的数据--&gt;
-&lt;property name=&quot;realm&quot; ref=&quot;MyRealm&quot;&gt;&lt;/property&gt;
-&lt;/bean&gt;
-&lt;!--创建shiro的过滤器对象--&gt;
-&lt;bean id=&quot;shiroFilter&quot; class=&quot;org.apache.shiro.spring.web.ShiroFilterFactoryBean&quot;&gt;
-&lt;!--要注入安全管理器对象--&gt;
-&lt;property name=&quot;securityManager&quot; ref=&quot;securityManager&quot;&gt;&lt;/property&gt;
-&lt;!--配置登录请求的路径--&gt;
-&lt;property name=&quot;loginUrl&quot; value=&quot;/user/login.do&quot;&gt;&lt;/property&gt;
-&lt;!--配置shiro认证和授权的过滤器--&gt;
-&lt;property name=&quot;filterChainDefinitions&quot;&gt;
-&lt;value&gt;
-&lt;!--对静态资源不拦截--&gt;
-&lt;!--anon指匿名访问的过滤器，所有匿名用户都可以访问static下面的资源--&gt;
+<pre><code class="hljs xml"><span class="hljs-meta">&lt;?xml version="1.0" encoding="UTF-8"?&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">project</span> <span class="hljs-attr">xmlns</span>=<span class="hljs-string">"http://maven.apache.org/POM/4.0.0"</span>
+<span class="hljs-attr">xmlns:xsi</span>=<span class="hljs-string">"http://www.w3.org/2001/XMLSchema-instance"</span>
+<span class="hljs-attr">xsi:schemaLocation</span>=<span class="hljs-string">"http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">modelVersion</span>&gt;</span>4.0.0<span class="hljs-tag">&lt;/<span class="hljs-name">modelVersion</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>com.hyt<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>blog<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>0.0.1-SNAPSHOT<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">packaging</span>&gt;</span>war<span class="hljs-tag">&lt;/<span class="hljs-name">packaging</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">dependencies</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>commons-logging<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>commons-logging<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>1.0.4<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>org.apache.shiro<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>shiro-core<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>1.3.0<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span>
+  <span class="hljs-comment">&lt;!-- 导入shiro和spring继承的jar包 --&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>org.apache.shiro<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>shiro-spring<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>1.2.3<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span>
+<span class="hljs-comment">&lt;!-- 导入shiro和web的jar包--&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>org.apache.shiro<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>shiro-web<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>1.2.3<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">dependencies</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">project</span>&gt;</span></code></pre>
+
+<p>2.在web.xml中声明shiro拦截权限的过滤器</p>
+<pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">filter</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">filter-name</span>&gt;</span>shiroFilter<span class="hljs-tag">&lt;/<span class="hljs-name">filter-name</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">filter-class</span>&gt;</span>org.springframework.web.filter.DelegatingFilterProxy<span class="hljs-tag">&lt;/<span class="hljs-name">filter-class</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">init-param</span>&gt;</span>
+<span class="hljs-comment">&lt;!--保证该过滤器的生命周期和spring 工厂中shiro过滤器对象的生命周期一致--&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">param-name</span>&gt;</span>targetFilterLifecycle<span class="hljs-tag">&lt;/<span class="hljs-name">param-name</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">param-value</span>&gt;</span>true<span class="hljs-tag">&lt;/<span class="hljs-name">param-value</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">init-param</span>&gt;</span>
+<span class="hljs-comment">&lt;!--声明该过滤器代理工厂类中的id为什么的shiro过滤器对象--&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">init-param</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">param-name</span>&gt;</span>targetBeanName<span class="hljs-tag">&lt;/<span class="hljs-name">param-name</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">param-value</span>&gt;</span>shiroFilter<span class="hljs-tag">&lt;/<span class="hljs-name">param-value</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">init-param</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">filter</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">filter-mapping</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">filter-name</span>&gt;</span>shiroFilter<span class="hljs-tag">&lt;/<span class="hljs-name">filter-name</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">url-pattern</span>&gt;</span>/*<span class="hljs-tag">&lt;/<span class="hljs-name">url-pattern</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">filter-mapping</span>&gt;</span></code></pre>
+
+<p>3.在spring的主配置文件汇总声明shiro的配置信息</p>
+<pre><code class="hljs xml"><span class="hljs-comment">&lt;!--创建自定义域对象--&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">bean</span> <span class="hljs-attr">id</span>=<span class="hljs-string">"MyRealm"</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"com.hyt.realm.MyRealm"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">bean</span>&gt;</span>
+<span class="hljs-comment">&lt;!--创建shiro的安全管理器对象--&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">bean</span> <span class="hljs-attr">id</span>=<span class="hljs-string">"securityManager"</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"org.apache.shiro.web.mgt.DefaultWebSecurityManager"</span>&gt;</span>
+<span class="hljs-comment">&lt;!--要声明域，在域中读取认证和授权的数据--&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">property</span> <span class="hljs-attr">name</span>=<span class="hljs-string">"realm"</span> <span class="hljs-attr">ref</span>=<span class="hljs-string">"MyRealm"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">property</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">bean</span>&gt;</span>
+<span class="hljs-comment">&lt;!--创建shiro的过滤器对象--&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">bean</span> <span class="hljs-attr">id</span>=<span class="hljs-string">"shiroFilter"</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"org.apache.shiro.spring.web.ShiroFilterFactoryBean"</span>&gt;</span>
+<span class="hljs-comment">&lt;!--要注入安全管理器对象--&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">property</span> <span class="hljs-attr">name</span>=<span class="hljs-string">"securityManager"</span> <span class="hljs-attr">ref</span>=<span class="hljs-string">"securityManager"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">property</span>&gt;</span>
+<span class="hljs-comment">&lt;!--配置登录请求的路径--&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">property</span> <span class="hljs-attr">name</span>=<span class="hljs-string">"loginUrl"</span> <span class="hljs-attr">value</span>=<span class="hljs-string">"/user/login.do"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">property</span>&gt;</span>
+<span class="hljs-comment">&lt;!--配置shiro认证和授权的过滤器--&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">property</span> <span class="hljs-attr">name</span>=<span class="hljs-string">"filterChainDefinitions"</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">value</span>&gt;</span>
+<span class="hljs-comment">&lt;!--对静态资源不拦截--&gt;</span>
+<span class="hljs-comment">&lt;!--anon指匿名访问的过滤器，所有匿名用户都可以访问static下面的资源--&gt;</span>
 /login.jsp=anon
-&lt;!--authc指必须经过认证（登录过之后）才能访问的请求 /*代表所有有一个斜杠的请求都要经过认证 --&gt;
+<span class="hljs-comment">&lt;!--authc指必须经过认证（登录过之后）才能访问的请求 /*代表所有有一个斜杠的请求都要经过认证 --&gt;</span>
 /admin/**=authc
-&lt;/value&gt;
-&lt;/property&gt;&lt;/bean&gt;
-&lt;/beans&gt;</code></pre><p>4.创建自定义域对象MyRealm</p>
-<pre><code>package com.hyt.realm;
+<span class="hljs-tag">&lt;/<span class="hljs-name">value</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">property</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">bean</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">beans</span>&gt;</span></code></pre>
 
-import javax.annotation.Resource;
+<p>4.创建自定义域对象MyRealm</p>
+<pre><code class="hljs java"><span class="hljs-keyword">package</span> com.hyt.realm;
 
-import org.apache.shiro.SecurityUtils;
-import org.apache.shiro.authc.AuthenticationException;
-import org.apache.shiro.authc.AuthenticationInfo;
-import org.apache.shiro.authc.AuthenticationToken;
-import org.apache.shiro.authc.SimpleAuthenticationInfo;
-import org.apache.shiro.authz.AuthorizationInfo;
-import org.apache.shiro.realm.AuthorizingRealm;
-import org.apache.shiro.subject.PrincipalCollection;
+<span class="hljs-keyword">import</span> javax.annotation.Resource;
 
-import com.hyt.entity.Blogger;
-import com.hyt.service.BloggerService;
-import com.hyt.util.Const;
+<span class="hljs-keyword">import</span> org.apache.shiro.SecurityUtils;
+<span class="hljs-keyword">import</span> org.apache.shiro.authc.AuthenticationException;
+<span class="hljs-keyword">import</span> org.apache.shiro.authc.AuthenticationInfo;
+<span class="hljs-keyword">import</span> org.apache.shiro.authc.AuthenticationToken;
+<span class="hljs-keyword">import</span> org.apache.shiro.authc.SimpleAuthenticationInfo;
+<span class="hljs-keyword">import</span> org.apache.shiro.authz.AuthorizationInfo;
+<span class="hljs-keyword">import</span> org.apache.shiro.realm.AuthorizingRealm;
+<span class="hljs-keyword">import</span> org.apache.shiro.subject.PrincipalCollection;
 
-public class MyRealm extends AuthorizingRealm {
-    @Resource
-    private BloggerService bloggerService;
+<span class="hljs-keyword">import</span> com.hyt.entity.Blogger;
+<span class="hljs-keyword">import</span> com.hyt.service.BloggerService;
+<span class="hljs-keyword">import</span> com.hyt.util.Const;
 
-    @Override
-    protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
-        // TODO Auto-generated method stub
-        return null;
-    }
-    @Override
-    protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken token) throws AuthenticationException {
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MyRealm</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">AuthorizingRealm</span> </span>&#123;
+	<span class="hljs-meta">@Resource</span>
+	<span class="hljs-keyword">private</span> BloggerService bloggerService;
+	
+	<span class="hljs-meta">@Override</span>
+	<span class="hljs-function"><span class="hljs-keyword">protected</span> AuthorizationInfo <span class="hljs-title">doGetAuthorizationInfo</span><span class="hljs-params">(PrincipalCollection principals)</span> </span>&#123;
+		<span class="hljs-comment">// TODO Auto-generated method stub</span>
+		<span class="hljs-keyword">return</span> <span class="hljs-keyword">null</span>;
+	&#125;
+	<span class="hljs-meta">@Override</span>
+	<span class="hljs-function"><span class="hljs-keyword">protected</span> AuthenticationInfo <span class="hljs-title">doGetAuthenticationInfo</span><span class="hljs-params">(AuthenticationToken token)</span> <span class="hljs-keyword">throws</span> AuthenticationException </span>&#123;
+		
+		String userName=(String)token.getPrincipal();
+		Blogger blogger=bloggerService.getByUserName(userName);
+		<span class="hljs-keyword">if</span>(blogger!=<span class="hljs-keyword">null</span>) &#123;
+			SecurityUtils.getSubject().getSession().setAttribute(Const.CURRENT_USER, blogger);
+			AuthenticationInfo authenInfo=<span class="hljs-keyword">new</span> SimpleAuthenticationInfo(blogger.getUserName(), blogger.getPassword(),getName());
+			<span class="hljs-keyword">return</span> authenInfo;
+		&#125;
+		<span class="hljs-keyword">return</span> <span class="hljs-keyword">null</span>;
+	&#125;
 
-        String userName=(String)token.getPrincipal();
-        Blogger blogger=bloggerService.getByUserName(userName);
-        if(blogger!=null) {
-            SecurityUtils.getSubject().getSession().setAttribute(Const.CURRENT_USER, blogger);
-            AuthenticationInfo authenInfo=new SimpleAuthenticationInfo(blogger.getUserName(), blogger.getPassword(),getName());
-            return authenInfo;
-        }
-        return null;
-    }
+&#125;</code></pre>
 
-}</code></pre><p>5.在控制器（Controller）中使用shiro去做登陆认证</p>
-<pre><code>package com.hyt.controller;
+<p>5.在控制器（Controller）中使用shiro去做登陆认证</p>
+<pre><code class="hljs java"><span class="hljs-keyword">package</span> com.hyt.controller;
 
-import javax.servlet.http.HttpServletRequest;    
-import org.apache.shiro.SecurityUtils;
-import org.apache.shiro.authc.UsernamePasswordToken;
-import org.apache.shiro.subject.Subject;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
+<span class="hljs-keyword">import</span> javax.servlet.http.HttpServletRequest;    
+<span class="hljs-keyword">import</span> org.apache.shiro.SecurityUtils;
+<span class="hljs-keyword">import</span> org.apache.shiro.authc.UsernamePasswordToken;
+<span class="hljs-keyword">import</span> org.apache.shiro.subject.Subject;
+<span class="hljs-keyword">import</span> org.springframework.stereotype.Controller;
+<span class="hljs-keyword">import</span> org.springframework.web.bind.annotation.RequestMapping;
 
-import com.hyt.entity.Blogger;
-import com.hyt.util.CryptographyUtil;
-/**
+<span class="hljs-keyword">import</span> com.hyt.entity.Blogger;
+<span class="hljs-keyword">import</span> com.hyt.util.CryptographyUtil;
+<span class="hljs-comment">/**
  * 博主登录相关
  *
- */
-@Controller
-@RequestMapping(&quot;/blogger&quot;)
-public class BloggerController {
-    @RequestMapping(&quot;/login&quot;)
-    public String login(Blogger blogger,HttpServletRequest request) {
-        String userName=blogger.getUserName();
-        String password=blogger.getPassword();
-        String pw=CryptographyUtil.md5(password,&quot;amos&quot;);
+ */</span>
+<span class="hljs-meta">@Controller</span>
+<span class="hljs-meta">@RequestMapping</span>(<span class="hljs-string">"/blogger"</span>)
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">BloggerController</span> </span>&#123;
+	<span class="hljs-meta">@RequestMapping</span>(<span class="hljs-string">"/login"</span>)
+	<span class="hljs-function"><span class="hljs-keyword">public</span> String <span class="hljs-title">login</span><span class="hljs-params">(Blogger blogger,HttpServletRequest request)</span> </span>&#123;
+		String userName=blogger.getUserName();
+		String password=blogger.getPassword();
+		String pw=CryptographyUtil.md5(password,<span class="hljs-string">"amos"</span>);
+		
+		Subject subject=SecurityUtils.getSubject();
+		UsernamePasswordToken token=<span class="hljs-keyword">new</span> UsernamePasswordToken(userName,pw);
+		
+		<span class="hljs-keyword">try</span> &#123;
+			<span class="hljs-comment">//传递token给shiro的realm</span>
+			subject.login(token);
+			<span class="hljs-keyword">return</span> <span class="hljs-string">"redirect:/admin/main.jsp"</span>;
+		&#125; <span class="hljs-keyword">catch</span> (Exception e) &#123;
+			e.printStackTrace();
+			request.setAttribute(<span class="hljs-string">"blogger"</span>, blogger);
+			request.setAttribute(<span class="hljs-string">"errorInfo"</span>, <span class="hljs-string">"用户名或密码错误！"</span>);
+		&#125;
+		<span class="hljs-comment">//return "redirect:../login.jsp";</span>
+		<span class="hljs-keyword">return</span> <span class="hljs-string">"login"</span>;
+	&#125;
+	
+&#125;</code></pre>
 
-        Subject subject=SecurityUtils.getSubject();
-        UsernamePasswordToken token=new UsernamePasswordToken(userName,pw);
+<p>6.采用MD5加密，以下是MD5加密工具类（给md5加点“盐”，加密型更高）</p>
+<pre><code class="hljs java"><span class="hljs-keyword">package</span> com.hyt.util;
 
-        try {
-            //传递token给shiro的realm
-            subject.login(token);
-            return &quot;redirect:/admin/main.jsp&quot;;
-        } catch (Exception e) {
-            e.printStackTrace();
-            request.setAttribute(&quot;blogger&quot;, blogger);
-            request.setAttribute(&quot;errorInfo&quot;, &quot;用户名或密码错误！&quot;);
-        }
-        //return &quot;redirect:../login.jsp&quot;;
-        return &quot;login&quot;;
-    }
+<span class="hljs-keyword">import</span> org.apache.shiro.crypto.hash.Md5Hash;
 
-}</code></pre><p>6.采用MD5加密，以下是MD5加密工具类（给md5加点“盐”，加密型更高）</p>
-<pre><code>package com.hyt.util;
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">CryptographyUtil</span> </span>&#123;
+	
+	<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> String <span class="hljs-title">md5</span><span class="hljs-params">(String str,String salt)</span> </span>&#123;
+		<span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> Md5Hash(str,salt).toString();
+	&#125;
 
-import org.apache.shiro.crypto.hash.Md5Hash;
+	<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> </span>&#123;
+		System.out.println(md5(<span class="hljs-string">"991109"</span>,<span class="hljs-string">"amos"</span>));
 
-public class CryptographyUtil {
+	&#125;
 
-    public static String md5(String str,String salt) {
-        return new Md5Hash(str,salt).toString();
-    }
+&#125;</code></pre>
 
-    public static void main(String[] args) {
-        System.out.println(md5(&quot;991109&quot;,&quot;amos&quot;));
+<p>密码加密存储之后，使用shiro做校验时，应该在realm中做如下配置：</p>
+<pre><code class="hljs xml"><span class="hljs-comment">&lt;!--创建自定义域对象--&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">bean</span> <span class="hljs-attr">id</span>=<span class="hljs-string">"MyRealm"</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"com.hyt.realm.MyRealm"</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">property</span> <span class="hljs-attr">name</span>=<span class="hljs-string">"credentialsMatcher"</span> <span class="hljs-attr">ref</span>=<span class="hljs-string">"credentialsMatcher"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">property</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">bean</span>&gt;</span>
+<span class="hljs-comment">&lt;!-- 创建凭证匹配器对象--&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">bean</span> <span class="hljs-attr">id</span>=<span class="hljs-string">"credentialsMatcher"</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"org.apache.shiro.authc.credential.HashedCredentialsMatcher"</span>&gt;</span>
+    <span class="hljs-comment">&lt;!--指定要对用户传过来的明文的密码最什么加密--&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">property</span> <span class="hljs-attr">name</span>=<span class="hljs-string">"hashAlgorithmName"</span> <span class="hljs-attr">value</span>=<span class="hljs-string">"md5"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">property</span>&gt;</span>
+    <span class="hljs-comment">&lt;!--指明hash迭代的次数--&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">property</span> <span class="hljs-attr">name</span>=<span class="hljs-string">"hashIterations"</span> <span class="hljs-attr">value</span>=<span class="hljs-string">"10"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">property</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">bean</span>&gt;</span></code></pre>
 
-    }
 
-}</code></pre><p>密码加密存储之后，使用shiro做校验时，应该在realm中做如下配置：</p>
-<pre><code>&lt;!--创建自定义域对象--&gt;
-&lt;bean id=&quot;MyRealm&quot; class=&quot;com.hyt.realm.MyRealm&quot;&gt;
-    &lt;property name=&quot;credentialsMatcher&quot; ref=&quot;credentialsMatcher&quot;&gt;&lt;/property&gt;
-&lt;/bean&gt;
-&lt;!-- 创建凭证匹配器对象--&gt;
-&lt;bean id=&quot;credentialsMatcher&quot; class=&quot;org.apache.shiro.authc.credential.HashedCredentialsMatcher&quot;&gt;
-    &lt;!--指定要对用户传过来的明文的密码最什么加密--&gt;
-    &lt;property name=&quot;hashAlgorithmName&quot; value=&quot;md5&quot;&gt;&lt;/property&gt;
-    &lt;!--指明hash迭代的次数--&gt;
-    &lt;property name=&quot;hashIterations&quot; value=&quot;10&quot;&gt;&lt;/property&gt;
-&lt;/bean&gt;</code></pre>
             </article>
             <hr>
             <div>
