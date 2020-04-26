@@ -17,7 +17,7 @@
   <meta name="description" content="一名普通大学生的学习心得与体验">
   <meta name="author" content="Hong Yuting">
   <meta name="keywords" content="">
-  <title>对于AOP编程思想的一些理解 - Amospace</title>
+  <title>Shiro框架学习笔记 - Amospace</title>
 
   <link  rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/css/bootstrap.min.css" />
 <link  rel="stylesheet" href="https://cdn.staticfile.org/github-markdown-css/4.0.0/github-markdown.min.css" />
@@ -132,8 +132,8 @@
               
                 <div class="mt-3 post-meta">
                   <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-                  <time datetime="2020-04-12 13:18">
-                    星期日, 四月 12日 2020, 1:18 下午
+                  <time datetime="2020-04-26 21:58">
+                    星期日, 四月 26日 2020, 9:58 晚上
                   </time>
                 </div>
               
@@ -143,7 +143,7 @@
                   
                   <span class="post-meta mr-2">
                     <i class="iconfont icon-chart"></i>
-                    950 字
+                    1.9k 字
                   </span>
                 
 
@@ -153,7 +153,7 @@
                       <i class="iconfont icon-clock-fill"></i>
                     
                     
-                    10
+                    28
                      分钟
                   </span>
                 
@@ -182,113 +182,203 @@
           <div class="post-content mx-auto" id="post">
             
             <article class="markdown-body">
-              <h3 id="什么是AOP编程"><a href="#什么是AOP编程" class="headerlink" title="什么是AOP编程"></a>什么是AOP编程</h3><p>AOP: Aspect Oriented Programming 面向切面编程。</p>
-<p>利用AOP可以对业务逻辑的各个部分进行隔离，从而使得业务逻辑各部分之间的耦合度降低，提高程序的可重用性，同时提高了开发的效率。 </p>
-<p>主要的功能是：<strong>日志记录</strong>，<strong>性能统计</strong>，<strong>安全控制</strong>，<strong>事务处理</strong>，<strong>异常处理</strong>等。 　　</p>
-<p>主要的意图是：将日志记录，性能统计，安全控制，事务处理，异常处理等代码从业务逻辑代码中划分出来，通过对这些行为的分离，我们希望可以将它们独立到非指导业务逻辑的方法中，进而改变这些行为的时候不影响业务逻辑的代码。AOP不是一种技术，实际上是编程思想。凡是符合AOP思想的技术，都可以看成是AOP的实现。</p>
-<p><img src="/img/aopexm.png" srcset="/img/loading.gif" alt=""></p>
-<p>我们正在学习的过滤器，实际上也应该可以算是一种aop思想的实现。</p>
-<h3 id="关于AOP实现的一些名词解释"><a href="#关于AOP实现的一些名词解释" class="headerlink" title="关于AOP实现的一些名词解释"></a>关于AOP实现的一些名词解释</h3><p><img src="/img/aop.png" srcset="/img/loading.gif" alt=""></p>
-<table>
-<thead>
-<tr>
-<th>名词</th>
-<th>中文</th>
-<th>名词解释</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>JoinPoint</td>
-<td>连接点</td>
-<td>目标对象中，哪些方法会被拦截；save，delete，update，find</td>
-</tr>
-<tr>
-<td>PointCut</td>
-<td>切入点</td>
-<td>筛选连接点，你最终要增强的方法；save，update，delete</td>
-</tr>
-<tr>
-<td>Advice</td>
-<td>通知/增强</td>
-<td>增强的代码</td>
-</tr>
-<tr>
-<td>Introduction</td>
-<td>介入/引入</td>
-<td>在执行时期动态加入一些方法或行为</td>
-</tr>
-<tr>
-<td>Aspect</td>
-<td>切面</td>
-<td>通知 + 切入点，通知应用到哪个切点</td>
-</tr>
-<tr>
-<td>target</td>
-<td>目标</td>
-<td>被代理对象</td>
-</tr>
-<tr>
-<td>weaving</td>
-<td>织入</td>
-<td>把切面的代码应用到目标对象来创建新的代理对象的过程</td>
-</tr>
-<tr>
-<td>proxy</td>
-<td>代理</td>
-<td>把切面的代码应用到目标对象来创建新的代理对象</td>
-</tr>
-</tbody></table>
-<p>打个比方，比如：</p>
-<p><img src="/img/aopex.png" srcset="/img/loading.gif" alt=""></p>
-<h3 id="通过一个静态代理demo去理解AOP"><a href="#通过一个静态代理demo去理解AOP" class="headerlink" title="通过一个静态代理demo去理解AOP"></a>通过一个静态代理demo去理解AOP</h3><p>AOP他的实现原理是动态代理，但我们可以通过静态代理大致去理解AOP。</p>
-<p>首先，我们创建一个Person接口。这个接口就是学生（被代理类），和班长（代理类）的公共接口，他们都有交作业的行为。这样，学生交作业就可以让班长来代理执行。</p>
-<pre><code>public interface Person {
-    //交作业
-    void giveTask();</code></pre><p>Student类实现Person接口，Student可以具体实施交作业这个行为。</p>
-<pre><code>public class Student implements Person {
-    private String name;
-    public Student(String name) {
-        this.name = name;
+              <h3 id="一、概念"><a href="#一、概念" class="headerlink" title="一、概念"></a>一、概念</h3><p>shiro是一个安全框架，主要可以帮助我们解决程序开发中认证和授权的问题。基于拦截器做的权限系统，权限控制的粒度有限，为了方便各种各样的常用的权限管理需求的实现，我们有必要使用比较好的安全框架，于是就出现了shiro安全框架，学习成本降低了很多，而且基本的功能也比较完善。</p>
+<h3 id="二、shiro提供的功能"><a href="#二、shiro提供的功能" class="headerlink" title="二、shiro提供的功能"></a>二、shiro提供的功能</h3><p>1、Authentication：身份认证/登陆，验证用户是不是拥有相对应的身份；</p>
+<p>2、Authorization：授权，即权限验证，验证某个已认证的用户是否拥有某个权限；即判断用户是否能做事情，常见的如：验证某个用户是否拥有某个角色。或者粒度的验证某个用户对某个资源是否具有权限；</p>
+<p>3、Session Manager：会话管理，即用户登陆后就是一次会话，在没有退出之前，它的所有信息都在会话中；会话可以是普通JavaSE环境的，也可以是Web环境的；</p>
+<p>4、Cryptographt：加密，保护数据，如密码加密存储到数据库，而不是明文存储；</p>
+<p>5、Web Support：Web支持，可以非常容易的继承到Web环境的；</p>
+<p>6、Caching：缓存，比如用户登陆后，其用户信息、拥有的角色/权限不必每次去查，这样提高效率；</p>
+<p>7、Concurrency：shiro支持多线程应用的并发验证，即如在一个线程中开启另一个线程，能把权限自动传播过去；</p>
+<p>8、Testing：提供测试支持；</p>
+<p>9、Run As：允许一个用户假装另一个用户（如果我们允许）的身份进行访问；</p>
+<p>10、Remember  Me：记住我，这个是非常常见的功能，即一次登陆后，下次再来的话不用登陆了。</p>
+<h3 id="三、Shiro实现原理理解"><a href="#三、Shiro实现原理理解" class="headerlink" title="三、Shiro实现原理理解"></a>三、Shiro实现原理理解</h3><p><img src="https://s1.ax1x.com/2020/04/26/J27E5Q.png" srcset="/img/loading.gif" alt=""></p>
+<p>也就是说对于我们而言，最简单的一个 Shiro 应用，通过 Subject 来进行认证和授权，而 Subject 又委托给 SecurityManager； 我们需要给 Shiro 的 SecurityManager 注入 Realm，从而SecurityManager 能得到合法的用户及其权限进行判断。</p>
+<h3 id="四、shiro的认证示例（Maven工程）"><a href="#四、shiro的认证示例（Maven工程）" class="headerlink" title="四、shiro的认证示例（Maven工程）"></a>四、shiro的认证示例（Maven工程）</h3><p>1.在pom.xml引入需要的jar包，可以去maven仓库官网复制</p>
+<pre><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+&lt;project xmlns=&quot;http://maven.apache.org/POM/4.0.0&quot;
+xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;
+xsi:schemaLocation=&quot;http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd&quot;&gt;
+&lt;modelVersion&gt;4.0.0&lt;/modelVersion&gt;
+&lt;groupId&gt;com.hyt&lt;/groupId&gt;
+&lt;artifactId&gt;blog&lt;/artifactId&gt;
+&lt;version&gt;0.0.1-SNAPSHOT&lt;/version&gt;
+&lt;packaging&gt;war&lt;/packaging&gt;
+&lt;dependencies&gt;
+&lt;dependency&gt;
+&lt;groupId&gt;commons-logging&lt;/groupId&gt;
+&lt;artifactId&gt;commons-logging&lt;/artifactId&gt;&lt;version&gt;1.0.4&lt;/version&gt;
+&lt;/dependency&gt;
+&lt;dependency&gt;
+&lt;groupId&gt;org.apache.shiro&lt;/groupId&gt;
+&lt;artifactId&gt;shiro-core&lt;/artifactId&gt;
+&lt;version&gt;1.3.0&lt;/version&gt;
+&lt;/dependency&gt;
+  &lt;!-- 导入shiro和spring继承的jar包 --&gt;
+            &lt;dependency&gt;
+                &lt;groupId&gt;org.apache.shiro&lt;/groupId&gt;
+                &lt;artifactId&gt;shiro-spring&lt;/artifactId&gt;
+                &lt;version&gt;1.2.3&lt;/version&gt;
+            &lt;/dependency&gt;
+            &lt;!-- 导入shiro和web的jar包--&gt;
+            &lt;dependency&gt;
+                &lt;groupId&gt;org.apache.shiro&lt;/groupId&gt;
+                &lt;artifactId&gt;shiro-web&lt;/artifactId&gt;
+                &lt;version&gt;1.2.3&lt;/version&gt;
+            &lt;/dependency&gt;
+&lt;/dependencies&gt;
+&lt;/project&gt;</code></pre><p>2.在web.xml中声明shiro拦截权限的过滤器</p>
+<pre><code>&lt;filter&gt;
+&lt;filter-name&gt;shiroFilter&lt;/filter-name&gt;
+&lt;filter-class&gt;org.springframework.web.filter.DelegatingFilterProxy&lt;/filter-class&gt;
+&lt;init-param&gt;
+&lt;!--保证该过滤器的生命周期和spring 工厂中shiro过滤器对象的生命周期一致--&gt;
+&lt;param-name&gt;targetFilterLifecycle&lt;/param-name&gt;
+&lt;param-value&gt;true&lt;/param-value&gt;
+&lt;/init-param&gt;
+&lt;!--声明该过滤器代理工厂类中的id为什么的shiro过滤器对象--&gt;
+&lt;init-param&gt;
+&lt;param-name&gt;targetBeanName&lt;/param-name&gt;
+&lt;param-value&gt;shiroFilter&lt;/param-value&gt;
+&lt;/init-param&gt;
+&lt;/filter&gt;
+&lt;filter-mapping&gt;
+&lt;filter-name&gt;shiroFilter&lt;/filter-name&gt;
+&lt;url-pattern&gt;/*&lt;/url-pattern&gt;
+&lt;/filter-mapping&gt;</code></pre><p>3.在spring的主配置文件汇总声明shiro的配置信息</p>
+<pre><code>&lt;!--创建自定义域对象--&gt;
+&lt;bean id=&quot;MyRealm&quot; class=&quot;com.hyt.realm.MyRealm&quot;&gt;&lt;/bean&gt;
+&lt;!--创建shiro的安全管理器对象--&gt;
+&lt;bean id=&quot;securityManager&quot; class=&quot;org.apache.shiro.web.mgt.DefaultWebSecurityManager&quot;&gt;
+&lt;!--要声明域，在域中读取认证和授权的数据--&gt;
+&lt;property name=&quot;realm&quot; ref=&quot;MyRealm&quot;&gt;&lt;/property&gt;
+&lt;/bean&gt;
+&lt;!--创建shiro的过滤器对象--&gt;
+&lt;bean id=&quot;shiroFilter&quot; class=&quot;org.apache.shiro.spring.web.ShiroFilterFactoryBean&quot;&gt;
+&lt;!--要注入安全管理器对象--&gt;
+&lt;property name=&quot;securityManager&quot; ref=&quot;securityManager&quot;&gt;&lt;/property&gt;
+&lt;!--配置登录请求的路径--&gt;
+&lt;property name=&quot;loginUrl&quot; value=&quot;/user/login.do&quot;&gt;&lt;/property&gt;
+&lt;!--配置shiro认证和授权的过滤器--&gt;
+&lt;property name=&quot;filterChainDefinitions&quot;&gt;
+&lt;value&gt;
+&lt;!--对静态资源不拦截--&gt;
+&lt;!--anon指匿名访问的过滤器，所有匿名用户都可以访问static下面的资源--&gt;
+/login.jsp=anon
+&lt;!--authc指必须经过认证（登录过之后）才能访问的请求 /*代表所有有一个斜杠的请求都要经过认证 --&gt;
+/admin/**=authc
+&lt;/value&gt;
+&lt;/property&gt;&lt;/bean&gt;
+&lt;/beans&gt;</code></pre><p>4.创建自定义域对象MyRealm</p>
+<pre><code>package com.hyt.realm;
+
+import javax.annotation.Resource;
+
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authc.AuthenticationException;
+import org.apache.shiro.authc.AuthenticationInfo;
+import org.apache.shiro.authc.AuthenticationToken;
+import org.apache.shiro.authc.SimpleAuthenticationInfo;
+import org.apache.shiro.authz.AuthorizationInfo;
+import org.apache.shiro.realm.AuthorizingRealm;
+import org.apache.shiro.subject.PrincipalCollection;
+
+import com.hyt.entity.Blogger;
+import com.hyt.service.BloggerService;
+import com.hyt.util.Const;
+
+public class MyRealm extends AuthorizingRealm {
+    @Resource
+    private BloggerService bloggerService;
+
+    @Override
+    protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
+        // TODO Auto-generated method stub
+        return null;
     }
+    @Override
+    protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken token) throws AuthenticationException {
 
-    public void giveTask() {
-        System.out.println(name + &quot;交语文作业&quot;);
-    }
-
-}</code></pre><p>StudentsProxy类，这个类也实现了Person接口，但是还另外持有一个学生类对象，那么他可以代理学生类对象执行交作业的行为。</p>
-<pre><code>/**
- * 
- * 学生代理类，也实现了Person接口，保存一个学生实体，这样就可以代理学生产生行为
- */
-public class StudentsProxy implements Person{
-    //被代理的学生
-    Student stu;
-
-    public StudentsProxy(Person stu) {
-        // 只代理学生对象
-        if(stu.getClass() == Student.class) {
-            this.stu = (Student)stu;
+        String userName=(String)token.getPrincipal();
+        Blogger blogger=bloggerService.getByUserName(userName);
+        if(blogger!=null) {
+            SecurityUtils.getSubject().getSession().setAttribute(Const.CURRENT_USER, blogger);
+            AuthenticationInfo authenInfo=new SimpleAuthenticationInfo(blogger.getUserName(), blogger.getPassword(),getName());
+            return authenInfo;
         }
+        return null;
     }
 
-    //代理交作业，调用被代理学生的交作业的行为
-    public void giveTask() {
-        stu.giveTask();
+}</code></pre><p>5.在控制器（Controller）中使用shiro去做登陆认证</p>
+<pre><code>package com.hyt.controller;
+
+import javax.servlet.http.HttpServletRequest;    
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authc.UsernamePasswordToken;
+import org.apache.shiro.subject.Subject;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+
+import com.hyt.entity.Blogger;
+import com.hyt.util.CryptographyUtil;
+/**
+ * 博主登录相关
+ *
+ */
+@Controller
+@RequestMapping(&quot;/blogger&quot;)
+public class BloggerController {
+    @RequestMapping(&quot;/login&quot;)
+    public String login(Blogger blogger,HttpServletRequest request) {
+        String userName=blogger.getUserName();
+        String password=blogger.getPassword();
+        String pw=CryptographyUtil.md5(password,&quot;amos&quot;);
+
+        Subject subject=SecurityUtils.getSubject();
+        UsernamePasswordToken token=new UsernamePasswordToken(userName,pw);
+
+        try {
+            //传递token给shiro的realm
+            subject.login(token);
+            return &quot;redirect:/admin/main.jsp&quot;;
+        } catch (Exception e) {
+            e.printStackTrace();
+            request.setAttribute(&quot;blogger&quot;, blogger);
+            request.setAttribute(&quot;errorInfo&quot;, &quot;用户名或密码错误！&quot;);
+        }
+        //return &quot;redirect:../login.jsp&quot;;
+        return &quot;login&quot;;
     }
-}</code></pre><p>以下为test类</p>
-<pre><code>public class StaticProxyTest {
+
+}</code></pre><p>6.采用MD5加密，以下是MD5加密工具类（给md5加点“盐”，加密型更高）</p>
+<pre><code>package com.hyt.util;
+
+import org.apache.shiro.crypto.hash.Md5Hash;
+
+public class CryptographyUtil {
+
+    public static String md5(String str,String salt) {
+        return new Md5Hash(str,salt).toString();
+    }
+
     public static void main(String[] args) {
-        //被代理的学生stu，他的作业上交有代理对象monitor完成
-        Person stu = new Student(&quot;stu&quot;);
+        System.out.println(md5(&quot;991109&quot;,&quot;amos&quot;));
 
-        //生成代理对象，并将stu传给代理对象
-        Person monitor = new StudentsProxy(stu);
-
-        //班长代理交作业
-        monitor.giveTask();
     }
-}</code></pre><p>代理模式就是在访问实际对象时引入一定程度的间接性，这里的间接性就是指不直接调用实际对象的方法，那么我们在代理过程中就可以加上一些其他用途。这个优点就可以运用在spring中的AOP，我们能在一个切点之前执行一些操作，在一个切点之后执行一些操作，这个切点就是一个个方法。这些方法所在类肯定就是被代理了，在代理过程中切入了一些其他操作。</p>
 
+}</code></pre><p>密码加密存储之后，使用shiro做校验时，应该在realm中做如下配置：</p>
+<pre><code>&lt;!--创建自定义域对象--&gt;
+&lt;bean id=&quot;MyRealm&quot; class=&quot;com.hyt.realm.MyRealm&quot;&gt;
+    &lt;property name=&quot;credentialsMatcher&quot; ref=&quot;credentialsMatcher&quot;&gt;&lt;/property&gt;
+&lt;/bean&gt;
+&lt;!-- 创建凭证匹配器对象--&gt;
+&lt;bean id=&quot;credentialsMatcher&quot; class=&quot;org.apache.shiro.authc.credential.HashedCredentialsMatcher&quot;&gt;
+    &lt;!--指定要对用户传过来的明文的密码最什么加密--&gt;
+    &lt;property name=&quot;hashAlgorithmName&quot; value=&quot;md5&quot;&gt;&lt;/property&gt;
+    &lt;!--指明hash迭代的次数--&gt;
+    &lt;property name=&quot;hashIterations&quot; value=&quot;10&quot;&gt;&lt;/property&gt;
+&lt;/bean&gt;</code></pre>
             </article>
             <hr>
             <div>
@@ -309,6 +399,8 @@ public class StudentsProxy implements Person{
                     
                       <a class="hover-with-bg" href="/tags/Spring/">Spring</a>
                     
+                      <a class="hover-with-bg" href="/tags/Shiro/">Shiro</a>
+                    
                   </div>
                 
               </div>
@@ -320,18 +412,12 @@ public class StudentsProxy implements Person{
                   <div class="post-prev col-6">
                     
                     
-                      <a href="/2020/04/26/18/">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">Shiro框架学习笔记</span>
-                        <span class="visible-mobile">上一篇</span>
-                      </a>
-                    
                   </div>
                   <div class="post-next col-6">
                     
                     
-                      <a href="/2020/04/02/16/">
-                        <span class="hidden-mobile">基于MyBatis框架的dao层开发的两种方式</span>
+                      <a href="/2020/04/12/17/">
+                        <span class="hidden-mobile">对于AOP编程思想的一些理解</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
@@ -547,7 +633,7 @@ public class StudentsProxy implements Person{
     var typed = new Typed('#subtitle', {
       strings: [
         '  ',
-        "对于AOP编程思想的一些理解&nbsp;",
+        "Shiro框架学习笔记&nbsp;",
       ],
       cursorChar: "_",
       typeSpeed: 70,
