@@ -23,7 +23,7 @@
 <link  rel="stylesheet" href="https://cdn.staticfile.org/github-markdown-css/4.0.0/github-markdown.min.css" />
 
 
-  <link  rel="stylesheet" href="https://cdn.staticfile.org/highlight.js/9.18.1/styles/github-gist.min.css" />
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/highlight.js/10.0.0/styles/github-gist.min.css" />
 
 
 <!-- 主题依赖的图标库，不要自行修改 -->
@@ -32,7 +32,7 @@
 
 
 
-<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_ijqayz9ro8k.css">
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_pjno9b9zyxs.css">
 
 
 
@@ -319,7 +319,7 @@
     var path = "/local-search.xml";
     var inputArea = document.querySelector("#local-search-input");
     inputArea.onclick = function () {
-      getSearchFile(path);
+      searchFunc(path, 'local-search-input', 'local-search-result');
       this.onclick = null
     }
   </script>

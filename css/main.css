@@ -65,6 +65,14 @@ img[srcset] {
   height: 100%;
   background-color: rgba(0,0,0,0.3);
 }
+.container-fluid {
+  padding-left: 0;
+  padding-right: 0;
+}
+.container-fluid .row {
+  margin-left: 0;
+  margin-right: 0;
+}
 .flex-center {
   display: -webkit-box;
   display: -ms-flexbox;
@@ -593,12 +601,6 @@ a.beian-police img {
   line-height: 1.5;
   border-radius: 3px;
   tab-size: 4;
-  overflow: -moz-scrollbars-none;
-  -ms-overflow-style: none;
-}
-.markdown-body pre code::-webkit-scrollbar {
-  width: 0;
-  height: 0;
 }
 .markdown-body pre code.mermaid > svg {
   min-width: 100%;
@@ -609,6 +611,7 @@ a.beian-police img {
   margin: 1.5rem auto;
   display: block;
   box-shadow: 0 5px 11px 0 rgba(0,0,0,0.18), 0 4px 15px 0 rgba(0,0,0,0.15) !important;
+  border-radius: 3px;
 }
 .markdown-body div.hljs {
   overflow-x: initial;
@@ -823,7 +826,7 @@ input[type=checkbox]:checked:after {
 .index-excerpt {
   color: #718096;
   margin: 0.5rem 0 0.5rem 0;
-  height: calc(1.4rem * 3);
+  max-height: calc(1.4rem * 3);
   line-height: 1.4rem;
   overflow: hidden;
 }
@@ -854,7 +857,6 @@ input[type=checkbox]:checked:after {
   box-sizing: border-box;
   padding-left: 10%;
   padding-right: 10%;
-  max-width: 64rem;
 }
 @media (max-width: 767px) {
   .post-content {
@@ -1026,12 +1028,6 @@ h6::before {
 .comments {
   margin-top: 2rem;
 }
-@media (min-width: 64rem) {
-  .custom,
-  .comments {
-    max-width: 64rem;
-  }
-}
 .katex-block {
   overflow-x: auto;
 }
@@ -1041,6 +1037,15 @@ h6::before {
 }
 .mjx-char {
   line-height: 1;
+}
+mjx-container {
+  overflow-x: auto;
+  overflow-y: hidden !important;
+  padding: 0.5em 0;
+}
+mjx-container:focus,
+mjx-container svg:focus {
+  outline: none;
 }
 @-moz-keyframes post-prev-anim {
   0% {
@@ -1238,17 +1243,25 @@ h6::before {
   color: #fff !important;
   text-decoration: none;
 }
-.group-image img {
+.group-image-container {
+  margin: 1.5rem auto;
+}
+.group-image-container img {
   margin: 0 auto;
-  padding: 0 3px;
+  border-radius: 3px;
 }
 .group-image-row {
-  margin-bottom: 6px;
-  overflow: hidden;
+  margin-bottom: 0.5rem;
+  display: flex;
+  justify-content: center;
 }
-.group-image-column {
-  float: left;
-  margin-bottom: 10px;
+.group-image-wrap {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+}
+.group-image-wrap:not(:last-child) {
+  margin-right: 0.25rem;
 }
 .list-group a ~ p.h5 {
   margin-top: 1rem;
