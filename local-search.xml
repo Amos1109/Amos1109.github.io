@@ -4,6 +4,33 @@
   
   
   <entry>
+    <title>基于MyBatisPlus的代码生成器的使用</title>
+    <link href="/2020/07/26/21/"/>
+    <url>/2020/07/26/21/</url>
+    
+    <content type="html"><![CDATA[<p>目前正在研究开发Vue+SpringBoot的前后端分离模式。</p><p>在开发过程中，找到一个及其强大的基于Mybatis-Plus的代码生成工具。现与大家分享。</p><h3 id="1-首先引入依赖"><a href="#1-首先引入依赖" class="headerlink" title="1 首先引入依赖"></a>1 首先引入依赖</h3><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span>    <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>mysql<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span>    <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>mysql-connector-java<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span>    <span class="hljs-tag">&lt;<span class="hljs-name">scope</span>&gt;</span>runtime<span class="hljs-tag">&lt;/<span class="hljs-name">scope</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span> <span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span>    <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>com.baomidou<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span>    <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>mybatis-plus-boot-starter<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span>    <span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>3.2.0<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span> <span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span>    <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>com.baomidou<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span>    <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>mybatis-plus-generator<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span>    <span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>3.2.0<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span></code></pre><h3 id="2-代码生成工具代码"><a href="#2-代码生成工具代码" class="headerlink" title="2 代码生成工具代码"></a>2 代码生成工具代码</h3><pre><code class="hljs java"><span class="hljs-comment">// 演示例子，执行 main 方法控制台输入模块表名回车自动生成对应项目目录中</span><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">CodeGenerator</span> </span>&#123;    <span class="hljs-comment">/**     * &lt;p&gt;     * 读取控制台内容     * &lt;/p&gt;     */</span>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> String <span class="hljs-title">scanner</span><span class="hljs-params">(String tip)</span> </span>&#123;        Scanner scanner = <span class="hljs-keyword">new</span> Scanner(System.in);        StringBuilder help = <span class="hljs-keyword">new</span> StringBuilder();        help.append(<span class="hljs-string">"请输入"</span> + tip + <span class="hljs-string">"："</span>);        System.out.println(help.toString());        <span class="hljs-keyword">if</span> (scanner.hasNext()) &#123;            String ipt = scanner.next();            <span class="hljs-keyword">if</span> (StringUtils.isNotEmpty(ipt)) &#123;                <span class="hljs-keyword">return</span> ipt;            &#125;        &#125;        <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> MybatisPlusException(<span class="hljs-string">"请输入正确的"</span> + tip + <span class="hljs-string">"！"</span>);    &#125;    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> </span>&#123;        <span class="hljs-comment">// 代码生成器</span>        AutoGenerator mpg = <span class="hljs-keyword">new</span> AutoGenerator();        <span class="hljs-comment">// 全局配置</span>        GlobalConfig gc = <span class="hljs-keyword">new</span> GlobalConfig();        String projectPath = System.getProperty(<span class="hljs-string">"user.dir"</span>);        gc.setOutputDir(projectPath + <span class="hljs-string">"/src/main/java"</span>);<span class="hljs-comment">//        gc.setOutputDir("D:\\test");</span>        gc.setAuthor(<span class="hljs-string">"AmosHong"</span>);        gc.setOpen(<span class="hljs-keyword">false</span>);        <span class="hljs-comment">// gc.setSwagger2(true); 实体属性 Swagger2 注解</span>        gc.setServiceName(<span class="hljs-string">"%sService"</span>);        mpg.setGlobalConfig(gc);        <span class="hljs-comment">// 数据源配置</span>        DataSourceConfig dsc = <span class="hljs-keyword">new</span> DataSourceConfig();        dsc.setUrl(<span class="hljs-string">"jdbc:mysql://loacalhost:3306/vueblog?useUnicode=true&amp;useSSL=false&amp;characterEncoding=utf8&amp;serverTimezone=UTC"</span>);        <span class="hljs-comment">// dsc.setSchemaName("public");</span>        dsc.setDriverName(<span class="hljs-string">"com.mysql.cj.jdbc.Driver"</span>);        dsc.setUsername(<span class="hljs-string">"root"</span>);        dsc.setPassword(<span class="hljs-string">"root"</span>);        mpg.setDataSource(dsc);        <span class="hljs-comment">// 包配置</span>        PackageConfig pc = <span class="hljs-keyword">new</span> PackageConfig();        pc.setModuleName(<span class="hljs-keyword">null</span>);        pc.setParent(<span class="hljs-string">"com.hyt"</span>);        mpg.setPackageInfo(pc);        <span class="hljs-comment">// 自定义配置</span>        InjectionConfig cfg = <span class="hljs-keyword">new</span> InjectionConfig() &#123;            <span class="hljs-meta">@Override</span>            <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">initMap</span><span class="hljs-params">()</span> </span>&#123;                <span class="hljs-comment">// to do nothing</span>            &#125;        &#125;;        <span class="hljs-comment">// 如果模板引擎是 freemarker</span>        String templatePath = <span class="hljs-string">"/templates/mapper.xml.ftl"</span>;        <span class="hljs-comment">// 如果模板引擎是 velocity</span>        <span class="hljs-comment">// String templatePath = "/templates/mapper.xml.vm";</span>        <span class="hljs-comment">// 自定义输出配置</span>        List&lt;FileOutConfig&gt; focList = <span class="hljs-keyword">new</span> ArrayList&lt;&gt;();        <span class="hljs-comment">// 自定义配置会被优先输出</span>        focList.add(<span class="hljs-keyword">new</span> FileOutConfig(templatePath) &#123;            <span class="hljs-meta">@Override</span>            <span class="hljs-function"><span class="hljs-keyword">public</span> String <span class="hljs-title">outputFile</span><span class="hljs-params">(TableInfo tableInfo)</span> </span>&#123;                <span class="hljs-comment">// 自定义输出文件名 ， 如果你 Entity 设置了前后缀、此处注意 xml 的名称会跟着发生变化！！</span>                <span class="hljs-keyword">return</span> projectPath + <span class="hljs-string">"/src/main/resources/mapper/"</span>                        + <span class="hljs-string">"/"</span> + tableInfo.getEntityName() + <span class="hljs-string">"Mapper"</span> + StringPool.DOT_XML;            &#125;        &#125;);        cfg.setFileOutConfigList(focList);        mpg.setCfg(cfg);        <span class="hljs-comment">// 配置模板</span>        TemplateConfig templateConfig = <span class="hljs-keyword">new</span> TemplateConfig();        templateConfig.setXml(<span class="hljs-keyword">null</span>);        mpg.setTemplate(templateConfig);        <span class="hljs-comment">// 策略配置</span>        StrategyConfig strategy = <span class="hljs-keyword">new</span> StrategyConfig();        strategy.setNaming(NamingStrategy.underline_to_camel);        strategy.setColumnNaming(NamingStrategy.underline_to_camel);        strategy.setEntityLombokModel(<span class="hljs-keyword">true</span>);        strategy.setRestControllerStyle(<span class="hljs-keyword">true</span>);        strategy.setInclude(scanner(<span class="hljs-string">"表名，多个英文逗号分割"</span>).split(<span class="hljs-string">","</span>));        strategy.setControllerMappingHyphenStyle(<span class="hljs-keyword">true</span>);        strategy.setTablePrefix(<span class="hljs-string">"m_"</span>);        mpg.setStrategy(strategy);        mpg.setTemplateEngine(<span class="hljs-keyword">new</span> FreemarkerTemplateEngine());        mpg.execute();    &#125;&#125;</code></pre><h3 id="3-详细说明"><a href="#3-详细说明" class="headerlink" title="3 详细说明"></a>3 详细说明</h3><p>​        当运行代码生成工具时，先在该Java文件下配置好你的包路径以及你的数据库URL，然后运行时，输入你开发所需要的数据表名，就会帮你自动生成所需要Controller + Service + Entity + Mapper 层以及对应的Mapper.xml文件。并且MyBatis-Plus通过代码生成工具封装了许多基本的CRUD操作，这样就不需要在xml文件里写sql语句了，MyBatis-Plus已经全部帮你写好了，而且还内置了防SQL注入操作、常用的分页插件，快速开发，懒人福利！</p>]]></content>
+    
+    
+    <categories>
+      
+      <category>学习开发</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>SpringBoot</tag>
+      
+      <tag>MyBatis-Pluc</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>Web程序设计（JSP）课程项目报告</title>
     <link href="/2020/07/07/20/"/>
     <url>/2020/07/07/20/</url>
@@ -22,9 +49,9 @@
       
       <tag>Java</tag>
       
-      <tag>AJAX</tag>
-      
       <tag>Servlet</tag>
+      
+      <tag>AJAX</tag>
       
     </tags>
     
@@ -500,9 +527,9 @@
       
       <tag>Java</tag>
       
-      <tag>AJAX</tag>
-      
       <tag>Servlet</tag>
+      
+      <tag>AJAX</tag>
       
     </tags>
     
