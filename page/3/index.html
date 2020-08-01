@@ -1,7 +1,7 @@
+
+
 <!DOCTYPE html>
-<html lang="zh-CN">
-
-
+<html lang="zh-CN" data-default-color-scheme=&#34;auto&#34;>
 
 
 
@@ -17,25 +17,19 @@
   <meta name="description" content="">
   <meta name="author" content="Hong Yuting">
   <meta name="keywords" content="">
-  <meta name="baidu-site-verification" content="0SZTwDnV8I" />
   <title>Amospace</title>
 
   <link  rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/css/bootstrap.min.css" />
-<link  rel="stylesheet" href="https://cdn.staticfile.org/github-markdown-css/4.0.0/github-markdown.min.css" />
 
-
-  <link  rel="stylesheet" href="https://cdn.staticfile.org/highlight.js/10.0.0/styles/github-gist.min.css" />
 
 
 <!-- 主题依赖的图标库，不要自行修改 -->
 
-<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_fmb4a04yx8h.css">
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_6peoq002giu.css">
 
 
 
 <link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_pjno9b9zyxs.css">
-
-
 
 
 <link  rel="stylesheet" href="/css/main.css" />
@@ -43,6 +37,8 @@
 <!-- 自定义样式保持在最底部 -->
 
 
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
 <meta name="generator" content="Hexo 4.2.0"></head>
 
 
@@ -51,7 +47,7 @@
     <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
   <div class="container">
     <a class="navbar-brand"
-       href="/">&nbsp;<strong>Amospace</strong>&nbsp;</a>
+       href="/">&nbsp;<strong>Fluid</strong>&nbsp;</a>
 
     <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
             data-target="#navbarSupportedContent"
@@ -66,52 +62,73 @@
           
           
           
-          <li class="nav-item">
-            <a class="nav-link" href="/">
-              <i class="iconfont icon-home-fill"></i>
-              首页</a>
-          </li>
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
         
           
           
           
-          <li class="nav-item">
-            <a class="nav-link" href="/archives/">
-              <i class="iconfont icon-archive-fill"></i>
-              归档</a>
-          </li>
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
         
           
           
           
-          <li class="nav-item">
-            <a class="nav-link" href="/categories/">
-              <i class="iconfont icon-category-fill"></i>
-              分类</a>
-          </li>
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
         
           
           
           
-          <li class="nav-item">
-            <a class="nav-link" href="/tags/">
-              <i class="iconfont icon-tags-fill"></i>
-              标签</a>
-          </li>
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
         
           
           
           
-          <li class="nav-item">
-            <a class="nav-link" href="/about/">
-              <i class="iconfont icon-user-fill"></i>
-              关于</a>
-          </li>
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
         
         
           <li class="nav-item" id="search-btn">
-            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;&nbsp;<i
-                class="iconfont icon-search"></i>&nbsp;&nbsp;</a>
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;</a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" href="javascript:">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
           </li>
         
       </ul>
@@ -119,16 +136,15 @@
   </div>
 </nav>
 
-    <div class="view intro-2" id="background" parallax=true
+    <div class="banner intro-2" id="background" parallax=true
          style="background: url('https://api.ixiaowai.cn/gqapi/gqapi.php') no-repeat center center;
            background-size: cover;">
       <div class="full-bg-img">
         <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
-          <div class="container text-center white-text fadeInUp"> 
-            <span class="h3" id="subtitle">
+          <div class="container page-header text-center fade-in-up">
+            <span class="h2" id="subtitle">
               
             </span>
-	   
 
             
           </div>
@@ -164,26 +180,33 @@
         </a>
       </div>
     
-    <div class="col-12 col-md-8 mx-auto index-info">
-      <a class="index-header" href="/2020/03/09/11/">把Perfume改为c3p0连接池（附DBUtils的使用）</a>
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h1 class="index-header">
+        <a href="/2020/03/09/11/">把Perfume改为c3p0连接池（附DBUtils的使用）</a>
+      </h1>
 
-      <a href="/2020/03/09/11/" class="index-excerpt">
-        
-        
+      <p class="index-excerpt">
+        <a href="/2020/03/09/11/">
           
-        
-        <div>数据库连接池的基本思想就是为数据库建⽴⼀个缓冲池，预先向缓冲池中放⼊⼀定数量的连接对象，当需要获取数据库连接的时候，只需要从缓冲池中取出⼀个对象，⽤完之后再放回到缓冲池中，供下⼀次请求使⽤，做到了资源的重复利⽤，允许程序重复使⽤⼀个现有的数据库连接对象，⽽不需要重新创建。
+          
+            
+          
+          数据库连接池的基本思想就是为数据库建⽴⼀个缓冲池，预先向缓冲池中放⼊⼀定数量的连接对象，当需要获取数据库连接的时候，只需要从缓冲池中取出⼀个对象，⽤完之后再放回到缓冲池中，供下⼀次请求使⽤，做到了资源的重复利⽤，允许程序重复使⽤⼀个现有的数据库连接对象，⽽不需要重新创建。
 在我看来，JDBC 开发流程大致可分为以下几个步骤，
 
 加载驱动（只需要加载⼀次）
 建⽴数据库连接（Connection）
-执</div>
-      </a>
+执
+        </a>
+      </p>
 
       <div class="index-btm post-metas">
         
           <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>&nbsp;2020-03-09
+            <i class="iconfont icon-date"></i>
+            <time datetime="2020-03-09 16:00" pubdate>
+              2020-03-09
+            </time>
           </div>
         
         
@@ -203,7 +226,7 @@
           </div>
         
       </div>
-    </div>
+    </article>
   </div>
 
   <div class="row mx-auto index-card">
@@ -215,22 +238,29 @@
         </a>
       </div>
     
-    <div class="col-12 col-md-8 mx-auto index-info">
-      <a class="index-header" href="/2020/03/08/10/">HTTP协议的总结归纳</a>
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h1 class="index-header">
+        <a href="/2020/03/08/10/">HTTP协议的总结归纳</a>
+      </h1>
 
-      <a href="/2020/03/08/10/" class="index-excerpt">
-        
-        
+      <p class="index-excerpt">
+        <a href="/2020/03/08/10/">
           
-        
-        <div>HTTP协议简介超文本传输协议（英文：HyperText Transfer Protocol，缩写：HTTP）是一种用于分布式、协作式和超媒体信息系统的应用层协议。HTTP是万维网的数据通信的基础。
-HTTP协议概述HTTP是一个客户端终端（用户）和服务器端（网站）请求和应答的标准（TCP）。通过使用网页浏览器、网络爬虫或者其它的工具，客户端发起一个HTTP请求到服务器上指定端口（默认端口为80）</div>
-      </a>
+          
+            
+          
+          HTTP协议简介超文本传输协议（英文：HyperText Transfer Protocol，缩写：HTTP）是一种用于分布式、协作式和超媒体信息系统的应用层协议。HTTP是万维网的数据通信的基础。
+HTTP协议概述HTTP是一个客户端终端（用户）和服务器端（网站）请求和应答的标准（TCP）。通过使用网页浏览器、网络爬虫或者其它的工具，客户端发起一个HTTP请求到服务器上指定端口（默认端口为80）
+        </a>
+      </p>
 
       <div class="index-btm post-metas">
         
           <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>&nbsp;2020-03-08
+            <i class="iconfont icon-date"></i>
+            <time datetime="2020-03-08 22:07" pubdate>
+              2020-03-08
+            </time>
           </div>
         
         
@@ -250,7 +280,7 @@ HTTP协议概述HTTP是一个客户端终端（用户）和服务器端（网站
           </div>
         
       </div>
-    </div>
+    </article>
   </div>
 
   <div class="row mx-auto index-card">
@@ -262,22 +292,29 @@ HTTP协议概述HTTP是一个客户端终端（用户）和服务器端（网站
         </a>
       </div>
     
-    <div class="col-12 col-md-8 mx-auto index-info">
-      <a class="index-header" href="/2020/03/05/9/">近两个月的学习过后的一些成果？</a>
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h1 class="index-header">
+        <a href="/2020/03/05/9/">近两个月的学习过后的一些成果？</a>
+      </h1>
 
-      <a href="/2020/03/05/9/" class="index-excerpt">
-        
-        
+      <p class="index-excerpt">
+        <a href="/2020/03/05/9/">
           
-        
-        <div>1.Perfume香水商店寒假开始第一个实现的项目，经历了一次又一次地升级更新，基本实现了老师所要求的条件。链接：http://121.43.102.125:8080/perfume/
-2.通过Servlet实现的验证码登录验证+Filter过滤器网上各式各样的验证码样式很多，不同样式有不同的实现代码，我找了个理解起来比较容易的。然后和刚学的Filter过滤器一起使用，刚开始显示不了图，后面才知道</div>
-      </a>
+          
+            
+          
+          1.Perfume香水商店寒假开始第一个实现的项目，经历了一次又一次地升级更新，基本实现了老师所要求的条件。链接：http://121.43.102.125:8080/perfume/
+2.通过Servlet实现的验证码登录验证+Filter过滤器网上各式各样的验证码样式很多，不同样式有不同的实现代码，我找了个理解起来比较容易的。然后和刚学的Filter过滤器一起使用，刚开始显示不了图，后面才知道
+        </a>
+      </p>
 
       <div class="index-btm post-metas">
         
           <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>&nbsp;2020-03-05
+            <i class="iconfont icon-date"></i>
+            <time datetime="2020-03-05 20:17" pubdate>
+              2020-03-05
+            </time>
           </div>
         
         
@@ -297,7 +334,7 @@ HTTP协议概述HTTP是一个客户端终端（用户）和服务器端（网站
           </div>
         
       </div>
-    </div>
+    </article>
   </div>
 
   <div class="row mx-auto index-card">
@@ -309,22 +346,29 @@ HTTP协议概述HTTP是一个客户端终端（用户）和服务器端（网站
         </a>
       </div>
     
-    <div class="col-12 col-md-8 mx-auto index-info">
-      <a class="index-header" href="/2020/03/01/8/">近两个月的学习过后的一些心得体会？</a>
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h1 class="index-header">
+        <a href="/2020/03/01/8/">近两个月的学习过后的一些心得体会？</a>
+      </h1>
 
-      <a href="/2020/03/01/8/" class="index-excerpt">
-        
-        
+      <p class="index-excerpt">
+        <a href="/2020/03/01/8/">
           
-        
-        <div>我想这个寒假是最为印象深刻，最有意义的一个寒假了。印象深刻是因为由于疫情的缘故，我的放假时间变长，而我却只能待在家里；最有意义是因为学到一些有意思的，感兴趣的东西而变得充实有乐趣。我一向来喜欢实践性很强的东西，对一些目的明确的事情总是让我沉浸其中，往往等自己反应过来，已经是好几个小时以后的事情。
-不同于之前学的C++程序设计，可能由于学的比较浅，代码很精炼，结构很单一，往往一个结果几行代码就能够搞</div>
-      </a>
+          
+            
+          
+          我想这个寒假是最为印象深刻，最有意义的一个寒假了。印象深刻是因为由于疫情的缘故，我的放假时间变长，而我却只能待在家里；最有意义是因为学到一些有意思的，感兴趣的东西而变得充实有乐趣。我一向来喜欢实践性很强的东西，对一些目的明确的事情总是让我沉浸其中，往往等自己反应过来，已经是好几个小时以后的事情。
+不同于之前学的C++程序设计，可能由于学的比较浅，代码很精炼，结构很单一，往往一个结果几行代码就能够搞
+        </a>
+      </p>
 
       <div class="index-btm post-metas">
         
           <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>&nbsp;2020-03-01
+            <i class="iconfont icon-date"></i>
+            <time datetime="2020-03-01 13:56" pubdate>
+              2020-03-01
+            </time>
           </div>
         
         
@@ -344,7 +388,7 @@ HTTP协议概述HTTP是一个客户端终端（用户）和服务器端（网站
           </div>
         
       </div>
-    </div>
+    </article>
   </div>
 
   <div class="row mx-auto index-card">
@@ -356,15 +400,18 @@ HTTP协议概述HTTP是一个客户端终端（用户）和服务器端（网站
         </a>
       </div>
     
-    <div class="col-12 col-md-8 mx-auto index-info">
-      <a class="index-header" href="/2020/02/29/7/">Hexo博客框架搭建教程（二）</a>
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h1 class="index-header">
+        <a href="/2020/02/29/7/">Hexo博客框架搭建教程（二）</a>
+      </h1>
 
-      <a href="/2020/02/29/7/" class="index-excerpt">
-        
-        
+      <p class="index-excerpt">
+        <a href="/2020/02/29/7/">
           
-        
-        <div>hexo基本配置在文件根目录下的_config.yml，就是整个hexo框架的配置文件了。可以在里面修改大部分的配置。详细可参考官方的配置描述.
+          
+            
+          
+          hexo基本配置在文件根目录下的_config.yml，就是整个hexo框架的配置文件了。可以在里面修改大部分的配置。详细可参考官方的配置描述.
 
 
 
@@ -397,13 +444,17 @@ timezone
 网站时区
 
 
-发表文章cd到myblog文件夹下（文件</div>
-      </a>
+发表文章cd到myblog文件夹下（文件
+        </a>
+      </p>
 
       <div class="index-btm post-metas">
         
           <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>&nbsp;2020-02-29
+            <i class="iconfont icon-date"></i>
+            <time datetime="2020-02-29 15:20" pubdate>
+              2020-02-29
+            </time>
           </div>
         
         
@@ -425,7 +476,7 @@ timezone
           </div>
         
       </div>
-    </div>
+    </article>
   </div>
 
 
@@ -518,23 +569,6 @@ timezone
         <span>Fluid</span></a>
     </div>
     
-  <div>
-    
-      <!-- 不蒜子统计PV -->
-      
-      <span id="busuanzi_container_site_pv" style="display: none">
-      总访问量 <span id="busuanzi_value_site_pv"></span> 次
-    </span>
-    
-    
-      <!-- 不蒜子统计UV -->
-      
-      <span id="busuanzi_container_site_uv" style="display: none">
-      总访客数 <span id="busuanzi_value_site_uv"></span> 人
-    </span>
-    
-  </div>
-
 
     
 
@@ -545,12 +579,15 @@ timezone
 <!-- SCRIPTS -->
 <script  src="https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js" ></script>
 <script  src="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/js/bootstrap.min.js" ></script>
+<script  src="/js/debouncer.js" ></script>
 <script  src="/js/main.js" ></script>
 
+<!-- Plugins -->
 
-  <script  src="/js/lazyload.js" ></script>
 
-
+  
+    <script  src="/js/lazyload.js" ></script>
+  
 
 
 
@@ -559,12 +596,9 @@ timezone
 
 
 
-  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
 
 
 
-
-<!-- Plugins -->
 
 
 
@@ -588,21 +622,6 @@ timezone
 
 
 
-  <script  src="https://cdn.staticfile.org/anchor-js/4.2.2/anchor.min.js" ></script>
-  <script>
-    anchors.options = {
-      placement: "right",
-      visible: "hover",
-      
-    };
-    var el = "h1,h2,h3,h4,h5,h6".split(",");
-    var res = [];
-    for (item of el) {
-      res.push(".markdown-body > " + item)
-    }
-    anchors.add(res.join(", "))
-  </script>
-
 
 
   <script  src="/js/local-search.js" ></script>
@@ -614,6 +633,8 @@ timezone
       this.onclick = null
     }
   </script>
+
+
 
 
 

@@ -1,7 +1,7 @@
+
+
 <!DOCTYPE html>
-<html lang="zh-CN">
-
-
+<html lang="zh-CN" data-default-color-scheme=&#34;auto&#34;>
 
 
 
@@ -17,25 +17,19 @@
   <meta name="description" content="">
   <meta name="author" content="Hong Yuting">
   <meta name="keywords" content="">
-  <meta name="baidu-site-verification" content="0SZTwDnV8I" />
   <title>Amospace</title>
 
   <link  rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/css/bootstrap.min.css" />
-<link  rel="stylesheet" href="https://cdn.staticfile.org/github-markdown-css/4.0.0/github-markdown.min.css" />
 
-
-  <link  rel="stylesheet" href="https://cdn.staticfile.org/highlight.js/10.0.0/styles/github-gist.min.css" />
 
 
 <!-- 主题依赖的图标库，不要自行修改 -->
 
-<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_fmb4a04yx8h.css">
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_6peoq002giu.css">
 
 
 
 <link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_pjno9b9zyxs.css">
-
-
 
 
 <link  rel="stylesheet" href="/css/main.css" />
@@ -43,6 +37,8 @@
 <!-- 自定义样式保持在最底部 -->
 
 
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
 <meta name="generator" content="Hexo 4.2.0"></head>
 
 
@@ -51,7 +47,7 @@
     <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
   <div class="container">
     <a class="navbar-brand"
-       href="/">&nbsp;<strong>Amospace</strong>&nbsp;</a>
+       href="/">&nbsp;<strong>Fluid</strong>&nbsp;</a>
 
     <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
             data-target="#navbarSupportedContent"
@@ -66,52 +62,73 @@
           
           
           
-          <li class="nav-item">
-            <a class="nav-link" href="/">
-              <i class="iconfont icon-home-fill"></i>
-              首页</a>
-          </li>
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
         
           
           
           
-          <li class="nav-item">
-            <a class="nav-link" href="/archives/">
-              <i class="iconfont icon-archive-fill"></i>
-              归档</a>
-          </li>
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
         
           
           
           
-          <li class="nav-item">
-            <a class="nav-link" href="/categories/">
-              <i class="iconfont icon-category-fill"></i>
-              分类</a>
-          </li>
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
         
           
           
           
-          <li class="nav-item">
-            <a class="nav-link" href="/tags/">
-              <i class="iconfont icon-tags-fill"></i>
-              标签</a>
-          </li>
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
         
           
           
           
-          <li class="nav-item">
-            <a class="nav-link" href="/about/">
-              <i class="iconfont icon-user-fill"></i>
-              关于</a>
-          </li>
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
         
         
           <li class="nav-item" id="search-btn">
-            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;&nbsp;<i
-                class="iconfont icon-search"></i>&nbsp;&nbsp;</a>
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;</a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" href="javascript:">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
           </li>
         
       </ul>
@@ -119,16 +136,15 @@
   </div>
 </nav>
 
-    <div class="view intro-2" id="background" parallax=true
+    <div class="banner intro-2" id="background" parallax=true
          style="background: url('https://api.ixiaowai.cn/gqapi/gqapi.php') no-repeat center center;
            background-size: cover;">
       <div class="full-bg-img">
         <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
-          <div class="container text-center white-text fadeInUp"> 
-            <span class="h3" id="subtitle">
+          <div class="container page-header text-center fade-in-up">
+            <span class="h2" id="subtitle">
               
             </span>
-	   
 
             
           </div>
@@ -164,24 +180,31 @@
         </a>
       </div>
     
-    <div class="col-12 col-md-8 mx-auto index-info">
-      <a class="index-header" href="/2020/04/12/17/">对于AOP编程思想的一些理解</a>
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h1 class="index-header">
+        <a href="/2020/04/12/17/">对于AOP编程思想的一些理解</a>
+      </h1>
 
-      <a href="/2020/04/12/17/" class="index-excerpt">
-        
-        
+      <p class="index-excerpt">
+        <a href="/2020/04/12/17/">
           
-        
-        <div>什么是AOP编程AOP: Aspect Oriented Programming 面向切面编程。
+          
+            
+          
+          什么是AOP编程AOP: Aspect Oriented Programming 面向切面编程。
 利用AOP可以对业务逻辑的各个部分进行隔离，从而使得业务逻辑各部分之间的耦合度降低，提高程序的可重用性，同时提高了开发的效率。 
 主要的功能是：日志记录，性能统计，安全控制，事务处理，异常处理等。 　　
-主要的意图是：将日志记录，性能统计，安全控制，事务处理，异常处理等代码从业务逻辑代码中划分出来，通</div>
-      </a>
+主要的意图是：将日志记录，性能统计，安全控制，事务处理，异常处理等代码从业务逻辑代码中划分出来，通
+        </a>
+      </p>
 
       <div class="index-btm post-metas">
         
           <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>&nbsp;2020-04-12
+            <i class="iconfont icon-date"></i>
+            <time datetime="2020-04-12 13:18" pubdate>
+              2020-04-12
+            </time>
           </div>
         
         
@@ -203,7 +226,7 @@
           </div>
         
       </div>
-    </div>
+    </article>
   </div>
 
   <div class="row mx-auto index-card">
@@ -215,15 +238,18 @@
         </a>
       </div>
     
-    <div class="col-12 col-md-8 mx-auto index-info">
-      <a class="index-header" href="/2020/04/02/16/">基于MyBatis框架的dao层开发的两种方式</a>
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h1 class="index-header">
+        <a href="/2020/04/02/16/">基于MyBatis框架的dao层开发的两种方式</a>
+      </h1>
 
-      <a href="/2020/04/02/16/" class="index-excerpt">
-        
-        
+      <p class="index-excerpt">
+        <a href="/2020/04/02/16/">
           
-        
-        <div>一、原始dao的开发方式即开发dao接口和dao接口实现类。首先添加dao接口：
+          
+            
+          
+          一、原始dao的开发方式即开发dao接口和dao接口实现类。首先添加dao接口：
 package com.hyt.dao;
 
 import com.hyt.bean.user;
@@ -234,13 +260,17 @@ public interface UserDao {
 }然后实现接口类：
 package com.hyt.dao;
 
-imp</div>
-      </a>
+imp
+        </a>
+      </p>
 
       <div class="index-btm post-metas">
         
           <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>&nbsp;2020-04-02
+            <i class="iconfont icon-date"></i>
+            <time datetime="2020-04-02 14:14" pubdate>
+              2020-04-02
+            </time>
           </div>
         
         
@@ -255,14 +285,14 @@ imp</div>
           <div class="post-meta">
             <i class="iconfont icon-tags"></i>
             
-              <a href="/tags/Java/">Java</a>
-            
               <a href="/tags/MyBatis/">MyBatis</a>
+            
+              <a href="/tags/Java/">Java</a>
             
           </div>
         
       </div>
-    </div>
+    </article>
   </div>
 
   <div class="row mx-auto index-card">
@@ -274,22 +304,29 @@ imp</div>
         </a>
       </div>
     
-    <div class="col-12 col-md-8 mx-auto index-info">
-      <a class="index-header" href="/2020/04/01/15/">HashMap初解</a>
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h1 class="index-header">
+        <a href="/2020/04/01/15/">HashMap初解</a>
+      </h1>
 
-      <a href="/2020/04/01/15/" class="index-excerpt">
-        
-        
+      <p class="index-excerpt">
+        <a href="/2020/04/01/15/">
           
-        
-        <div>什么是哈希表在讨论哈希表之前，我们先大概了解下其他数据结构在新增，查找等基础操作执行性能
-数组：采用一段连续的存储单元来存储数据。对于指定下标的查找，时间复杂度为O(1)；通过给定值进行查找，需要遍历数组，逐一比对给定关键字和数组元素，时间复杂度为O(n)，当然，对于有序数组，则可采用二分查找，插值查找，斐波那契查找等方式，可将查找复杂度提高为O(logn)；对于一般的插入删除操作，涉及到数组元素</div>
-      </a>
+          
+            
+          
+          什么是哈希表在讨论哈希表之前，我们先大概了解下其他数据结构在新增，查找等基础操作执行性能
+数组：采用一段连续的存储单元来存储数据。对于指定下标的查找，时间复杂度为O(1)；通过给定值进行查找，需要遍历数组，逐一比对给定关键字和数组元素，时间复杂度为O(n)，当然，对于有序数组，则可采用二分查找，插值查找，斐波那契查找等方式，可将查找复杂度提高为O(logn)；对于一般的插入删除操作，涉及到数组元素
+        </a>
+      </p>
 
       <div class="index-btm post-metas">
         
           <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>&nbsp;2020-04-01
+            <i class="iconfont icon-date"></i>
+            <time datetime="2020-04-01 18:03" pubdate>
+              2020-04-01
+            </time>
           </div>
         
         
@@ -309,7 +346,7 @@ imp</div>
           </div>
         
       </div>
-    </div>
+    </article>
   </div>
 
   <div class="row mx-auto index-card">
@@ -321,21 +358,28 @@ imp</div>
         </a>
       </div>
     
-    <div class="col-12 col-md-8 mx-auto index-info">
-      <a class="index-header" href="/2020/03/31/14/">Hashcode详解</a>
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h1 class="index-header">
+        <a href="/2020/03/31/14/">Hashcode详解</a>
+      </h1>
 
-      <a href="/2020/03/31/14/" class="index-excerpt">
-        
-        
+      <p class="index-excerpt">
+        <a href="/2020/03/31/14/">
           
-        
-        <div>前言：​        写这篇文章是因为在做自己的商店项目的时候，遇到了两个奇怪的问题，一个是删除操作，我调试过了，函数都是正确执行的，但还是删不掉，一个是相同物品的添加购物车，不能叠加。这在之前做Perfume项目的时候都未曾遇到过的。调试过程中，发现购物车的商品存在判断containsKey()永远是null，也就是每一条商品信息都是新的。又因为购物车商品的集合是存放在HashMap里，在查阅</div>
-      </a>
+          
+            
+          
+          前言：​        写这篇文章是因为在做自己的商店项目的时候，遇到了两个奇怪的问题，一个是删除操作，我调试过了，函数都是正确执行的，但还是删不掉，一个是相同物品的添加购物车，不能叠加。这在之前做Perfume项目的时候都未曾遇到过的。调试过程中，发现购物车的商品存在判断containsKey()永远是null，也就是每一条商品信息都是新的。又因为购物车商品的集合是存放在HashMap里，在查阅
+        </a>
+      </p>
 
       <div class="index-btm post-metas">
         
           <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>&nbsp;2020-03-31
+            <i class="iconfont icon-date"></i>
+            <time datetime="2020-03-31 00:20" pubdate>
+              2020-03-31
+            </time>
           </div>
         
         
@@ -355,7 +399,7 @@ imp</div>
           </div>
         
       </div>
-    </div>
+    </article>
   </div>
 
   <div class="row mx-auto index-card">
@@ -367,24 +411,31 @@ imp</div>
         </a>
       </div>
     
-    <div class="col-12 col-md-8 mx-auto index-info">
-      <a class="index-header" href="/2020/03/18/13/">service层，dao层和service实现类的关系和区别</a>
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h1 class="index-header">
+        <a href="/2020/03/18/13/">service层，dao层和service实现类的关系和区别</a>
+      </h1>
 
-      <a href="/2020/03/18/13/" class="index-excerpt">
-        
-        
+      <p class="index-excerpt">
+        <a href="/2020/03/18/13/">
           
-        
-        <div>前言在学习Java分页和MyBatis框架的时候，其实本身对操作数据库的Dao层，Service层的了解其实并不是很深刻，感觉一个简单的数据库连接被这些奇奇怪怪的层弄得更加复杂了。这就给我一个疑问，到底DAO和Service是什么？为什么要有它们的存在?我查阅了一些资料，并简单理解了它们对应的功能，加以记录，防止忘记。
+          
+            
+          
+          前言在学习Java分页和MyBatis框架的时候，其实本身对操作数据库的Dao层，Service层的了解其实并不是很深刻，感觉一个简单的数据库连接被这些奇奇怪怪的层弄得更加复杂了。这就给我一个疑问，到底DAO和Service是什么？为什么要有它们的存在?我查阅了一些资料，并简单理解了它们对应的功能，加以记录，防止忘记。
 访问数据库的传统方法传统访问数据库的方法非常面向过程，分为以下几步 ：
 
-实例</div>
-      </a>
+实例
+        </a>
+      </p>
 
       <div class="index-btm post-metas">
         
           <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>&nbsp;2020-03-18
+            <i class="iconfont icon-date"></i>
+            <time datetime="2020-03-18 16:32" pubdate>
+              2020-03-18
+            </time>
           </div>
         
         
@@ -406,7 +457,7 @@ imp</div>
           </div>
         
       </div>
-    </div>
+    </article>
   </div>
 
 
@@ -499,23 +550,6 @@ imp</div>
         <span>Fluid</span></a>
     </div>
     
-  <div>
-    
-      <!-- 不蒜子统计PV -->
-      
-      <span id="busuanzi_container_site_pv" style="display: none">
-      总访问量 <span id="busuanzi_value_site_pv"></span> 次
-    </span>
-    
-    
-      <!-- 不蒜子统计UV -->
-      
-      <span id="busuanzi_container_site_uv" style="display: none">
-      总访客数 <span id="busuanzi_value_site_uv"></span> 人
-    </span>
-    
-  </div>
-
 
     
 
@@ -526,12 +560,15 @@ imp</div>
 <!-- SCRIPTS -->
 <script  src="https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js" ></script>
 <script  src="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/js/bootstrap.min.js" ></script>
+<script  src="/js/debouncer.js" ></script>
 <script  src="/js/main.js" ></script>
 
+<!-- Plugins -->
 
-  <script  src="/js/lazyload.js" ></script>
 
-
+  
+    <script  src="/js/lazyload.js" ></script>
+  
 
 
 
@@ -540,12 +577,9 @@ imp</div>
 
 
 
-  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
 
 
 
-
-<!-- Plugins -->
 
 
 
@@ -569,21 +603,6 @@ imp</div>
 
 
 
-  <script  src="https://cdn.staticfile.org/anchor-js/4.2.2/anchor.min.js" ></script>
-  <script>
-    anchors.options = {
-      placement: "right",
-      visible: "hover",
-      
-    };
-    var el = "h1,h2,h3,h4,h5,h6".split(",");
-    var res = [];
-    for (item of el) {
-      res.push(".markdown-body > " + item)
-    }
-    anchors.add(res.join(", "))
-  </script>
-
 
 
   <script  src="/js/local-search.js" ></script>
@@ -595,6 +614,8 @@ imp</div>
       this.onclick = null
     }
   </script>
+
+
 
 
 

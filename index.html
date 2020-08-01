@@ -1,7 +1,7 @@
+
+
 <!DOCTYPE html>
-<html lang="zh-CN">
-
-
+<html lang="zh-CN" data-default-color-scheme=&#34;auto&#34;>
 
 
 
@@ -17,25 +17,19 @@
   <meta name="description" content="">
   <meta name="author" content="Hong Yuting">
   <meta name="keywords" content="">
-  <meta name="baidu-site-verification" content="0SZTwDnV8I" />
   <title>Amospace</title>
 
   <link  rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/css/bootstrap.min.css" />
-<link  rel="stylesheet" href="https://cdn.staticfile.org/github-markdown-css/4.0.0/github-markdown.min.css" />
 
-
-  <link  rel="stylesheet" href="https://cdn.staticfile.org/highlight.js/10.0.0/styles/github-gist.min.css" />
 
 
 <!-- 主题依赖的图标库，不要自行修改 -->
 
-<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_fmb4a04yx8h.css">
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_6peoq002giu.css">
 
 
 
 <link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_pjno9b9zyxs.css">
-
-
 
 
 <link  rel="stylesheet" href="/css/main.css" />
@@ -43,6 +37,8 @@
 <!-- 自定义样式保持在最底部 -->
 
 
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
 <meta name="generator" content="Hexo 4.2.0"></head>
 
 
@@ -51,7 +47,7 @@
     <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
   <div class="container">
     <a class="navbar-brand"
-       href="/">&nbsp;<strong>Amospace</strong>&nbsp;</a>
+       href="/">&nbsp;<strong>Fluid</strong>&nbsp;</a>
 
     <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
             data-target="#navbarSupportedContent"
@@ -66,52 +62,73 @@
           
           
           
-          <li class="nav-item">
-            <a class="nav-link" href="/">
-              <i class="iconfont icon-home-fill"></i>
-              首页</a>
-          </li>
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
         
           
           
           
-          <li class="nav-item">
-            <a class="nav-link" href="/archives/">
-              <i class="iconfont icon-archive-fill"></i>
-              归档</a>
-          </li>
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
         
           
           
           
-          <li class="nav-item">
-            <a class="nav-link" href="/categories/">
-              <i class="iconfont icon-category-fill"></i>
-              分类</a>
-          </li>
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
         
           
           
           
-          <li class="nav-item">
-            <a class="nav-link" href="/tags/">
-              <i class="iconfont icon-tags-fill"></i>
-              标签</a>
-          </li>
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
         
           
           
           
-          <li class="nav-item">
-            <a class="nav-link" href="/about/">
-              <i class="iconfont icon-user-fill"></i>
-              关于</a>
-          </li>
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
         
         
           <li class="nav-item" id="search-btn">
-            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;&nbsp;<i
-                class="iconfont icon-search"></i>&nbsp;&nbsp;</a>
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;</a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" href="javascript:">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
           </li>
         
       </ul>
@@ -119,16 +136,15 @@
   </div>
 </nav>
 
-    <div class="view intro-2" id="background" parallax=true
+    <div class="banner intro-2" id="background" parallax=true
          style="background: url('https://api.ixiaowai.cn/gqapi/gqapi.php') no-repeat center center;
            background-size: cover;">
       <div class="full-bg-img">
         <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
-          <div class="container text-center white-text fadeInUp"> 
-            <span class="h3" id="subtitle">
+          <div class="container page-header text-center fade-in-up">
+            <span class="h2" id="subtitle">
               
             </span>
-	   
 
             
           </div>
@@ -164,27 +180,34 @@
         </a>
       </div>
     
-    <div class="col-12 col-md-8 mx-auto index-info">
-      <a class="index-header" href="/2020/07/27/22/">Spring Boot整合Shiro</a>
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h1 class="index-header">
+        <a href="/2020/07/27/22/">Spring Boot整合Shiro</a>
+      </h1>
 
-      <a href="/2020/07/27/22/" class="index-excerpt">
-        
-        
+      <p class="index-excerpt">
+        <a href="/2020/07/27/22/">
           
-        
-        <div>Shiro什么是 Shiro
+          
+            
+          
+          Shiro什么是 Shiro
 官网：http://shiro.apache.org/
 是一款主流的 Java 安全框架，不依赖任何容器，可以运行在 Java SE 和 Java EE 项目中，它的主要作用是对访问系统的用户进行身份认证、授权、会话管理、加密等操作。
 Shiro 就是用来解决安全管理的系统化框架。
 Shiro 核心组件用户、角色、权限
 会给角色赋予权限，给用户赋予角色
-1、Usern</div>
-      </a>
+1、Usern
+        </a>
+      </p>
 
       <div class="index-btm post-metas">
         
           <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>&nbsp;2020-07-27
+            <i class="iconfont icon-date"></i>
+            <time datetime="2020-07-27 10:41" pubdate>
+              2020-07-27
+            </time>
           </div>
         
         
@@ -206,7 +229,7 @@ Shiro 核心组件用户、角色、权限
           </div>
         
       </div>
-    </div>
+    </article>
   </div>
 
   <div class="row mx-auto index-card">
@@ -218,25 +241,32 @@ Shiro 核心组件用户、角色、权限
         </a>
       </div>
     
-    <div class="col-12 col-md-8 mx-auto index-info">
-      <a class="index-header" href="/2020/07/26/21/">基于MyBatisPlus的代码生成器的使用</a>
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h1 class="index-header">
+        <a href="/2020/07/26/21/">基于MyBatisPlus的代码生成器的使用</a>
+      </h1>
 
-      <a href="/2020/07/26/21/" class="index-excerpt">
-        
-        
+      <p class="index-excerpt">
+        <a href="/2020/07/26/21/">
           
-        
-        <div>目前正在研究开发Vue+SpringBoot的前后端分离模式。
+          
+            
+          
+          目前正在研究开发Vue+SpringBoot的前后端分离模式。
 在开发过程中，找到一个及其强大的基于Mybatis-Plus的代码生成工具。现与大家分享。
 1 首先引入依赖&lt;dependency&gt;
     &lt;groupId&gt;mysql&lt;/groupId&gt;
-    &lt;artifactId&gt;mysql-connector-java&lt;/artifac</div>
-      </a>
+    &lt;artifactId&gt;mysql-connector-java&lt;/artifac
+        </a>
+      </p>
 
       <div class="index-btm post-metas">
         
           <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>&nbsp;2020-07-26
+            <i class="iconfont icon-date"></i>
+            <time datetime="2020-07-26 15:54" pubdate>
+              2020-07-26
+            </time>
           </div>
         
         
@@ -258,7 +288,7 @@ Shiro 核心组件用户、角色、权限
           </div>
         
       </div>
-    </div>
+    </article>
   </div>
 
   <div class="row mx-auto index-card">
@@ -270,25 +300,32 @@ Shiro 核心组件用户、角色、权限
         </a>
       </div>
     
-    <div class="col-12 col-md-8 mx-auto index-info">
-      <a class="index-header" href="/2020/07/07/20/">Web程序设计（JSP）课程项目报告</a>
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h1 class="index-header">
+        <a href="/2020/07/07/20/">Web程序设计（JSP）课程项目报告</a>
+      </h1>
 
-      <a href="/2020/07/07/20/" class="index-excerpt">
-        
-        
+      <p class="index-excerpt">
+        <a href="/2020/07/07/20/">
           
-        
-        <div>一、功能实现1.1 首页展示模块首页支持分类查询、模糊查询以及分页查询。点击查看详情获取对应ID请求到DetailServlet，获取宠物数据。点击加入购物车获取对应ID请求到CartServlet，将Cart对象写入Session。
+          
+            
+          
+          一、功能实现1.1 首页展示模块首页支持分类查询、模糊查询以及分页查询。点击查看详情获取对应ID请求到DetailServlet，获取宠物数据。点击加入购物车获取对应ID请求到CartServlet，将Cart对象写入Session。
 
 分页查询使用Cypager插件，以下为前端代码：
 $("#pagerArea").cypager(&#123;
-        pg_size: $&#123;r</div>
-      </a>
+        pg_size: $&#123;r
+        </a>
+      </p>
 
       <div class="index-btm post-metas">
         
           <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>&nbsp;2020-07-07
+            <i class="iconfont icon-date"></i>
+            <time datetime="2020-07-07 15:26" pubdate>
+              2020-07-07
+            </time>
           </div>
         
         
@@ -312,7 +349,7 @@ $("#pagerArea").cypager(&#123;
           </div>
         
       </div>
-    </div>
+    </article>
   </div>
 
   <div class="row mx-auto index-card">
@@ -324,27 +361,34 @@ $("#pagerArea").cypager(&#123;
         </a>
       </div>
     
-    <div class="col-12 col-md-8 mx-auto index-info">
-      <a class="index-header" href="/2020/04/30/19/">SpringMVC学习整理</a>
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h1 class="index-header">
+        <a href="/2020/04/30/19/">SpringMVC学习整理</a>
+      </h1>
 
-      <a href="/2020/04/30/19/" class="index-excerpt">
-        
-        
+      <p class="index-excerpt">
+        <a href="/2020/04/30/19/">
           
-        
-        <div>1、回顾：什么是MVC
+          
+            
+          
+          1、回顾：什么是MVC
 MVC是模型(Model)、视图(View)、控制器(Controller)的简写，是一种软件设计规范。
 是将业务逻辑、数据、显示分离的方法来组织代码。
 MVC主要作用是降低了视图与业务逻辑间的双向偶合。
 MVC不是一种设计模式，MVC是一种架构模式。当然不同的MVC存在差异。
 
-Model（模型）：数据模型，提供要展示的数据，因此包含数据和行为，可以认为是领域模型或Jav</div>
-      </a>
+Model（模型）：数据模型，提供要展示的数据，因此包含数据和行为，可以认为是领域模型或Jav
+        </a>
+      </p>
 
       <div class="index-btm post-metas">
         
           <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>&nbsp;2020-04-30
+            <i class="iconfont icon-date"></i>
+            <time datetime="2020-04-30 18:52" pubdate>
+              2020-04-30
+            </time>
           </div>
         
         
@@ -366,7 +410,7 @@ Model（模型）：数据模型，提供要展示的数据，因此包含数据
           </div>
         
       </div>
-    </div>
+    </article>
   </div>
 
   <div class="row mx-auto index-card">
@@ -378,23 +422,30 @@ Model（模型）：数据模型，提供要展示的数据，因此包含数据
         </a>
       </div>
     
-    <div class="col-12 col-md-8 mx-auto index-info">
-      <a class="index-header" href="/2020/04/26/18/">Shiro框架学习笔记</a>
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h1 class="index-header">
+        <a href="/2020/04/26/18/">Shiro框架学习笔记</a>
+      </h1>
 
-      <a href="/2020/04/26/18/" class="index-excerpt">
-        
-        
+      <p class="index-excerpt">
+        <a href="/2020/04/26/18/">
           
-        
-        <div>一、概念shiro是一个安全框架，主要可以帮助我们解决程序开发中认证和授权的问题。基于拦截器做的权限系统，权限控制的粒度有限，为了方便各种各样的常用的权限管理需求的实现，我们有必要使用比较好的安全框架，于是就出现了shiro安全框架，学习成本降低了很多，而且基本的功能也比较完善。
+          
+            
+          
+          一、概念shiro是一个安全框架，主要可以帮助我们解决程序开发中认证和授权的问题。基于拦截器做的权限系统，权限控制的粒度有限，为了方便各种各样的常用的权限管理需求的实现，我们有必要使用比较好的安全框架，于是就出现了shiro安全框架，学习成本降低了很多，而且基本的功能也比较完善。
 二、shiro提供的功能1、Authentication：身份认证/登陆，验证用户是不是拥有相对应的身份；
-2、Aut</div>
-      </a>
+2、Aut
+        </a>
+      </p>
 
       <div class="index-btm post-metas">
         
           <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>&nbsp;2020-04-26
+            <i class="iconfont icon-date"></i>
+            <time datetime="2020-04-26 21:58" pubdate>
+              2020-04-26
+            </time>
           </div>
         
         
@@ -418,7 +469,7 @@ Model（模型）：数据模型，提供要展示的数据，因此包含数据
           </div>
         
       </div>
-    </div>
+    </article>
   </div>
 
 
@@ -511,23 +562,6 @@ Model（模型）：数据模型，提供要展示的数据，因此包含数据
         <span>Fluid</span></a>
     </div>
     
-  <div>
-    
-      <!-- 不蒜子统计PV -->
-      
-      <span id="busuanzi_container_site_pv" style="display: none">
-      总访问量 <span id="busuanzi_value_site_pv"></span> 次
-    </span>
-    
-    
-      <!-- 不蒜子统计UV -->
-      
-      <span id="busuanzi_container_site_uv" style="display: none">
-      总访客数 <span id="busuanzi_value_site_uv"></span> 人
-    </span>
-    
-  </div>
-
 
     
 
@@ -538,12 +572,15 @@ Model（模型）：数据模型，提供要展示的数据，因此包含数据
 <!-- SCRIPTS -->
 <script  src="https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js" ></script>
 <script  src="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/js/bootstrap.min.js" ></script>
+<script  src="/js/debouncer.js" ></script>
 <script  src="/js/main.js" ></script>
 
+<!-- Plugins -->
 
-  <script  src="/js/lazyload.js" ></script>
 
-
+  
+    <script  src="/js/lazyload.js" ></script>
+  
 
 
 
@@ -552,12 +589,9 @@ Model（模型）：数据模型，提供要展示的数据，因此包含数据
 
 
 
-  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
 
 
 
-
-<!-- Plugins -->
 
 
 
@@ -581,21 +615,6 @@ Model（模型）：数据模型，提供要展示的数据，因此包含数据
 
 
 
-  <script  src="https://cdn.staticfile.org/anchor-js/4.2.2/anchor.min.js" ></script>
-  <script>
-    anchors.options = {
-      placement: "right",
-      visible: "hover",
-      
-    };
-    var el = "h1,h2,h3,h4,h5,h6".split(",");
-    var res = [];
-    for (item of el) {
-      res.push(".markdown-body > " + item)
-    }
-    anchors.add(res.join(", "))
-  </script>
-
 
 
   <script  src="/js/local-search.js" ></script>
@@ -607,6 +626,8 @@ Model（模型）：数据模型，提供要展示的数据，因此包含数据
       this.onclick = null
     }
   </script>
+
+
 
 
 
