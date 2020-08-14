@@ -175,6 +175,61 @@
     
     
       <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/2020/02/27/2/" target="_self">
+          <img src="/img/mysql.jpg" srcset="/img/loading.gif" alt="解决MySQL默认的8小时自动断开连接">
+        </a>
+      </div>
+    
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h1 class="index-header">
+        <a href="/2020/02/27/2/">解决MySQL默认的8小时自动断开连接</a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2020/02/27/2/">
+          
+          
+            
+          
+          MySQL服务器默认的“wait_timeout”是28800秒即8小时，意味着如果一个连接的空闲时间超过8个小时，MySQL将自动断开该连接，而连接池却认为该连接还是有效的(因为并未校验连接的有效性)，当应用申请使用该连接时，就会导致上面的报错。
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2020-02-27 23:45" pubdate>
+              2020-02-27
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/JSP%E5%AD%A6%E4%B9%A0/">JSP学习</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/MySQL/">MySQL</a>
+            
+              <a href="/tags/Java/">Java</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto index-img">
         <a href="/2020/02/27/5/" target="_self">
           <img src="/img/ajax.jpg" srcset="/img/loading.gif" alt="AJAX实现登录时的用户名验证（Servlet 响应）">
         </a>
