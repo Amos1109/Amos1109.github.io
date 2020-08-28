@@ -4,6 +4,33 @@
   
   
   <entry>
+    <title>计算机三大校验码的分类整理</title>
+    <link href="/2020/08/28/24/"/>
+    <url>/2020/08/28/24/</url>
+    
+    <content type="html"><![CDATA[<h3 id="奇偶校验码"><a href="#奇偶校验码" class="headerlink" title="奇偶校验码"></a>奇偶校验码</h3><h4 id="奇偶校验码的定义"><a href="#奇偶校验码的定义" class="headerlink" title="奇偶校验码的定义"></a>奇偶校验码的定义</h4><p>奇偶校验码也是一种校验码，它用来检测数据传输过程中是否发生错误，是众多校验码中最为简单的一种。</p><p>顾名思义，它有两种校验方法：奇校验和偶校验</p><p><strong>奇校验：原始码流+校验位 总共有奇数个1</strong></p><p><strong>偶校验：原始码流+校验位 总共有偶数个1</strong></p><h4 id="错误检测能力"><a href="#错误检测能力" class="headerlink" title="错误检测能力"></a>错误检测能力</h4><blockquote><p>奇校验 正确码流 11000001</p><p>错1位 11000011 变成了偶数个1，能检测出错误</p><p>错2位 11000010 变成了奇数个1，检测不出错误</p><p>错3位 11001010 变成了偶数个1，能检测出错误</p></blockquote><blockquote><p>偶校验 正确码流 01000001</p><p>错1位 01000011 变成了奇数个1，能检测出错误</p><p>错2位 01000010 变成了偶数个1，检测不出错误</p><p>错3位 01001010 变成了奇数个1，能检测出错误</p></blockquote><h3 id="海明校验码"><a href="#海明校验码" class="headerlink" title="海明校验码"></a>海明校验码</h3><h4 id="海明校验码的定义"><a href="#海明校验码的定义" class="headerlink" title="海明校验码的定义"></a>海明校验码的定义</h4><p>​        海明码（Hamming Code）是利用奇偶性来检错和纠错的校验方法。海明码的构成方法是在数据位之间的确定位置插入k个校验位，通过扩大码距来实现检错和纠错。对于数据位n的数据，加入k位的校验码,它应满足：2^k&gt;=n+k+1。</p><h4 id="海明校验码的详解"><a href="#海明校验码的详解" class="headerlink" title="海明校验码的详解"></a>海明校验码的详解</h4><blockquote><p>Q：求信息1011的海明码。</p></blockquote><table><thead><tr><th>n值</th><th>最小k值</th></tr></thead><tbody><tr><td>1</td><td>2</td></tr><tr><td>2～4</td><td>3</td></tr><tr><td>5～11</td><td>4</td></tr><tr><td>12～26</td><td>5</td></tr><tr><td>27～57</td><td>6</td></tr><tr><td>58～120</td><td>7</td></tr></tbody></table><p><strong>Step 1.根据公式 2^k &gt;= m+k +1 或者看图可得，信息1011的长度n=4， 2^k &gt;= k+5 , ==&gt;k=3 ;</strong></p><p><strong>Step 2.求校验码的位置。海明校验码方法中，校验码的位置是固定的，从2^0位，2^1 位 , 2^2位 … 2^n位 ,总个数为K位，所以可得，校验码的位置在第1位、第2位、第4位，分别用R1、R2、R3表示；</strong></p><p><strong>Step 3.画图表。分别把七个位置用H1~H7来表示，注意把高位的数据填到高的位置；</strong></p><table><thead><tr><th>位置</th><th>H1</th><th>H2</th><th>H3</th><th>H4</th><th>H5</th><th>H6</th><th>H7</th></tr></thead><tbody><tr><td>信息码</td><td></td><td></td><td>1</td><td></td><td>1</td><td>0</td><td>1</td></tr><tr><td>校验码</td><td>R1</td><td>R2</td><td></td><td>R3</td><td></td><td></td><td></td></tr></tbody></table><p><strong>Step 4.计算校验位的值；</strong></p><p>H3 ：3 –&gt;0 1 1</p><p>H5 ：3 –&gt;1 0 1</p><p>H6 ：3 –&gt;1 1 0</p><p>H7 ：3 –&gt;1 1 1</p><p><strong>异或</strong>运算，即<strong>同0异1</strong>的原则</p><p>R1分组为<strong>最末列（1）</strong> 为1的信息位   ==&gt; R1=H3⊕H5⊕H7=1⊕1⊕1=1</p><p>R2分组为<strong>中间列（2）</strong> 为1的信息位   ==&gt; R2=H3⊕H6⊕H7=1⊕0⊕1=0</p><p>R3分组为<strong>第一列（4）</strong> 为1的信息位   ==&gt; R3=H5⊕H6⊕H7=1⊕0⊕1=0</p><p>完善图表如下：</p><table><thead><tr><th>位置</th><th>H1</th><th>H2</th><th>H3</th><th>H4</th><th>H5</th><th>H6</th><th>H7</th></tr></thead><tbody><tr><td>信息码</td><td></td><td></td><td>1</td><td></td><td>1</td><td>0</td><td>1</td></tr><tr><td>校验码</td><td>1</td><td>0</td><td></td><td>0</td><td></td><td></td><td></td></tr></tbody></table><p>即海明码从高位至低位为1010101。</p><p><strong>Step 5.纠错</strong> </p><p>校验方程：</p><p>S1=R1⊕H3⊕H5⊕H7</p><p>S2=R2⊕H3⊕H6⊕H7</p><p>S3=R3⊕H5⊕H6⊕H7</p><p>接收到：1010101</p><p>S1=R1⊕H3⊕H5⊕H7=1⊕1⊕1⊕1=0</p><p>S2=R2⊕H3⊕H6⊕H7=0⊕1⊕0⊕1=0</p><p>S3=R3⊕H5⊕H6⊕H7=0⊕1⊕0⊕1=0</p><p>从高位S3到低位S1为000 =&gt; 数据无错误</p><p>接收到： 1000101</p><p>S1=R1⊕H3⊕H5⊕H7=1⊕0⊕1⊕1=1</p><p>S2=R2⊕H3⊕H6⊕H7=0⊕0⊕0⊕1=1</p><p>S3=R3⊕H5⊕H6⊕H7=0⊕1⊕0⊕1=0</p><p>从高位S3到低位S1为011 =&gt; 第3位数据（H3）错误</p><blockquote><p>PS：海明码的纠错能力—1位blt，检错能力—2位bit，海明码在实际使用中，需加上“全校验位”，对整体进行偶校验。</p></blockquote><h3 id="循环冗余校验码"><a href="#循环冗余校验码" class="headerlink" title="循环冗余校验码"></a>循环冗余校验码</h3><h4 id="循环冗余校验码的定义"><a href="#循环冗余校验码的定义" class="headerlink" title="循环冗余校验码的定义"></a>循环冗余校验码的定义</h4><p>CRC循环冗余校验码是数据通信中的一种查错校验码。</p><p>循环冗余检查对数据进行多项式计算，将计算结果附加在帧后面，接收数据的设备执行模2运算，保证数据传输的正确性和完整性。</p><h4 id="模2除法"><a href="#模2除法" class="headerlink" title="模2除法"></a>模2除法</h4><p>①不向上借位，只要除数和被除数的位数相同就可进行计算，不比较它们的大小；</p><p>②模2运算中用到了模2减法，与逻辑异或相似：<br>1-1=0， 1-0=1， 0-1=1 ， 0-0=0</p><p><img src="https://s1.ax1x.com/2020/08/28/dI8xBV.png" srcset="/img/loading.gif" alt=""></p><h4 id="CRC校验的步骤"><a href="#CRC校验的步骤" class="headerlink" title="CRC校验的步骤"></a>CRC校验的步骤</h4><p>（1）选择一个生成多项式，作为对接收的帧进行除法运算时的除数，生成多项式可以写为二进制形式；</p><ul><li>生成多项式的要求：<br>①最高位和最低位必须为1；<br>②当CRC码的任何一位发生错误时，新帧除生成多项式后余数不为0；<br>③不同位发生错误时，余数应该是不同的；</li><li>生成多项式转化为二进制形式：<br>如x5+x3+x2+1，写为二进制：101101</li></ul><p>（2）计算CRC校验码位数k=生成多项式位数-1，在要发送的数据帧后加k个0，除第一步用生成多项式转化的二进制数（使用模2除法），得到的余数即为CRC校验码；</p><ul><li>模2除时，余数的位数必须只比除数少一位，不能省略0</li></ul><p>（3）把得到的校验码CRC加到原数据帧后，构成一个新数据帧发送到接收端，接收端将新帧除以之前选择的除数（模2除法），如果没有余数，则表明该数据帧在传输过程中没有出错，否则出错；</p><h4 id="CRC校验详解"><a href="#CRC校验详解" class="headerlink" title="CRC校验详解"></a>CRC校验详解</h4><blockquote><p>Q：假设CRC生成多项式G(X)=X5+X4+X+1,要发送的二进制数据帧为100101110，求CRC校验码</p></blockquote><p>①把生成多项式转换为二进制数：110011；</p><p>②由生成多项式的位数为6可知，CRC校验码的位数为5，所以在数据帧后加5个0，变为10010111000000，将这个数使用模2除法除以生成多项式110011，得到余数即CRC校验码11010；</p><p><img src="https://s1.ax1x.com/2020/08/28/dIGQ9H.png" srcset="/img/loading.gif" alt=""></p>]]></content>
+    
+    
+    <categories>
+      
+      <category>计算机组成原理</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>校验码</tag>
+      
+      <tag>CRC</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>JavaScript常用数组方法(含新增ES6语法)</title>
     <link href="/2020/08/14/23/"/>
     <url>/2020/08/14/23/</url>
