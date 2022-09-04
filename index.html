@@ -1,196 +1,919 @@
+
+
 <!DOCTYPE html>
-<html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
 <head>
-  <meta charset="utf-8">
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
   
-
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Hong Yuting">
+  <meta name="keywords" content="">
   
-  <title>Hexo</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="Hexo">
+    <meta property="og:type" content="website">
+<meta property="og:title" content="YeahZH_Space">
 <meta property="og:url" content="http://example.com/index.html">
-<meta property="og:site_name" content="Hexo">
-<meta property="og:locale" content="en_US">
-<meta property="article:author" content="John Doe">
-<meta name="twitter:card" content="summary">
-  
-    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+<meta property="og:site_name" content="YeahZH_Space">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:author" content="Hong Yuting">
+<meta name="twitter:card" content="summary_large_image">
   
   
-    <link rel="icon" href="/favicon.png">
   
-  
-    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
-  
-  
-<link rel="stylesheet" href="/css/style.css">
+  <title>YeahZH_Space</title>
 
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.2","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
 <meta name="generator" content="Hexo 5.4.2"></head>
 
+
 <body>
-  <div id="container">
-    <div id="wrap">
-      <header id="header">
-  <div id="banner"></div>
-  <div id="header-outer" class="outer">
-    <div id="header-title" class="inner">
-      <h1 id="logo-wrap">
-        <a href="/" id="logo">Hexo</a>
-      </h1>
-      
-    </div>
-    <div id="header-inner" class="inner">
-      <nav id="main-nav">
-        <a id="main-nav-toggle" class="nav-icon"></a>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 100vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Fluid</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
         
-          <a class="main-nav-link" href="/">Home</a>
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
         
-          <a class="main-nav-link" href="/archives">Archives</a>
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
         
-      </nav>
-      <nav id="sub-nav">
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
         
-          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
         
-        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
-      </nav>
-      <div id="search-form-wrap">
-        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
-      </div>
-    </div>
-  </div>
-</header>
-      <div class="outer">
-        <section id="main">
-  
-    <article id="post-hello-world" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2022/08/29/hello-world/" class="article-date">
-  <time datetime="2022-08-29T14:26:56.660Z" itemprop="datePublished">2022-08-29</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
         
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2022/08/29/hello-world/">Hello World</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>Welcome to <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a target="_blank" rel="noopener" href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a target="_blank" rel="noopener" href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a target="_blank" rel="noopener" href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure>
-
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/writing.html">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/server.html">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/generating.html">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2022/08/29/hello-world/" data-id="cl7euxujp0000x4oy7ls5f7hk" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-
-
-</section>
         
-          <aside id="sidebar">
-  
-    
-
-  
-    
-
-  
-    
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">Archives</h3>
-    <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/08/">August 2022</a></li></ul>
-    </div>
-  </div>
-
-
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">Recent Posts</h3>
-    <div class="widget">
-      <ul>
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+          
         
-          <li>
-            <a href="/2022/08/29/hello-world/">Hello World</a>
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
           </li>
         
       </ul>
     </div>
   </div>
+</nav>
 
   
-</aside>
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/banner.jpg') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="小叶小叶，不许熬夜"></span>
+          
+        </div>
+
         
       </div>
-      <footer id="footer">
-  
-  <div class="outer">
-    <div id="footer-info" class="inner">
-      &copy; 2022 John Doe<br>
-      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+
+      
+        <div class="scroll-down-bar">
+          <i class="iconfont icon-arrowdown"></i>
+        </div>
+      
     </div>
   </div>
-</footer>
-    </div>
-    <nav id="mobile-nav">
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      <div class="container nopadding-x-md">
+        <div id="board"
+          style="margin-top: 0">
+          
+          <div class="container">
+            <div class="row">
+              <div class="col-12 col-md-10 m-auto">
+                
+
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2022/08/29/hello-world/" target="_self">
+          Hello World
+        </a>
+      </h1>
+
+      
+      <a class="index-excerpt index-excerpt__noimg" href="/2022/08/29/hello-world/" target="_self">
+        <div>
+          Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub. Quick
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2022-08-29 22:26" pubdate>
+              2022-08-29
+            </time>
+          </div>
+        
+        
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/2021/12/18/%E8%80%83%E7%A0%94%E5%89%8D%E7%9A%84%E6%9B%B4%E6%96%B0/" target="_self">
+          <img src="/img/yzh04.jpg" srcset="/img/loading.gif" lazyload alt="考研前的更新">
+        </a>
+      </div>
+    
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2021/12/18/%E8%80%83%E7%A0%94%E5%89%8D%E7%9A%84%E6%9B%B4%E6%96%B0/" target="_self">
+          考研前的更新
+        </a>
+      </h1>
+
+      
+      <a class="index-excerpt " href="/2021/12/18/%E8%80%83%E7%A0%94%E5%89%8D%E7%9A%84%E6%9B%B4%E6%96%B0/" target="_self">
+        <div>
+          叶芷含，这两天真的很烦躁。考研遇上了疫情，还是这么大的疫情，是我从没想过的。 不过值得庆幸的是，我就在自己学校考，方便了不少，不知道你那里怎么样。但是我真的觉得自己会睡不着啊，毕竟自己是焦虑体质。多希望你在我身边啊，你在的时候我就没有失眠过你知道吗？真是一个棒棒的精神支柱呢！好想你啊，考完研好想来找你啊，你会不会不想见到我，毕竟从你的字里行间我能感觉得到，不过无所谓，我喜欢你就好了，喜欢你真的不是
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2021-12-18 10:20" pubdate>
+              2021-12-18
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3 d-flex align-items-center">
+            <i class="iconfont icon-category"></i>
+            
+
+<span class="category-chains">
   
-    <a href="/" class="mobile-nav-link">Home</a>
   
-    <a href="/archives" class="mobile-nav-link">Archives</a>
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E5%85%B3%E4%BA%8E%E8%87%AA%E5%B7%B1/" class="category-chain-item">关于自己</a>
   
-</nav>
+  
+
+      </span>
+    
+  
+</span>
+
+          </div>
+        
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/2021/05/20/5%E6%9C%8820%E6%97%A5%E7%9A%84%E6%9B%B4%E6%96%B0/" target="_self">
+          <img src="/img/yzh04.jpg" srcset="/img/loading.gif" lazyload alt="5月20日的更新">
+        </a>
+      </div>
+    
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2021/05/20/5%E6%9C%8820%E6%97%A5%E7%9A%84%E6%9B%B4%E6%96%B0/" target="_self">
+          5月20日的更新
+        </a>
+      </h1>
+
+      
+      <a class="index-excerpt " href="/2021/05/20/5%E6%9C%8820%E6%97%A5%E7%9A%84%E6%9B%B4%E6%96%B0/" target="_self">
+        <div>
+          叶芷含，今天是520，我还是没那个胆量，去给你发个微信。没有你的520肯定是孤独的呀，内心孤独，走在路上看到来来往往，成双成对的人们，我想着，要是我成绩好一点，心态好一点，再努力一些，能够和你考上同一所大学该多好啊，我就可以每天陪你上下课，每天陪你吃饭，周末和你出去逛逛玩玩。我要是和你在同一所学校，我肯定天天死乞白赖地黏着你，形影不离，毕竟，我和你一定会是同一个专业的！没办法呀，一切都是我自己的幻
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2021-05-20 05:20" pubdate>
+              2021-05-20
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3 d-flex align-items-center">
+            <i class="iconfont icon-category"></i>
+            
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E5%85%B3%E4%BA%8E%E8%87%AA%E5%B7%B1/" class="category-chain-item">关于自己</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+          </div>
+        
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/2021/05/05/%E4%B8%8D%E6%83%B3%E7%BB%A7%E7%BB%AD%E5%8E%8B%E6%8A%91%E4%BA%86%E5%91%80%EF%BC%8C%E4%BD%A0%E5%9C%A8%E5%93%AA%EF%BC%9F/" target="_self">
+          <img src="/img/yzh01.jpg" srcset="/img/loading.gif" lazyload alt="啊？我怎么会压抑？">
+        </a>
+      </div>
+    
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2021/05/05/%E4%B8%8D%E6%83%B3%E7%BB%A7%E7%BB%AD%E5%8E%8B%E6%8A%91%E4%BA%86%E5%91%80%EF%BC%8C%E4%BD%A0%E5%9C%A8%E5%93%AA%EF%BC%9F/" target="_self">
+          啊？我怎么会压抑？
+        </a>
+      </h1>
+
+      
+      <a class="index-excerpt " href="/2021/05/05/%E4%B8%8D%E6%83%B3%E7%BB%A7%E7%BB%AD%E5%8E%8B%E6%8A%91%E4%BA%86%E5%91%80%EF%BC%8C%E4%BD%A0%E5%9C%A8%E5%93%AA%EF%BC%9F/" target="_self">
+        <div>
+          叶芷含，感觉最近超没动力，以及，超丧的。 可能最近可怕的想法又变多了，真的静不下来读书，只想待着，让时间过去。 五一假期结束，我也没有通过这个五一假期比别人多学些什么，和我那些努力的同学们相比，我真得差远了呢。我真的觉得自己很糟糕啊。 我失去了我最在乎的人，也考不上一个好的大学，去追赶你的脚步。7个多月后的考研，也必然只是个笑话。我不配去考上研，我也不配拥有那种我想要的生活。只要我活着的每一天，
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2021-05-05 17:55" pubdate>
+              2021-05-05
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3 d-flex align-items-center">
+            <i class="iconfont icon-category"></i>
+            
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E5%85%B3%E4%BA%8E%E8%87%AA%E5%B7%B1/" class="category-chain-item">关于自己</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+          </div>
+        
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/2021/04/30/5%E6%9C%881%E6%97%A5%E5%89%8D%E7%9A%84%E6%9B%B4%E6%96%B0/" target="_self">
+          <img src="/img/yzh04.jpg" srcset="/img/loading.gif" lazyload alt="5月1日前的更新">
+        </a>
+      </div>
+    
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2021/04/30/5%E6%9C%881%E6%97%A5%E5%89%8D%E7%9A%84%E6%9B%B4%E6%96%B0/" target="_self">
+          5月1日前的更新
+        </a>
+      </h1>
+
+      
+      <a class="index-excerpt " href="/2021/04/30/5%E6%9C%881%E6%97%A5%E5%89%8D%E7%9A%84%E6%9B%B4%E6%96%B0/" target="_self">
+        <div>
+          时隔20多天，我终于又来更新了，不然你还以为我忘了你呢。 你敢信，除了英语和政治，我的数学和专业课的第一轮复习结束了。回顾了下我学了啥，发现自己啥也没学会，啥也没学懂，真捞啊。 5月1日这段时间的假期真是个出游的好日子呢，不知道你会不会趁这个时间计划出游呀？如果有的话，玩得开心哈。 我就不一样了，我可能就待在学校里卷了，回家是必不可能回家的，能不回家就绝对不回家。这几天或许能学到很多新东西，前两
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2021-04-30 17:15" pubdate>
+              2021-04-30
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3 d-flex align-items-center">
+            <i class="iconfont icon-category"></i>
+            
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E5%85%B3%E4%BA%8E%E8%87%AA%E5%B7%B1/" class="category-chain-item">关于自己</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+          </div>
+        
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/2021/04/10/%E5%9C%A8%E5%88%AB%E4%BA%BA%E7%9C%BC%E4%B8%AD%E7%9A%84%E4%BD%A0/" target="_self">
+          <img src="/img/yzh04.jpg" srcset="/img/loading.gif" lazyload alt="在别人眼中的你">
+        </a>
+      </div>
+    
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2021/04/10/%E5%9C%A8%E5%88%AB%E4%BA%BA%E7%9C%BC%E4%B8%AD%E7%9A%84%E4%BD%A0/" target="_self">
+          在别人眼中的你
+        </a>
+      </h1>
+
+      
+      <a class="index-excerpt " href="/2021/04/10/%E5%9C%A8%E5%88%AB%E4%BA%BA%E7%9C%BC%E4%B8%AD%E7%9A%84%E4%BD%A0/" target="_self">
+        <div>
+          其实和别人分享过关于你的事情。 但总感觉自己是个渣男。 但我还是说了，我心里确实是这么想的。 原文如下： 其实我的心里，一直有另外一个人，我忘不掉她。大学都快毕业了，我也没忘掉她。她在我高三刚开始那会其实对我帮助很大，也让我刚开始高三的时候，还挺快乐的。她真的是一个很贴心的人，虽然后面我们之间的关系出了一些问题，主要还是我的问题，我奇奇怪怪的脾气。最后还是没能走到一起，曾经约好毕业就在一起也早早
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2021-04-10 21:13" pubdate>
+              2021-04-10
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3 d-flex align-items-center">
+            <i class="iconfont icon-category"></i>
+            
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E5%85%B3%E4%BA%8E%E8%87%AA%E5%B7%B1/" class="category-chain-item">关于自己</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+          </div>
+        
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/2021/03/29/%E4%BD%A0%E6%88%91%E7%9A%84%E6%9C%AA%E6%9D%A5%EF%BC%8C%E4%BC%9A%E6%98%AF%E4%BB%80%E4%B9%88%E6%A0%B7%E5%AD%90%EF%BC%9F/" target="_self">
+          <img src="/img/yzh03.jpg" srcset="/img/loading.gif" lazyload alt="你我的未来，会是什么样子？">
+        </a>
+      </div>
+    
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2021/03/29/%E4%BD%A0%E6%88%91%E7%9A%84%E6%9C%AA%E6%9D%A5%EF%BC%8C%E4%BC%9A%E6%98%AF%E4%BB%80%E4%B9%88%E6%A0%B7%E5%AD%90%EF%BC%9F/" target="_self">
+          你我的未来，会是什么样子？
+        </a>
+      </h1>
+
+      
+      <a class="index-excerpt " href="/2021/03/29/%E4%BD%A0%E6%88%91%E7%9A%84%E6%9C%AA%E6%9D%A5%EF%BC%8C%E4%BC%9A%E6%98%AF%E4%BB%80%E4%B9%88%E6%A0%B7%E5%AD%90%EF%BC%9F/" target="_self">
+        <div>
+          3月25日 20:35 分，天气晴，我终于鼓起勇气，给你发了一条微信。  好开心啊，感觉心里又有了那么一点儿动力~啊，不是一点儿，很多很多的动力！  你说你不想再学计算机了，不想再搞互联网了，不想再熬夜了……我记得以前的你，好像对计算机这一方向有一种特别的憧憬的呀，现在怎么变成这个样子了，怕是被杭师大计算机系磨平了棱角哈哈哈？原本熬夜的第一名的叶芷含现在也会讨厌熬夜，害怕猝死了哈哈哈。 你说你想当
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2021-03-29 16:52" pubdate>
+              2021-03-29
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3 d-flex align-items-center">
+            <i class="iconfont icon-category"></i>
+            
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E5%85%B3%E4%BA%8E%E8%8A%B7%E5%90%AB/" class="category-chain-item">关于芷含</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+          </div>
+        
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/2021/03/19/%E8%B7%9F%E5%8F%B6%E8%8A%B7%E5%90%AB%E7%9A%84%E5%AF%B9%E8%AF%9D%EF%BC%88%E4%B8%80%EF%BC%89/" target="_self">
+          <img src="/img/yzh03.jpg" srcset="/img/loading.gif" lazyload alt="跟叶芷含的对话（一）">
+        </a>
+      </div>
+    
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2021/03/19/%E8%B7%9F%E5%8F%B6%E8%8A%B7%E5%90%AB%E7%9A%84%E5%AF%B9%E8%AF%9D%EF%BC%88%E4%B8%80%EF%BC%89/" target="_self">
+          跟叶芷含的对话（一）
+        </a>
+      </h1>
+
+      
+      <a class="index-excerpt " href="/2021/03/19/%E8%B7%9F%E5%8F%B6%E8%8A%B7%E5%90%AB%E7%9A%84%E5%AF%B9%E8%AF%9D%EF%BC%88%E4%B8%80%EF%BC%89/" target="_self">
+        <div>
+          叶芷含，我把药停了。今天和我妈也说了。我总觉得，这种药，它就是治标不治本，它肯定是不能拯救我的啦。感觉在学校里，也没有像在家里想那么多了啦，但是偶尔想起来，还是会有一些恐惧的，还是会神情紧张，其实死也没什么大不了的啦，我这个世界上，也已经活出了自己的意义啦，遇见了我这一生最该遇到的人，就是你，可惜我没抓住，以后可能也抓不到啦，我已经感受过我这一辈子最大的幸福啦，我觉得我已经很知足了，在这个世界上也
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2021-03-19 20:50" pubdate>
+              2021-03-19
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3 d-flex align-items-center">
+            <i class="iconfont icon-category"></i>
+            
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E5%85%B3%E4%BA%8E%E8%8A%B7%E5%90%AB/" class="category-chain-item">关于芷含</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+          </div>
+        
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/2021/03/16/%E8%AE%B0%E5%85%B3%E4%BA%8E%E5%8F%B6%E8%8A%B7%E5%90%AB%E7%BB%99%E6%88%91%E7%9A%84%E5%9B%9E%E5%A4%8D%E4%B8%80%E5%B0%81%EF%BC%88%E4%BA%8C%EF%BC%89/" target="_self">
+          <img src="/img/yzh02.jpg" srcset="/img/loading.gif" lazyload alt="记关于叶芷含给我的回复一封（二）">
+        </a>
+      </div>
+    
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2021/03/16/%E8%AE%B0%E5%85%B3%E4%BA%8E%E5%8F%B6%E8%8A%B7%E5%90%AB%E7%BB%99%E6%88%91%E7%9A%84%E5%9B%9E%E5%A4%8D%E4%B8%80%E5%B0%81%EF%BC%88%E4%BA%8C%EF%BC%89/" target="_self">
+          记关于叶芷含给我的回复一封（二）
+        </a>
+      </h1>
+
+      
+      <a class="index-excerpt " href="/2021/03/16/%E8%AE%B0%E5%85%B3%E4%BA%8E%E5%8F%B6%E8%8A%B7%E5%90%AB%E7%BB%99%E6%88%91%E7%9A%84%E5%9B%9E%E5%A4%8D%E4%B8%80%E5%B0%81%EF%BC%88%E4%BA%8C%EF%BC%89/" target="_self">
+        <div>
+          好像有些话不说出来也很难受…我还是打出来其实刚才想电视课下课去跟你聊聊的一转头你就不见了应该又去操场了吧我下午真的想了很久语文考试的时候也在想想了很多跟你的事觉得这么可爱的男孩子让我遇到真是太幸运了我好像也喜欢上他了呢!所以下午说的那些全都当放屁处理吧今天这么美好的日子我就谋划着等晚上一起站在天桥上跟他打开话匣子”嘿光棍节要不要一起脱个单呀”虽然小女生的幻想总是不能实现的哈哈哈也就自己想想了其实时
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2021-03-16 10:45" pubdate>
+              2021-03-16
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3 d-flex align-items-center">
+            <i class="iconfont icon-category"></i>
+            
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E5%85%B3%E4%BA%8E%E8%8A%B7%E5%90%AB/" class="category-chain-item">关于芷含</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+          </div>
+        
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/2021/03/16/%E8%AE%B0%E5%85%B3%E4%BA%8E%E5%8F%B6%E8%8A%B7%E5%90%AB%E7%BB%99%E6%88%91%E7%9A%84%E5%9B%9E%E5%A4%8D%E4%B8%80%E5%B0%81%EF%BC%88%E4%B8%80%EF%BC%89/" target="_self">
+          <img src="/img/yzh02.jpg" srcset="/img/loading.gif" lazyload alt="记关于叶芷含给我的回复一封（一）">
+        </a>
+      </div>
+    
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2021/03/16/%E8%AE%B0%E5%85%B3%E4%BA%8E%E5%8F%B6%E8%8A%B7%E5%90%AB%E7%BB%99%E6%88%91%E7%9A%84%E5%9B%9E%E5%A4%8D%E4%B8%80%E5%B0%81%EF%BC%88%E4%B8%80%EF%BC%89/" target="_self">
+          记关于叶芷含给我的回复一封（一）
+        </a>
+      </h1>
+
+      
+      <a class="index-excerpt " href="/2021/03/16/%E8%AE%B0%E5%85%B3%E4%BA%8E%E5%8F%B6%E8%8A%B7%E5%90%AB%E7%BB%99%E6%88%91%E7%9A%84%E5%9B%9E%E5%A4%8D%E4%B8%80%E5%B0%81%EF%BC%88%E4%B8%80%EF%BC%89/" target="_self">
+        <div>
+          深夜可能话唠，字也丑将就看吧。我好像也不是善解人意的孩子。 如果你知道这种感觉的话，HX也是一种觉得你心里我和YTX地位更高的感觉。所以她难受，她不开心，她不想理你。我刚看完你写的这个之后也很烦，又有一堆人来问我写了什么，然后我跟HX破罐子破摔了，两个人跟吵架一样，总之很难描述。结局反正我俩都抑制住快要哭的冲动，但可能都在被窝里默默流泪了吧。&lt;—神经病，我没有！以及由于我的破罐子破摔了再加上
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2021-03-16 10:38" pubdate>
+              2021-03-16
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3 d-flex align-items-center">
+            <i class="iconfont icon-category"></i>
+            
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E5%85%B3%E4%BA%8E%E8%8A%B7%E5%90%AB/" class="category-chain-item">关于芷含</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+          </div>
+        
+        
+      </div>
+    </article>
+  </div>
+
+
+
+  <nav aria-label="navigation">
+    <span class="pagination" id="pagination">
+      <span class="page-number current">1</span><a class="page-number" href="/page/2/#board">2</a><a class="extend next" rel="next" href="/page/2/#board"><i class="iconfont icon-arrowright"></i></a>
+    </span>
+  </nav>
+
+
+
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     
 
-<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
 
-
-  
-<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
-
-  
-<script src="/fancybox/jquery.fancybox.pack.js"></script>
-
-
-
-
-<script src="/js/script.js"></script>
-
-
-
-
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
   </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
 </body>
 </html>
