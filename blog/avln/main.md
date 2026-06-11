@@ -1,7 +1,7 @@
 # Aerial Vision-Language Navigation
 
 > **总结**  
-> 空中视觉-语言导航（Aerial VLN）要求无人机根据自然语言指令，在开放三维环境中搜索并抵达指定目标物体。当前工作大致分为三条路线：**端到端**方法（八叉树记忆 + 语言调制检索 + VLM 动作解码）、**模块化**方法（3D 地图构建与 RL/检测模块解耦、可异步运行）、**轨迹基**方法（世界动作模型在隐空间自回归预测环境演化并输出路点序列）。三类方法在环境表征、目标定位与决策方式上各有侧重，共同指向「语言理解—空间记忆—安全探索—精准抵达」这一核心链路。
+> 空中视觉-语言导航（Aerial VLN）要求无人机根据自然语言指令，在开放三维环境中搜索并抵达指定目标物体。当前工作大致分为三类：**End-to-end** 方法（八叉树记忆 + 语言调制检索 + VLM 动作解码）、**Modular** 方法（3D 地图构建与 RL/检测模块解耦、可异步运行）、**World Model** 方法（在隐空间自回归预测环境演化，再解码为导航路点或动作序列）。三类方法在环境表征、目标定位与决策方式上各有侧重，共同指向「语言理解—空间记忆—安全探索—精准抵达」这一核心链路。
 
 ---
 
@@ -9,7 +9,7 @@
 
 1. [End-to-end Approach](#end-to-end-approach)
 2. [Modular Approach](#modular-approach)
-3. [Trajectory-based Approach](#trajectory-based-approach)
+3. [World Model Approach](#world-model-approach)
 
 ---
 
@@ -167,7 +167,7 @@ $$f_{\text{dist}} = [\rho^1_{\min}, \dots, \rho^N_{\min}] \in \mathbb{R}^N$$
 
 ---
 
-## Trajectory-based Approach
+## World Model Approach
 
 ### WorldVLN: Autoregressive World Action Model for Aerial Vision-Language Navigation
 

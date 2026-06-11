@@ -161,8 +161,8 @@
       <h1>Aerial Vision-Language Navigation</h1>
       <p class="post-meta">Yuting Hong · 2026-06-11 · Paper Reading</p>
     </header>
-<div class="summary-box"><strong>总结</strong><br>空中视觉-语言导航（Aerial VLN）要求无人机根据自然语言指令，在开放三维环境中搜索并抵达指定目标物体。当前工作大致分为三条路线：<strong>端到端</strong>方法（八叉树记忆 + 语言调制检索 + VLM 动作解码）、<strong>模块化</strong>方法（3D 地图构建与 RL/检测模块解耦、可异步运行）、<strong>轨迹基</strong>方法（世界动作模型在隐空间自回归预测环境演化并输出路点序列）。三类方法在环境表征、目标定位与决策方式上各有侧重，共同指向「语言理解—空间记忆—安全探索—精准抵达」这一核心链路。</div>
-<nav class="toc"><h2>目录</h2><ol><li><a href="#end-to-end-approach">End-to-end Approach</a></li><li><a href="#modular-approach">Modular Approach</a></li><li><a href="#trajectory-based-approach">Trajectory-based Approach</a></li></ol></nav>
+<div class="summary-box"><strong>总结</strong><br>空中视觉-语言导航（Aerial VLN）要求无人机根据自然语言指令，在开放三维环境中搜索并抵达指定目标物体。当前工作大致分为三类：<strong>End-to-end</strong> 方法（八叉树记忆 + 语言调制检索 + VLM 动作解码）、<strong>Modular</strong> 方法（3D 地图构建与 RL/检测模块解耦、可异步运行）、<strong>World Model</strong> 方法（在隐空间自回归预测环境演化，再解码为导航路点或动作序列）。三类方法在环境表征、目标定位与决策方式上各有侧重，共同指向「语言理解—空间记忆—安全探索—精准抵达」这一核心链路。</div>
+<nav class="toc"><h2>目录</h2><ol><li><a href="#end-to-end-approach">End-to-end Approach</a></li><li><a href="#modular-approach">Modular Approach</a></li><li><a href="#world-model-approach">World Model Approach</a></li></ol></nav>
 <article class="post-body">
 <section id="end-to-end-approach"><h2>End-to-end Approach</h2>
 <h3>Memory-Augmented Scene Understanding and Exploration for Open-World Aerial Object-Goal Navigation</h3>
@@ -257,7 +257,7 @@
 <h4>（5）探索 Policy</h4>
 <p>奖励包括：前进奖励（ROI 深度变化）、方向奖励（ROI 中心偏移）、安全奖励（障碍距离）与单步惩罚。</p>
 </section>
-<section id="trajectory-based-approach"><h2>Trajectory-based Approach</h2>
+<section id="world-model-approach"><h2>World Model Approach</h2>
 <h3>WorldVLN: Autoregressive World Action Model for Aerial Vision-Language Navigation</h3>
 <p class="paper-meta">Tsinghua University</p>
 <p class="paper-summary">WorldVLN 基于自回归 Transformer，融合环境隐特征预测与动作生成，采用闭环迭代推理输出导航路点。训练分为监督学习与改进版 GRPO 强化学习两阶段，结合轨迹、任务与参考奖励优化策略。</p>
