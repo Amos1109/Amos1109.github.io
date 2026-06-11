@@ -140,6 +140,19 @@ span.fellow {
   font-size: 12px;
 }
 
+.pub-heading {
+  width: 100%;
+  border: 0;
+  border-spacing: 0;
+  border-collapse: separate;
+  margin-right: auto;
+  margin-left: auto;
+}
+
+.pub-heading td {
+  padding: 28px 20px 8px;
+}
+
 .paper-table {
   width: 100%;
   border: 0;
