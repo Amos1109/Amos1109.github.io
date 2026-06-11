@@ -358,7 +358,7 @@ def md_to_html(md: str) -> str:
             else:
                 math_lines = [stripped[2:-2]]
                 i += 1
-            html_parts.append(f'<p>$${" ".join(math_lines).strip()}$$</p>')
+            html_parts.append(f'<p>$${escape_html_math(" ".join(math_lines).strip())}$$</p>')
             continue
 
         close_list()
@@ -374,7 +374,13 @@ def md_to_html(md: str) -> str:
     return "\n".join(html_parts)
 
 
+def escape_html_math(text: str) -> str:
+    """Escape '<' in LaTeX subscripts so HTML parsers do not treat them as tags."""
+    return re.sub(r"\{<([^\s}])", r"{&lt;\1", text)
+
+
 def format_inline(text: str) -> str:
+    text = escape_html_math(text)
     text = re.sub(r"\*\*(.+?)\*\*", r"<strong>\1</strong>", text)
     text = re.sub(r"\*(.+?)\*", r"<em>\1</em>", text)
     return text

@@ -262,7 +262,7 @@
 <p class="paper-meta">Tsinghua University</p>
 <p class="paper-summary">WorldVLN 基于自回归 Transformer，融合环境隐特征预测与动作生成，采用闭环迭代推理输出导航路点。训练分为监督学习与改进版 GRPO 强化学习两阶段，结合轨迹、任务与参考奖励优化策略。</p>
 <p>生物空间智能表明导航本质上是预见性的：人类隐性预测运动的状态后果，并选择预期使最终状态更接近目标的行动。世界动作模型将潜在世界预测与动作生成结合，从预测的未来中恢复动作，或直接从世界表示中解码动作。</p>
-<p>智能体接收自然语言指令 $l$ 后，在三维环境中连续执行动作；第 $t$ 步预测路点动作 $a_t \sim \pi_\theta(\cdot \mid o_{\le t}, a_{<t}, l)$，其中 $a_t = (\Delta x_t, \Delta y_t, \Delta z_t, \Delta \psi_t)$。执行后更新位姿 $q_{t+1} = q_t \oplus a_t$，再获取新观测 $o_{t+1} = \Omega(q_{t+1})$。当最终位置与目标距离小于 $\varepsilon$ 时判定成功。</p>
+<p>智能体接收自然语言指令 $l$ 后，在三维环境中连续执行动作；第 $t$ 步预测路点动作 $a_t \sim \pi_\theta(\cdot \mid o_{\le t}, a_{\lt t}, l)$，其中 $a_t = (\Delta x_t, \Delta y_t, \Delta z_t, \Delta \psi_t)$。执行后更新位姿 $q_{t+1} = q_t \oplus a_t$，再获取新观测 $o_{t+1} = \Omega(q_{t+1})$。当最终位置与目标距离小于 $\varepsilon$ 时判定成功。</p>
 <img src="assets/3e42d635-349b-4134-9681-53c18c11a915.png" alt="WorldVLN overview">
 <p>WorldVLN 采用预训练隐空间自回归视频 Transformer 作为环境主干，<strong>并不将隐特征还原为视频画面</strong>，而是将其解读为短时序环境状态转移。主干由文本编码器 $\psi$、视频 VAE $\mathcal{E}_{\text{vid}}$ 与隐空间 AR Transformer $p_\theta$ 构成。下一阶段隐特征序列通过 $\hat{z}_{t+1:t+K} \sim p_\theta (\cdot \mid e_l, z_{\le t})$ 预测，再经动作解码器输出：</p>
 <p>$$a_{t:t+K-1} = \mathcal{D}_\varphi (\hat{z}_{t+1:t+K})$$</p>
