@@ -2,8 +2,8 @@
 <html lang="en">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <title>Blog - Xueji Fang</title>
-    <meta name="author" content="Xueji Fang">
+    <title>Blog - Yuting Hong</title>
+    <meta name="author" content="Yuting Hong">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="shortcut icon" href="../images/favicon/favicon.ico" type="image/x-icon">
     <link rel="stylesheet" type="text/css" href="../stylesheet.css">
@@ -127,6 +127,8 @@
 
   <body>
     <div class="blog-container">
+      <a class="back-link" href="../index.html">&larr; Back to Home</a>
+
       <div class="blog-header">
         <h1>Blog</h1>
         <p>Research notes and thoughts</p>
@@ -144,8 +146,14 @@
         No posts found for this category.
       </div>
 
+      <div class="empty-state" id="empty-state" style="display: none;">
+        <p style="text-align: center; color: #888; padding: 40px;">
+          No posts yet. New notes will appear here.
+        </p>
+      </div>
+
       <div class="blog-footer">
-        <p>Xueji Fang's Blog</p>
+        <p><a href="../index.html">Yuting Hong</a></p>
       </div>
     </div>
 
@@ -178,6 +186,12 @@
         const filterTagsEl = document.getElementById('filter-tags');
         const allTags = new Set();
 
+        if (blogs.length === 0) {
+          filterTagsEl.style.display = 'none';
+          return;
+        }
+
+        filterTagsEl.style.display = 'flex';
         blogs.forEach(blog => {
           blog.tags.forEach(tag => allTags.add(tag));
         });
@@ -205,6 +219,16 @@
       function renderBlogs() {
         const blogListEl = document.getElementById('blog-list');
         const noResultsEl = document.getElementById('no-results');
+        const emptyStateEl = document.getElementById('empty-state');
+
+        if (blogs.length === 0) {
+          blogListEl.innerHTML = '';
+          noResultsEl.style.display = 'none';
+          emptyStateEl.style.display = 'block';
+          return;
+        }
+
+        emptyStateEl.style.display = 'none';
 
         const filteredBlogs = currentTag === 'all'
           ? blogs

@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Aerial Vision-Language Navigation - Yuting Hong</title>
+  <meta name="author" content="Yuting Hong">
+  <meta name="description" content="Notes on aerial vision-language navigation: end-to-end, modular, and trajectory-based approaches.">
+  <link rel="shortcut icon" href="../../images/favicon/favicon.ico" type="image/x-icon">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+  <style>
+    :root {
+      --primary: #1a73e8;
+      --bg: #f5f7fa;
+      --card: #ffffff;
+      --text: #333;
+      --muted: #666;
+      --border: #e8eaed;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      line-height: 1.75;
+    }
+    .post-container {
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 40px 20px 64px;
+    }
+    .back-link {
+      display: inline-block;
+      margin-bottom: 24px;
+      color: var(--primary);
+      text-decoration: none;
+    }
+    .back-link:hover { text-decoration: underline; }
+    .post-header h1 {
+      font-size: 2rem;
+      margin: 0 0 8px;
+      line-height: 1.25;
+    }
+    .post-meta {
+      color: #888;
+      font-size: 0.95rem;
+      margin-bottom: 28px;
+    }
+    .summary-box {
+      background: linear-gradient(135deg, #e8f0fe 0%, #f1f8ff 100%);
+      border-left: 4px solid var(--primary);
+      border-radius: 8px;
+      padding: 20px 24px;
+      margin-bottom: 28px;
+      color: #444;
+    }
+    .summary-box strong { color: var(--primary); }
+    .toc {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 20px 24px;
+      margin-bottom: 32px;
+    }
+    .toc h2 {
+      font-size: 1rem;
+      margin: 0 0 12px;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+    .toc ol {
+      margin: 0;
+      padding-left: 1.25rem;
+    }
+    .toc a {
+      color: var(--primary);
+      text-decoration: none;
+    }
+    .toc a:hover { text-decoration: underline; }
+    .post-body section {
+      background: var(--card);
+      border-radius: 10px;
+      padding: 28px 32px;
+      margin-bottom: 24px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+      border: 1px solid var(--border);
+    }
+    .post-body h2 {
+      font-size: 1.45rem;
+      margin: 0 0 20px;
+      padding-bottom: 10px;
+      border-bottom: 2px solid var(--primary);
+      color: var(--text);
+    }
+    .post-body h2:not(:first-child) { margin-top: 8px; }
+    .post-body h3 {
+      font-size: 1.15rem;
+      margin: 28px 0 10px;
+      color: #222;
+      line-height: 1.4;
+    }
+    .post-body h4 {
+      font-size: 1rem;
+      margin: 20px 0 8px;
+      color: var(--primary);
+    }
+    .post-body p { margin: 0 0 1em; }
+    .post-body ul, .post-body ol {
+      margin: 0 0 1em;
+      padding-left: 1.5rem;
+    }
+    .post-body li { margin-bottom: 0.35em; }
+    .post-body li > ul, .post-body li > ol { margin-top: 0.35em; }
+    .paper-meta {
+      font-style: italic;
+      color: var(--muted);
+      margin: -4px 0 14px;
+      font-size: 0.95rem;
+    }
+    .paper-summary {
+      background: #f8f9fb;
+      border-left: 3px solid #90caf9;
+      padding: 12px 16px;
+      margin: 0 0 18px;
+      border-radius: 0 6px 6px 0;
+      color: #555;
+      font-size: 0.98rem;
+    }
+    .post-body img {
+      display: block;
+      max-width: 100%;
+      height: auto;
+      margin: 16px auto 20px;
+      border-radius: 6px;
+      border: 1px solid var(--border);
+    }
+    .post-body hr {
+      border: none;
+      border-top: 1px solid var(--border);
+      margin: 24px 0;
+    }
+    .katex-display {
+      margin: 1em 0;
+      overflow-x: auto;
+      overflow-y: hidden;
+    }
+    @media (max-width: 640px) {
+      .post-body section { padding: 20px 18px; }
+      .post-header h1 { font-size: 1.6rem; }
+    }
+  </style>
+</head>
+<body>
+  <div class="post-container">
+    <a class="back-link" href="../index.html">&larr; Back to Blog</a>
+    <header class="post-header">
+      <h1>Aerial Vision-Language Navigation</h1>
+      <p class="post-meta">Yuting Hong · 2026-06-11 · Paper Reading</p>
+    </header>
+<div class="summary-box"><strong>总结</strong><br>空中视觉-语言导航（Aerial VLN）要求无人机根据自然语言指令，在开放三维环境中搜索并抵达指定目标物体。当前工作大致分为三条路线：<strong>端到端</strong>方法（八叉树记忆 + 语言调制检索 + VLM 动作解码）、<strong>模块化</strong>方法（3D 地图构建与 RL/检测模块解耦、可异步运行）、<strong>轨迹基</strong>方法（世界动作模型在隐空间自回归预测环境演化并输出路点序列）。三类方法在环境表征、目标定位与决策方式上各有侧重，共同指向「语言理解—空间记忆—安全探索—精准抵达」这一核心链路。</div>
+<nav class="toc"><h2>目录</h2><ol><li><a href="#end-to-end-approach">End-to-end Approach</a></li><li><a href="#modular-approach">Modular Approach</a></li><li><a href="#trajectory-based-approach">Trajectory-based Approach</a></li></ol></nav>
+<article class="post-body">
+<section id="end-to-end-approach"><h2>End-to-end Approach</h2>
+<h3>Memory-Augmented Scene Understanding and Exploration for Open-World Aerial Object-Goal Navigation</h3>
+<p class="paper-meta">Hangzhou Dianzi University</p>
+<p class="paper-summary">基于八叉树的三维环境记忆体，通过像素特征与体素映射构建动态栅格，结合语言指令经 FiLM 调制与 Q-Former 实现目标定位与探索边界检索，采用多模态融合决策模块生成导航动作。</p>
+<img src="assets/463d84ac-f427-4c39-953e-85844f09a2e0.png" alt="Memory-augmented navigation overview">
+<h4>（1）像素特征-体素映射</h4>
+<p>在时刻 $t$，输入观测数据 $O_t=\{D_t, V_t\}$（$D_t$ 为深度图、$V_t$ 为 RGB 图像）。先通过视觉编码器提取 RGB 图的图像块 Token 特征，整理为空间网格形式 $\boldsymbol{X}_p \in \mathbb{R}^{h\times w\times d}$。</p>
+<p>结合相机内参、外参，再匹配深度图 $D_t$ 的最近邻深度值，把二维图像块反投影到三维世界坐标系，得到坐标矩阵 $\boldsymbol{P} \in \mathbb{R}^{h\times w\times 3}$。</p>
+<p>随后使用两层可学习 MLP，将三维坐标编码为同维度的位置嵌入 $\boldsymbol{P}' \in \mathbb{R}^{h\times w\times d}$，最终将二维视觉特征与三维位置嵌入逐元素相加融合：</p>
+<p>$$\boldsymbol{X}_{3D} = \boldsymbol{X}_p + \boldsymbol{P}'$$</p>
+<p>算法将滤波后的点云 $\hat{P}$ 按机器人距离划分为多层尺寸各异的体素网格。设距离分段集合 $D = \{[d_0, d_1), [d_1, d_2), \dots, [d_{K-1}, d_K]\}$，其中 $d_0=0$、$d_K=d_{\rm max}$，每一个区间 $[d_{k-1},d_k)$ 对应唯一体素尺寸 $s_k$，且 $s_1<s_2<\dots<s_K$。</p>
+<p>在单个体素 $v$ 内部，对落在该体素里的全部三维点坐标与图像块特征做均值池化：</p>
+<p>$$x_v = \frac{1}{|I_v|}\sum_{i\in I_v}x_i,\quad p_v = \frac{1}{|I_v|}\sum_{i\in I_v}p_i$$</p>
+<h4>（2）特征增量式更新八叉树栅格</h4>
+<p>聚合得到的特征集合 $\boldsymbol{X}_{\rm agg}$ 与坐标集合 $\boldsymbol{P}_{\rm agg}$ 会增量式存入基于八叉树的全局环境记忆体 $M_t$。</p>
+<ul>
+<li><strong>初始时刻 $t=0$</strong>：利用首轮聚合点云构建初始八叉树，每个栅格 $c$ 初始特征 $m_c^{(0)}=x_i^{(0)}$，得到 $M_0=\{m_c^{(0)}|c\in C_0\}$。</li>
+<li><strong>后续时刻 $t>0$</strong>：新聚合点匹配到已有栅格则均值更新；落到空白区域则新建栅格 $c'$，特征初始化为 $m_{c'}^{(t)}=x_j^{(t)}$。</li>
+</ul>
+<p>最终生成更新后的全局记忆 $M_t=\{m_c^{(t)}|c\in C_t\}$。</p>
+<h4>（3）指令引导的记忆查询</h4>
+<p>依据导航自然语言指令 $I_\mathrm{goal}$，从八叉树全局环境记忆 $M_t$ 里筛选任务相关环境特征：</p>
+<ol>
+<li>初始化可学习查询向量 $\boldsymbol{Q}\in\mathbb{R}^{N_q\times d}$；</li>
+<li>用语言编码器编码 $I_\mathrm{goal}$，得到指令向量 $\boldsymbol{e}_I$；</li>
+<li>经两层线性映射生成 FiLM 调制参数 $\boldsymbol\gamma(\boldsymbol{e}_I)$、$\boldsymbol\beta(\boldsymbol{e}_I)$，得到任务定制查询 $\boldsymbol{Q}_\mathrm{task}=(\boldsymbol{1}+\boldsymbol\gamma(\boldsymbol{e}_I))\odot \boldsymbol{Q}+\boldsymbol\beta(\boldsymbol{e}_I)$；</li>
+<li>用 $\boldsymbol{Q}_\mathrm{task}$ 经 Q-Former 从 $M_t$ 做跨注意力检索。</li>
+</ol>
+<p>查询拆成两类互补 token：$\boldsymbol{Q}_\mathrm{scene}$（场景定位）与 $\boldsymbol{Q}_\mathrm{explore}$（探索边界）。以距离阈值 $d_b$ 划分近场 / 远场记忆：</p>
+<p>$$\begin{cases} M_\mathrm{near}=\{m_c^{(t)}\in M_t\mid \mathrm{dis}(c)<d_b\} \\ M_\mathrm{far}=\{m_c^{(t)}\in M_t\mid \mathrm{dis}(c)\ge d_b\} \end{cases}$$</p>
+<ul>
+<li>$\boldsymbol{Q}_\mathrm{scene}$ 与 $M_\mathrm{near}$ 交叉注意力，聚焦近处目标物体；</li>
+<li>$\boldsymbol{Q}_\mathrm{explore}$ 与 $M_\mathrm{far}$ 交叉注意力，引导前往未知区域搜索。</li>
+</ul>
+<p>经 L 层 Transformer 迭代后，输出 $\boldsymbol{Q}_\mathrm{scene}^{(L)}$ 与 $\boldsymbol{Q}_\mathrm{explore}^{(L)}$，拼接并线性投影得到记忆特征 $\boldsymbol{H}_\mathrm{mem}$。</p>
+<h4>（4）多模态融合决策</h4>
+<p>对当前 RGB 观测 $V_t$ 提取 $\boldsymbol{H}_\mathrm{obs}$，对指令 $I_\mathrm{goal}$ 提取 $\boldsymbol{H}_\mathrm{lang}$，三类特征在序列维度拼接：</p>
+<p>$$\boldsymbol{H}_\mathrm{input}= \big[\boldsymbol{H}_\mathrm{lang},\boldsymbol{H}_\mathrm{obs},\boldsymbol{H}_\mathrm{mem}\big]$$</p>
+<p>遵照 OpenVLA 范式，送入预训练 VLM 主干网络，输出动作 token，再解码为离散导航动作 $a_t\in \mathcal{A}$。</p>
+</section>
+<section id="modular-approach"><h2>Modular Approach</h2>
+<h3>APEX: A Decoupled Memory-based Explorer for Asynchronous Aerial Object Goal Navigation</h3>
+<p class="paper-meta">Harbin Institute of Technology, Shenzhen</p>
+<p class="paper-summary">通过 3D 反投影生成物体吸引地图（语义关联评分）、探索地图（观测密度）及障碍物地图，结合 CNN 特征提取与多奖励强化学习决策，异步执行目标定位与导航，利用开放词汇检测实现精准目标追踪。</p>
+<img src="assets/f1812bd5-e545-4fc9-bc56-51d4503f8238.png" alt="APEX framework">
+<h4>（1）3D 反投影</h4>
+<p>将 2D 深度图像转换为世界坐标系下的 3D 点云，通过相机内参 $K$、像素深度值与智能体位姿 $S_t$，把 2D 像素映射为 3D 空间点，再栅格离散化到 3D 地图 $M$。</p>
+<h4>（2）物体吸引地图 $M_{\mathrm{attr}}$</h4>
+<p>量化观测物体与导航目标的语义关联程度，指导智能体判断哪些区域更可能找到目标。</p>
+<ol>
+<li><strong>语义解析与打分</strong>：MLLM 输入观测 $O_t$ 与目标描述 $D$，输出物体描述与吸引力分数 $\{(c_i, s_i)\}_{i=1}^N$；</li>
+<li><strong>开放词汇分割</strong>：对每个 $c_i$ 生成物体掩码 $\mathrm{Mask}_i=\mathrm{SEG}(O_t,c_i)$；</li>
+<li><strong>3D 投影与更新规则</strong>：</li>
+</ol>
+<ul>
+<li><strong>主体归属</strong>：同一体素归属投影像素最多的物体；</li>
+<li><strong>近距优先</strong>：仅当新观测更近时才更新体素。</li>
+</ul>
+<ol>
+<li><strong>体素更新</strong>：设新分数 $s_{\text{new}}$、新深度 $d_{\text{new}}$，仅当 $d_{\text{new}} < M_{\text{depth}}(v)$ 时覆盖原有数据。</li>
+</ol>
+<h4>（3）探索地图 $M_{\mathrm{expl}}$</h4>
+<p>记录各空间区域的观测密度。由深度观测得到 3D 点集 $P_w$，以相机位置向每个点发射探测光线，合并得到可视体素 $V_{\text{visible}}$。</p>
+<p>单步探索增量：</p>
+<p>$$\Delta M_{\text{expl}}(v) = \exp \big(-\lambda \cdot \| p_v - t_t \|_2\big)$$</p>
+<p>累加更新：$M_{\text{expl},t}(v) \leftarrow M_{\text{expl},t-1}(v) + \Delta M_{\text{expl}}(v)$，智能体优先选择低分未知区域。</p>
+<h4>（4）障碍物地图 $M_{\mathrm{obst}}$</h4>
+<p>基于 3D 反投影构建占用空间，用于路径规划与安全避障：</p>
+<p>$$M_{\text{obst}}(v) \leftarrow 1 \quad \text{if } v \text{ contains any } P_w$$</p>
+<h4>（5）基于强化学习的动作决策</h4>
+<p>三类地图分别经独立 CNN 提取特征后拼接，奖励包括：稀疏奖励（成功/失败）、吸引力奖励、探索奖励。</p>
+<h4>（6）目标定位</h4>
+<p>开放词汇检测模型 $\mathrm{GD}(\cdot)$ 对 RGB 观测 $O_t$ 检测目标：</p>
+<p>$$\{(\text{bbox}_j, \text{conf}_j)\}_{j=1}^K = \mathrm{GD}(O_t, D)$$</p>
+<p>最高置信度超过阈值时，调用重建投影器 $\mathrm{RP}(\cdot)$ 解算目标世界坐标 $P_{\text{target}}$。</p>
+<h4>（7）异步并行框架</h4>
+<p>地图更新与行动决策在不同频率下并行运行；障碍地图逐步更新，吸引力与探索地图可能保持不变。</p>
+<h3>AION: Aerial Indoor Object-Goal Navigation Using Dual-Policy Reinforcement Learning</h3>
+<p class="paper-meta">National University of Singapore</p>
+<p class="paper-summary">AION 通过双策略强化学习实现室内无人机目标导航：CLIP 生成语义相似度图定位目标；深度投影生成障碍物距离特征避障；深度点云提取 ROI 引导探索。目标抵达策略与探索策略分别设计多维奖励，实现安全高效的目标搜寻。</p>
+<img src="assets/fc4dc9e3-0ff8-4180-a830-8c3f6425fa95.png" alt="AION framework">
+<h4>（1）跨模态注意力</h4>
+<p>CLIP 将 RGB 图像块 $\{p_i\}_{i=1}^N$ 与目标文本 $c_t$ 编码，计算余弦相似度构成语义相似度图 $f_{\text{semantic}}$，标识与目标关联度最高的视觉区域。</p>
+<h4>（2）深度投影避障模块</h4>
+<p>深度图 $I_{\text{depth}}$ 经逆投影与位姿变换得到机体坐标系点云 $\boldsymbol{P}_{\text{body}}$，高度滤波后转为极坐标并按方位角划分为 $N$ 个扇区，每个扇区取最近障碍距离 $\rho^k_{\min}$，拼接为激光扫描特征：</p>
+<p>$$f_{\text{dist}} = [\rho^1_{\min}, \dots, \rho^N_{\min}] \in \mathbb{R}^N$$</p>
+<h4>（3）深度感兴趣区域探索</h4>
+<p>从 $\boldsymbol{P}_{\text{body}}$ 反向投影至图像平面，筛选深度高位区间的最大连通区域作为 ROI，输出特征 $f_{\text{ROI}} = [d_x, d_y, \bar{z}_{\text{ROI}}]^\top$。</p>
+<h4>（4）目标抵达 Policy</h4>
+<p>奖励包括：趋近奖励、关联物体奖励、包围框奖励、任务成功奖励、碰撞惩罚与单步惩罚。</p>
+<h4>（5）探索 Policy</h4>
+<p>奖励包括：前进奖励（ROI 深度变化）、方向奖励（ROI 中心偏移）、安全奖励（障碍距离）与单步惩罚。</p>
+</section>
+<section id="trajectory-based-approach"><h2>Trajectory-based Approach</h2>
+<h3>WorldVLN: Autoregressive World Action Model for Aerial Vision-Language Navigation</h3>
+<p class="paper-meta">Tsinghua University</p>
+<p class="paper-summary">WorldVLN 基于自回归 Transformer，融合环境隐特征预测与动作生成，采用闭环迭代推理输出导航路点。训练分为监督学习与改进版 GRPO 强化学习两阶段，结合轨迹、任务与参考奖励优化策略。</p>
+<p>生物空间智能表明导航本质上是预见性的：人类隐性预测运动的状态后果，并选择预期使最终状态更接近目标的行动。世界动作模型将潜在世界预测与动作生成结合，从预测的未来中恢复动作，或直接从世界表示中解码动作。</p>
+<p>智能体接收自然语言指令 $l$ 后，在三维环境中连续执行动作；第 $t$ 步预测路点动作 $a_t \sim \pi_\theta(\cdot \mid o_{\le t}, a_{<t}, l)$，其中 $a_t = (\Delta x_t, \Delta y_t, \Delta z_t, \Delta \psi_t)$。执行后更新位姿 $q_{t+1} = q_t \oplus a_t$，再获取新观测 $o_{t+1} = \Omega(q_{t+1})$。当最终位置与目标距离小于 $\varepsilon$ 时判定成功。</p>
+<img src="assets/3e42d635-349b-4134-9681-53c18c11a915.png" alt="WorldVLN overview">
+<p>WorldVLN 采用预训练隐空间自回归视频 Transformer 作为环境主干，<strong>并不将隐特征还原为视频画面</strong>，而是将其解读为短时序环境状态转移。主干由文本编码器 $\psi$、视频 VAE $\mathcal{E}_{\text{vid}}$ 与隐空间 AR Transformer $p_\theta$ 构成。下一阶段隐特征序列通过 $\hat{z}_{t+1:t+K} \sim p_\theta (\cdot \mid e_l, z_{\le t})$ 预测，再经动作解码器输出：</p>
+<p>$$a_{t:t+K-1} = \mathcal{D}_\varphi (\hat{z}_{t+1:t+K})$$</p>
+<p>执行动作后获取真实观测并编码为 $z_{t+1:t+K}$，用真实隐特征替换预测值，形成闭环迭代：</p>
+<p>$$(e_l, z_0) \rightarrow \hat{z}_{1:K} \rightarrow a_{0:K-1} \rightarrow o_{1:K} \rightarrow z_{1:K} \rightarrow \hat{z}_{K+1:2K} \rightarrow \cdots$$</p>
+<img src="assets/8f1ceae1-dfcd-449e-8c47-a2a4e0a76040.png" alt="WorldVLN training">
+<h4>（1）阶段一：监督训练</h4>
+<p><strong>世界模型损失</strong>（隐特征预测）：</p>
+<p>$$\mathcal{L}_{\text{wm}} = -\sum \log p_\theta \big(z_{t+1:t+K} \mid e_l, z_{\le t}\big)$$</p>
+<p><strong>动作解码器损失</strong>（拟合专家轨迹）：</p>
+<p>$$\mathcal{L}_{\text{act}} = \sum \big\| \mathcal{D}_\varphi \big(\mathcal{E}_{\text{vid}}(o_{t+1:t+K})\big) - a^*_{t:t+K-1} \big\|$$</p>
+<h4>（2）阶段二：动作感知 GRPO 强化训练</h4>
+<p>对每条任务采样 $G$ 组在线推演轨迹，第 $i$ 条轨迹第 $j$ 个动作片段的奖励为：</p>
+<p>$$r^{(i)}_j = \gamma^{j-1} \lambda_{\text{traj}} r^{(i)}_{\text{traj},j} + \lambda_{\text{task}} r^{(i)}_{\text{task},j} + \lambda_{\text{ref}} r^{(i)}_{\text{ref},j}$$</p>
+<ul>
+<li><strong>轨迹奖励</strong>：衡量预测动作与专家动作的匹配程度；</li>
+<li><strong>任务奖励</strong>：评估轨迹终点与目标点的距离；</li>
+<li><strong>参考奖励</strong>：约束策略不偏离基准策略过远。</li>
+</ul>
+<p>组内归一化得到优势函数 $A^{(i)}_j$，再用截断 GRPO 目标更新策略：</p>
+<p>$$J_{\text{GRPO}} = \mathbb{E}_{i,j}\Big[ \min\Big(\rho^{(i)}_j A^{(i)}_j,\ \text{clip}\big(\rho^{(i)}_j, 1-\varepsilon_{\text{clip}}, 1+\varepsilon_{\text{clip}}\big) A^{(i)}_j\Big) \Big]$$</p>
+<p>其中 $\rho^{(i)}_j = \dfrac{\pi_\theta(a^{(i)}_{(j-1)K:jK-1} \mid h^{(i)}_j)}{\pi_{\text{old}}(a^{(i)}_{(j-1)K:jK-1} \mid h^{(i)}_j)}$。</p>
+</section>
+</article>
+  </div>
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      renderMathInElement(document.body, {
+        delimiters: [
+          { left: "$$", right: "$$", display: true },
+          { left: "$", right: "$", display: false }
+        ],
+        throwOnError: false
+      });
+    });
+  </script>
+</body>
+</html>

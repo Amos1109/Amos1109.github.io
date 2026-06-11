@@ -1,8 +1,8 @@
 [
   {
-    "id": "ha-dw",
-    "title": "HA-DW",
-    "description": "Your Group-Relative Advantage Is Biased",
+    "id": "avln",
+    "title": "Aerial Vision-Language Navigation",
+    "description": "Notes on end-to-end, modular, and trajectory-based approaches for aerial object-goal navigation.",
     "tags": ["paper-reading"]
   }
 ]
