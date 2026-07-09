@@ -74,6 +74,12 @@ a:hover {
   text-decoration: none;
 }
 
+body {
+  margin: 0;
+  color: #222;
+  line-height: 1.45;
+}
+
 body,
 td,
 th,
@@ -108,6 +114,10 @@ papertitle {
   margin: 0;
   font-family: 'Lato', Verdana, Helvetica, sans-serif;
   font-size: 32px;
+}
+
+.profile-photo {
+  box-sizing: border-box;
 }
 
 .one {
@@ -174,10 +184,27 @@ span.fellow {
   vertical-align: middle;
 }
 
+.paper-table--featured .paper-body p {
+  margin: 0 0 8px;
+  line-height: 1.45;
+}
+
 .paper-table--featured .paper-thumb img {
+  display: block;
+  box-sizing: border-box;
   width: 100%;
+  aspect-ratio: 16 / 9;
+  object-fit: contain;
+  background: #f6f8fa;
+  border: 1px solid rgba(0, 0, 0, 0.06);
   border-radius: 8px;
   box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
+}
+
+.paper-venue {
+  color: #30363a;
+  font-size: 13.5px;
+  font-weight: 700;
 }
 
 .paper-table--plain {
@@ -202,4 +229,96 @@ span.fellow {
 .paper-table--plain .paper-meta em {
   color: #666;
   font-size: 13px;
+}
+
+.paper-table--plain .paper-meta em.paper-venue {
+  color: #30363a;
+  font-size: 13.5px;
+  font-weight: 700;
+}
+
+@media (max-width: 700px) {
+  body,
+  td,
+  th,
+  tr,
+  p,
+  a,
+  strong {
+    font-size: 14px;
+  }
+
+  .page-shell {
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+
+  .profile-table,
+  .profile-table tbody {
+    display: block;
+    width: 100% !important;
+  }
+
+  .profile-row {
+    display: flex;
+    flex-direction: column-reverse;
+    align-items: center;
+  }
+
+  .bio-cell,
+  .photo-cell {
+    display: block;
+    box-sizing: border-box;
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+
+  .bio-cell {
+    padding: 14px 22px 10px !important;
+  }
+
+  .photo-cell {
+    padding: 24px 20px 0 !important;
+    text-align: center;
+  }
+
+  .profile-photo {
+    width: 172px !important;
+    max-width: 56vw !important;
+  }
+
+  .name {
+    padding-top: 0;
+    font-size: 30px;
+  }
+
+  .pub-heading td {
+    padding: 26px 22px 8px;
+  }
+
+  .paper-table--featured,
+  .paper-table--featured tbody,
+  .paper-table--featured tr,
+  .paper-table--featured td {
+    display: block;
+    box-sizing: border-box;
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+
+  .paper-table--featured .paper-thumb {
+    padding: 16px 22px 8px;
+  }
+
+  .paper-table--featured .paper-body {
+    padding: 8px 22px 20px;
+  }
+
+  .paper-table--plain {
+    margin-top: 6px;
+  }
+
+  .paper-table--plain .paper-plain-item td {
+    padding: 14px 22px;
+  }
 }
